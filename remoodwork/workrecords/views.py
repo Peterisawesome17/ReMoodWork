@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse #Used <Continue>
+from django.http import HttpResponse #Used for testing http response to view web pages of remoodwork's workrecords
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
