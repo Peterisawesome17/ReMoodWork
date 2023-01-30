@@ -3,4 +3,5 @@ from . import views # views imported from Current directory of workrecords - Pet
 
 urlpatterns = [
     path('', views.home_view, name='remoodwork-home'),
+    path('pulsesurvey/', views.pulse_survey_view, name='remoodwork-pulse-survey'),
 ]

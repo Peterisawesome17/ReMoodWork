@@ -9,3 +9,7 @@ def home_view(request):
     # More details will be added later on
     # Default return to check an http reponse of a web page
     return HttpResponse('<h1>ReMoodWork Home</h1>')
+
+def pulse_survey_view(request):
+    '''A view of a pulse survey page where employee creates their work/activity record logs'''
+    return HttpResponse('<h1>ReMoodWork Pulse Survey</h1>')
