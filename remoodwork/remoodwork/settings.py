@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #Installed apps - Peter
     'workrecords',
+    'users',
 ]
 
 MIDDLEWARE = [
