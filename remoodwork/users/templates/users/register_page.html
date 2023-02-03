@@ -1,0 +1,24 @@
+{% extends 'workrecords/base.html' %}
+{% block content %}
+<body>
+        <!-- class="col-md-12 mx-auto" -->
+        <form method="POST" class="col-md-6 mx-auto">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Sign up and register account today!
+                </legend>
+                {{ form }}
+                <!-- Used for displaying the form from a view register function in users app -->
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign up and register now!</button>
+            </div>
+        </form>
+          <div class="col-md-6 mx-auto">
+              <small class="text-muted">
+                  Already have an account? <a class="ml-2" href="#">Log In</a>
+              </small>
+          </div>
+</body>
+{% endblock content %}
