@@ -7,5 +7,5 @@ def register_view(request):
     context = {
         'form' : form,
     }
-    return HttpResponse('<h1>Welcome to the employees registration page!</h1>')
-    # return render(request=request, template_name='users/register.html', context=context)
+    # return HttpResponse('<h1>Welcome to the employees registration page!</h1>')
+    return render(request=request, template_name='users/register_page.html', context=context)
