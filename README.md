@@ -41,6 +41,9 @@ a. ```pip install -r requirements.txt```
 * [Alternative to run a server on a PyCharm IDE](https://www.youtube.com/watch?v=WluSpfSMj2Y)
 
 # List of URL path names used in this project (URL route paths will be modified later this semester)
-Main Home page of the website: ```http://127.0.0.1:8000/``` 
-Future Pulse Survey page of the website for my first milestone: ```http://127.0.0.1:8000/pulsesurvey/```
-Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)
+Main Home page of the website: ```http://127.0.0.1:8000/```   
+Future Pulse Survey page of the website for my first milestone: ```http://127.0.0.1:8000/pulsesurvey/```  
+Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)  
+
+# Command to add a new database table or to modify and update fields of an existing database table 
+
