@@ -44,6 +44,8 @@ a. ```pip install -r requirements.txt```
 Main Home page of the website: ```http://127.0.0.1:8000/```   
 Future Pulse Survey page of the website for my first milestone: ```http://127.0.0.1:8000/pulsesurvey/```  
 Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)  
+User registration page for employees/employers: ```http://127.0.0.1:8000/register/```  
+
 
 # Migration commands in Django 
 First run command to add a new database table or to modify and update fields of an existing database table  
@@ -52,5 +54,8 @@ Second, write a command to apply or unapply migration changes happening in a dat
 ```python manage.py migrate```  
 Optionally display an SQL statement for a database migration in Django 
 ```python manage.py sqlmigrate```  
+
+# Run a shell console of Django to do some operations and play around with other objects in the project
+```python manage.py shell```  
 
 
