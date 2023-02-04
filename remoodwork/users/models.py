@@ -18,8 +18,5 @@ class User(AbstractUser):
     company_name = models.CharField(max_length=205, verbose_name='company name')
     job_classification_choice = models.CharField(max_length=10, choices=CLASSIFICATION_CHOICE)
 
-    def save(self, *args, **kwargs):
-        # This override method might be useful to save changes of a User model - Peter
-        print('Hello save!')
-        # super().save(*args, **kwargs)
+
 
