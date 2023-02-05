@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #Installed apps - Peter
     'workrecords',
     'users',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Include users as an authentication user model - Peter
 AUTH_USER_MODEL = 'users.User'
+
+#Update bootstrap for better display of the webpage - Peter
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
