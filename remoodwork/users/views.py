@@ -1,9 +1,10 @@
 from django.shortcuts import render, HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
+from users.forms import UserRegistrationForm
 
 # Create your views here.
 def register_view(request):
-    form = UserCreationForm()
+    form = UserRegistrationForm()
     context = {
         'form' : form,
     }
