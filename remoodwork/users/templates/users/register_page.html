@@ -1,4 +1,5 @@
 {% extends 'workrecords/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
 <body>
         <!-- class="col-md-12 mx-auto" -->
@@ -8,7 +9,7 @@
                 <legend class="border-bottom mb-4">
                     Sign up and register account today!
                 </legend>
-                {{ form.as_p }}
+                {{ form|crispy }}
                 <!-- Used for displaying the form from a view register function in users app -->
             </fieldset>
             <div class="form-group">
