@@ -1,13 +1,13 @@
 from django.test import TestCase
-from users.forms import UserRegisterationForm
+from users.forms import UserRegistrationForm
 from users.models import User
 
 
-class UserRegisterationFormTestCase(TestCase):
+class UserRegistrationFormTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(UserRegisterationFormTestCase, cls).setUpClass()
+        super(UserRegistrationFormTestCase, cls).setUpClass()
         correct_data_form = {
             'username': 'johnsmith',
             'password': 'test123!',
@@ -17,13 +17,13 @@ class UserRegisterationFormTestCase(TestCase):
             'company_name': 'Google',
             'job_classification_choice': 'EMPLOYEE'
         }
-        cls.correct_form = UserRegisterationForm(data=correct_data_form)
+        cls.correct_form = UserRegistrationForm(data=correct_data_form)
 
         bad_data_form = {
             'username': 'billysilver',
             'password': 'testname15'
         }
-        cls.bad_form = UserRegisterationForm(data=bad_data_form)
+        cls.bad_form = UserRegistrationForm(data=bad_data_form)
         cls.count = 0
 
     def test_valid_form(cls):
