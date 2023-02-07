@@ -11,6 +11,8 @@ CLASSIFICATION_CHOICE = (
 # job_classification = models.TextChoices("JOBCLASS", "EMPLOYEE EMPLOYER")
 
 class User(AbstractUser):
+    ''' A User model contains about 6 attribute fields needed to be created in the database table
+    of remoodwork '''
     # AbstractUser should contain a username and a password attribute
     first_name = models.CharField(max_length=205, verbose_name='first name')
     last_name = models.CharField(max_length=205, verbose_name='last name')
