@@ -1,6 +1,8 @@
 from django import forms
 from users.models import User
 class UserRegistrationForm(forms.ModelForm):
+    ''' Used for producing a registration form for the user
+    presented in an html register template page '''
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
