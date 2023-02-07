@@ -7,6 +7,8 @@ class UserRegistrationFormTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        ''' Sets up tests cases of a valid and invalid data inputs
+        for the user registration form '''
         super(UserRegistrationFormTestCase, cls).setUpClass()
         correct_data_form = {
             'username': 'johnsmith',
@@ -27,10 +29,14 @@ class UserRegistrationFormTestCase(TestCase):
         cls.count = 0
 
     def test_valid_form(cls):
+        ''' Valid Test Case 1: Check to make sure the correct user registration form is valid
+        before saving its data content associated to the model '''
         cls.assertTrue(cls.correct_form.is_valid())
         cls.countNum()
 
     def test_existed_user(cls):
+        ''' Valid Test Case 2: Check to see of a correct user registration form is saved
+        and can be used for creating a new user stored in a database model record. '''
         cls.correct_form.save()
         cls.assertEqual(1, len(User.objects.all()))
         user1 = User.objects.first()
@@ -45,10 +51,16 @@ class UserRegistrationFormTestCase(TestCase):
         cls.countNum()
 
     def test_invalid_form(cls):
+        ''' Invalid test case 1: Checks to see if an invalid user registration form
+        is unable to be valid and will not be able to save its data content associated to its
+        model. '''
         cls.assertFalse(cls.bad_form.is_valid())
         cls.countNum()
 
     def test_bad_form(cls):
+        ''' Invalid test case 2: Checks to see if a user registration form provides a prompt
+        to user stating that any empty fields must be required to fill in before a user
+        gets registered saved through a database model of a software application. '''
         required_field_text = 'This field is required.'
         cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('first_name')))
         cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('last_name')))
@@ -61,14 +73,22 @@ class UserRegistrationFormTestCase(TestCase):
 
     @classmethod
     def countNum(cls):
+        ''' Helper and mutator method to keep counting the number of test cases that were passed
+        for a user registration page. '''
         cls.count += 1
 
     @classmethod
     def getNumOfTestCases(cls):
+        ''' Helper and a getter method to count a total number of test cases that were passed for a
+        user registration page. '''
         return cls.count
 
     @classmethod
     def tearDownClass(cls):
+        ''' Used to display the total number of test cases passed with a complete percentage
+        number for measuring a test suite of a user registration form test cases.
+        It also displays the amount of failed test cases presented in the user registration
+        form test cases. '''
         test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
         tot_num_test_methods = len(test_methods)
         print(f'Ran {tot_num_test_methods} number of test cases in '
