@@ -40,3 +40,9 @@ class UserRegistrationForm(forms.ModelForm):
                 self.add_error('full_name', 'A user with that full name already exists.')
                 is_valid = False
         return is_valid
+
+class UserLogInForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model = User
+        fields = ['username', 'password']
