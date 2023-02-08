@@ -1,0 +1,26 @@
+{% extends 'workrecords/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<body>
+        <!-- class="col-md-12 mx-auto" -->
+        <form method="POST" class="col-md-6 mx-auto">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Log In
+                </legend>
+                {{ form|crispy }}
+                <!-- Used for displaying the form from a view register function in users app -->
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Login</button>
+            </div>
+        </form>
+          <div class="col-md-6 mx-auto">
+              <small class="text-muted">
+                  Need an account?
+                  <a class="ml-2" href="{% url 'remoodwork-register-user' %}">Sign Up Now</a>
+              </small>
+          </div>
+</body>
+{% endblock content %}
