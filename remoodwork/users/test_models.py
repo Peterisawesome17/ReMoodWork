@@ -81,7 +81,25 @@ class UserModelTestCases(TestCase):
         employee1 = Employee(user=cls.user1)
         employee1.save()
         cls.assertEqual(1, len(Employee.objects.all()))
+        dummy_user = User.objects.filter(username=cls.user1.username)[0]
+        dummy_employee = Employee.objects.filter(pk=employee1.pk)[0]
+        cls.assertEqual(dummy_user, dummy_employee.user)
         cls.countNum()
+
+    def test_get_or_create_employee(cls):
+        ''' Checks to see if an employee can be created or not
+        after creating a user from a register page using
+        get_or_create method used in User model. '''
+        if cls.user1.job_classification_choice == "EMPLOYEE":
+            create_user = User.objects.get(username=cls.user1.username)
+            dummy_employee, created = Employee.objects.get_or_create(user=create_user)
+            cls.assertTrue(created)
+            cls.assertEqual(create_user, dummy_employee.user)
+            dummy_employee, created = Employee.objects.get_or_create(user=create_user)
+            cls.assertFalse(created)
+            cls.assertEqual(create_user, dummy_employee.user)
+        cls.countNum()
+
 
     @classmethod
     def countNum(cls):
