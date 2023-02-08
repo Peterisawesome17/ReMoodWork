@@ -26,7 +26,26 @@ class UserRegistrationFormTestCase(TestCase):
         }
         cls.bad_form = UserRegistrationForm(data=bad_data_form)
         # Used to test out form validation (is_valid) method for UserRegistrationForm.
-        # cls.create_same_username_form
+        create_same_username_data_form = {
+            'username': 'johnsmith',
+            'password': 'test123!',
+            'full_name': 'Billy Silverstone',
+            'email': 'johntsmith@gmail.com',
+            'company_name': 'Google',
+            'job_classification_choice': 'EMPLOYEE'
+        }
+        cls.create_same_username_form = UserRegistrationForm(data=create_same_username_data_form)
+
+        create_same_full_name_data_form = {
+            'username': 'billysilver',
+            'password': 'testname15',
+            'full_name': 'John Smith',
+            'email': 'johntsmith@gmail.com',
+            'company_name': 'Google',
+            'job_classification_choice': 'EMPLOYEE'
+        }
+
+        cls.create_same_full_name_form = UserRegistrationForm(data=create_same_full_name_data_form)
         cls.count = 0
 
     def test_valid_form(cls):
@@ -68,6 +87,29 @@ class UserRegistrationFormTestCase(TestCase):
         cls.assertEqual(required_field_text,
                         ''.join(cls.bad_form.errors.get('job_classification_choice')))
         cls.assertEqual(0, len(User.objects.all()))
+        cls.countNum()
+
+    def test_username_already_created(cls):
+        ''' Checks to see if a username has already been created
+        using an is_valid method. '''
+        cls.correct_form.save()
+        cls.assertEqual(1, len(User.objects.all()))
+        # Should be invalid due to a username's existence found on the remoodwork's
+        # database table
+        cls.assertFalse(cls.create_same_username_form.is_valid())
+        assert 'A user with that username already exists.' \
+               in cls.create_same_username_form.errors.get('username'), 'Username is created again'
+        cls.countNum()
+
+    def test_full_name_already_created(cls):
+        ''' Checks to see if a full name of a user already exists
+        through a database table of remoodwork using is_valid method name.
+        '''
+        cls.correct_form.save()
+        cls.assertEqual(1, len(User.objects.all()))
+        cls.create_same_full_name_form.is_valid()
+        assert 'A user with that full name already exists.' \
+               in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
         cls.countNum()
 
     @classmethod
