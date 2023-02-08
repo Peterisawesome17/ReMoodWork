@@ -19,5 +19,6 @@ class User(AbstractUser):
     company_name = models.CharField(max_length=205, verbose_name='company name')
     job_classification_choice = models.CharField(max_length=10, choices=CLASSIFICATION_CHOICE)
 
-
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 

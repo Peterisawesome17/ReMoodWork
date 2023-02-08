@@ -1,6 +1,6 @@
 from django.test import TestCase
 import os, django
-from users.models import User, CLASSIFICATION_CHOICE
+from users.models import User, CLASSIFICATION_CHOICE, Employee
 
 
 # Create your tests here.
@@ -67,6 +67,20 @@ class UserModelTestCases(TestCase):
         userslst = User.objects.all().filter(pk=1)
         dummy_user = userslst[0]
         cls.assertEqual(dummy_user, cls.user1)
+        cls.countNum()
+
+    def test_empty_employee(cls):
+        ''' Checks to see  if there are no employees being created from a
+        default database setup in remoodwork. '''
+        cls.assertEqual(0, len(Employee.objects.all()))
+        cls.countNum()
+
+    def test_creating_employee(cls):
+        ''' Checks to see if an employee can be created after a user registers
+        their account used in remoodwork. '''
+        employee1 = Employee(user=cls.user1)
+        employee1.save()
+        cls.assertEqual(1, len(Employee.objects.all()))
         cls.countNum()
 
     @classmethod
