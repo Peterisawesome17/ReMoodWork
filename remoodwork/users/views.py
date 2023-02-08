@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 # from django.contrib.auth.forms import UserCreationForm
-from users.forms import UserRegistrationForm
+from users.forms import UserRegistrationForm, UserLogInForm
 from django.contrib import messages
 
 # Create your views here.
@@ -35,3 +35,13 @@ def register_view(request):
         'form' : form,
         }
         return render(request=request, template_name='users/register_page.html', context=context)
+
+def login_view(request):
+    form = UserLogInForm()
+    context = {
+        'form' : form
+    }
+    return render(request=request, template_name='users/login_page.html', context=context)
+
+def logout_view(request):
+    pass
