@@ -12,16 +12,14 @@ class UserModelTestCases(TestCase):
         super(UserModelTestCases, cls).setUpClass()
         cls.username = 'johnsmith'
         cls.password = 'test123!'
-        cls.first_name = 'John'
-        cls.last_name = 'Smith'
+        cls.full_name = 'John Smith'
         cls.email = 'johntsmith@gmail.com'
         cls.company_name = 'Google'
         cls.job_classification_choice = 'EMPLOYEE'
         cls.user1 = User(
             username=cls.username,
             password=cls.password,
-            first_name=cls.first_name,
-            last_name=cls.last_name,
+            full_name=cls.full_name,
             email=cls.email,
             company_name=cls.company_name,
             job_classification_choice=cls.job_classification_choice
@@ -44,14 +42,9 @@ class UserModelTestCases(TestCase):
         cls.assertEqual(cls.password, cls.user1.password)
         cls.countNum()
 
-    def test_first_name(cls):
-        ''' Tests an existing first name already created. '''
-        cls.assertEqual(cls.first_name, cls.user1.first_name)
-        cls.countNum()
-
-    def test_last_name(cls):
-        ''' Tests an existing last name already created. '''
-        cls.assertEqual(cls.last_name, cls.user1.last_name)
+    def test_full_name(cls):
+        ''' Tests an existing full name already created. '''
+        cls.assertEqual(cls.full_name, cls.user1.full_name)
         cls.countNum()
 
     def test_email(cls):

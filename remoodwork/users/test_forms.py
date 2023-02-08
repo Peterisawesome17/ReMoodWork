@@ -13,8 +13,7 @@ class UserRegistrationFormTestCase(TestCase):
         correct_data_form = {
             'username': 'johnsmith',
             'password': 'test123!',
-            'first_name': 'John',
-            'last_name': 'Smith',
+            'full_name': 'John Smith',
             'email': 'johntsmith@gmail.com',
             'company_name': 'Google',
             'job_classification_choice': 'EMPLOYEE'
@@ -42,8 +41,7 @@ class UserRegistrationFormTestCase(TestCase):
         user1 = User.objects.first()
         cls.assertEqual(cls.correct_form.data.get('username'), user1.username)
         cls.assertEqual(cls.correct_form.data.get('password'), user1.password)
-        cls.assertEqual(cls.correct_form.data.get('first_name'), user1.first_name)
-        cls.assertEqual(cls.correct_form.data.get('last_name'), user1.last_name)
+        cls.assertEqual(cls.correct_form.data.get('full_name'), user1.full_name)
         cls.assertEqual(cls.correct_form.data.get('email'), user1.email)
         cls.assertEqual(cls.correct_form.data.get('company_name'), user1.company_name)
         cls.assertEqual(cls.correct_form.data.get('job_classification_choice'),
@@ -62,8 +60,7 @@ class UserRegistrationFormTestCase(TestCase):
         to user stating that any empty fields must be required to fill in before a user
         gets registered saved through a database model of a software application. '''
         required_field_text = 'This field is required.'
-        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('first_name')))
-        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('last_name')))
+        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('full_name')))
         cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('email')))
         cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('company_name')))
         cls.assertEqual(required_field_text,

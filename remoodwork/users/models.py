@@ -14,8 +14,7 @@ class User(AbstractUser):
     ''' A User model contains about 6 attribute fields needed to be created in the database table
     of remoodwork '''
     # AbstractUser should contain a username and a password attribute
-    first_name = models.CharField(max_length=205, verbose_name='first name')
-    last_name = models.CharField(max_length=205, verbose_name='last name')
+    full_name = models.CharField(max_length=205, verbose_name='full name')
     email = models.EmailField(max_length=205, verbose_name='email')
     company_name = models.CharField(max_length=205, verbose_name='company name')
     job_classification_choice = models.CharField(max_length=10, choices=CLASSIFICATION_CHOICE)
