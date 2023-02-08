@@ -25,6 +25,8 @@ class UserRegistrationFormTestCase(TestCase):
             'password': 'testname15'
         }
         cls.bad_form = UserRegistrationForm(data=bad_data_form)
+        # Used to test out form validation (is_valid) method for UserRegistrationForm.
+        # cls.create_same_username_form
         cls.count = 0
 
     def test_valid_form(cls):
