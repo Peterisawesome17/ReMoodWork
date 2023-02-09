@@ -12,7 +12,8 @@ class UserRegistrationFormTestCase(TestCase):
         super(UserRegistrationFormTestCase, cls).setUpClass()
         correct_data_form = {
             'username': 'johnsmith',
-            'password': 'test123!',
+            'password1': 'test123!',
+            'password2': 'test123!',
             'full_name': 'John Smith',
             'email': 'johntsmith@gmail.com',
             'company_name': 'Google',
@@ -28,7 +29,8 @@ class UserRegistrationFormTestCase(TestCase):
         # Used to test out form validation (is_valid) method for UserRegistrationForm.
         create_same_username_data_form = {
             'username': 'johnsmith',
-            'password': 'test123!',
+            'password1': 'test123!',
+            'password2': 'test123!',
             'full_name': 'Billy Silverstone',
             'email': 'johntsmith@gmail.com',
             'company_name': 'Google',
@@ -38,7 +40,8 @@ class UserRegistrationFormTestCase(TestCase):
 
         create_same_full_name_data_form = {
             'username': 'billysilver',
-            'password': 'testname15',
+            'password1': 'testname15',
+            'password2': 'testname15',
             'full_name': 'John Smith',
             'email': 'johntsmith@gmail.com',
             'company_name': 'Google',
@@ -61,7 +64,7 @@ class UserRegistrationFormTestCase(TestCase):
         cls.assertEqual(1, len(User.objects.all()))
         user1 = User.objects.first()
         cls.assertEqual(cls.correct_form.data.get('username'), user1.username)
-        cls.assertEqual(cls.correct_form.data.get('password'), user1.password)
+        cls.assertTrue(user1.check_password(cls.correct_form.data.get('password1')))
         cls.assertEqual(cls.correct_form.data.get('full_name'), user1.full_name)
         cls.assertEqual(cls.correct_form.data.get('email'), user1.email)
         cls.assertEqual(cls.correct_form.data.get('company_name'), user1.company_name)
