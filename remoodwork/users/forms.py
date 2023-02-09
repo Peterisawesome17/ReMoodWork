@@ -1,12 +1,13 @@
 from django import forms
 from users.models import User, Employee
-class UserRegistrationForm(forms.ModelForm):
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+class UserRegistrationForm(UserCreationForm, forms.ModelForm):
     ''' Used for producing a registration form for the user
     presented in an html register template page '''
-    password = forms.CharField(widget=forms.PasswordInput)
+    # password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
-        fields = ['username', 'password', 'full_name', 'email', 'company_name', 'job_classification_choice']
+        fields = ['username', 'password1', 'password2', 'full_name', 'email', 'company_name', 'job_classification_choice']
 
     def save(self, commit=True):
         # Returns a model instance of the user without saving its model
@@ -17,6 +18,7 @@ class UserRegistrationForm(forms.ModelForm):
         # if commit is evaluated true, then the model of a User/Employee will be
         # created in a database table of remoodwork
         if commit:
+            instance.set_password(self.cleaned_data['password1'])
             # Save the user model in a database table of remoodwork
             instance.save()
             # Fetch user instance found from a user model of remoodwork database
@@ -41,7 +43,7 @@ class UserRegistrationForm(forms.ModelForm):
                 is_valid = False
         return is_valid
 
-class UserLogInForm(forms.ModelForm):
+class UserLogInForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
