@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 # from django.contrib.auth.forms import UserCreationForm
 from users.forms import UserRegistrationForm, UserLogInForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def register_view(request):
@@ -37,11 +38,29 @@ def register_view(request):
         return render(request=request, template_name='users/register_page.html', context=context)
 
 def login_view(request):
-    form = UserLogInForm()
-    context = {
-        'form' : form
-    }
+    context = {}
+    if request.method == 'POST':
+        form = UserLogInForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user:
+                login(request=request, user=user)
+                full_name = user.full_name
+                messages.success(request=request, message=f'Welcome {full_name}!')
+                return redirect('remoodwork-home')
+        else:
+            context = {
+                'form' : form
+            }
+    else:
+        form = UserLogInForm()
+        context = {
+            'form' : form
+        }
     return render(request=request, template_name='users/login_page.html', context=context)
 
 def logout_view(request):
-    pass
+    logout(request=request)
+    return render(request=request, template_name='users/logout_page.html')
