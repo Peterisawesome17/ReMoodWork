@@ -1,0 +1,14 @@
+{% extends 'workrecords/base.html' %}
+{% block content %}
+<body>
+        <!-- class="col-md-12 mx-auto" -->
+        <legend class="col-md-6 mx-auto">
+                    You have successfully been logged out
+        </legend>
+        <div class="col-md-6 mx-auto">
+              <small class="text-muted">
+                  <a href="{% url 'remoodwork-login-user' %}">Log In Again</a>
+              </small>
+        </div>
+</body>
+{% endblock content %}
