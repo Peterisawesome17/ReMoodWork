@@ -1,14 +1,14 @@
-from django.test import TestCase
 from users.forms import UserRegistrationForm
 from users.models import User
+from users.test_base import UserTestCaseCounter
 
 
-class UserRegistrationFormTestCase(TestCase):
+class UserRegistrationFormTestCase(UserTestCaseCounter):
 
     @classmethod
     def setUpClass(cls):
         ''' Sets up tests cases of a valid and invalid data inputs
-        for the user registration form '''
+        for the user registration form shown in register_page.html '''
         super(UserRegistrationFormTestCase, cls).setUpClass()
         correct_data_form = {
             'username': 'johnsmith',
@@ -49,7 +49,6 @@ class UserRegistrationFormTestCase(TestCase):
         }
 
         cls.create_same_full_name_form = UserRegistrationForm(data=create_same_full_name_data_form)
-        cls.count = 0
 
     def test_valid_form(cls):
         ''' Valid Test Case 1: Check to make sure the correct user registration form is valid
@@ -114,18 +113,6 @@ class UserRegistrationFormTestCase(TestCase):
         assert 'A user with that full name already exists.' \
                in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
         cls.countNum()
-
-    @classmethod
-    def countNum(cls):
-        ''' Helper and mutator method to keep counting the number of test cases that were passed
-        for a user registration page. '''
-        cls.count += 1
-
-    @classmethod
-    def getNumOfTestCases(cls):
-        ''' Helper and a getter method to count a total number of test cases that were passed for a
-        user registration page. '''
-        return cls.count
 
     @classmethod
     def tearDownClass(cls):
