@@ -1,9 +1,9 @@
-from django.test import TestCase
 from users.models import User, Employee
 from users.forms import UserLogInForm
 from django.contrib.auth import authenticate
+from users.test_base import UserTestCaseCounter
 
-class UserLoginFormTestCase(TestCase):
+class UserLoginFormTestCase(UserTestCaseCounter):
 
     @classmethod
     def setUpClass(cls):
@@ -22,14 +22,20 @@ class UserLoginFormTestCase(TestCase):
             'password': cls.password,
         }
         cls.input_user_login_cred_form = UserLogInForm(data=input_user_data_login_cred_form)
-        cls.count = 0
 
     def test_user_created(cls):
+        ''' Valid Test Case 1: Checks to see if a user
+        has already been created before running test cases used to
+        test out login view from the user '''
         user_created = User.objects.get(username=cls.username)
         cls.assertEqual(cls.user1.username, user_created.username)
         cls.countNum()
 
     def test_user_authenticated(cls):
+        ''' Valid Test Case 2: Checks if a user can
+        successfully be authenticated based on the user's existing
+        credentials with their username and password as two main attributes
+        for a login user story feature '''
         # Must first check if a user input their username and password credentials
         cls.assertTrue(cls.input_user_login_cred_form.is_valid())
         username = cls.input_user_login_cred_form.data.get('username')
@@ -41,8 +47,8 @@ class UserLoginFormTestCase(TestCase):
         cls.countNum()
 
     def test_invalid_user_authenticated(cls):
-        ''' Checks to see if an unregistered user cannot be authenticated
-        and have access to their employee/employer profile page in remoodwork'''
+        ''' Invalid Test Case 1: Checks to see if an unregistered user cannot be authenticated
+        and have access to their survey records or other information in remoodwork '''
         invalid_user_data = {
             'username': 'timtest',
             'password': 'timisthebest123'
@@ -52,18 +58,6 @@ class UserLoginFormTestCase(TestCase):
         user_authenticated = authenticate(username=username, password=password)
         cls.assertIsNone(user_authenticated)
         cls.countNum()
-
-    @classmethod
-    def countNum(cls):
-        ''' Helper and mutator method to keep counting the number of test cases that were passed
-        for a user login page. '''
-        cls.count += 1
-
-    @classmethod
-    def getNumOfTestCases(cls):
-        ''' Helper and a getter method to count a total number of test cases that were passed for a
-        user login page. '''
-        return cls.count
 
     @classmethod
     def tearDownClass(cls):
