@@ -49,20 +49,21 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.countNum()
 
     def test_user_existence(cls):
-        '''Tests to see if a new user is created in a user model of remoodwork system. '''
+        '''Valid Test Case 3: Tests to see if a new user is created
+        in a user model of remoodwork system. '''
         userslst = User.objects.get(pk=cls.user1.pk)
         dummy_user = userslst
         cls.assertEqual(dummy_user, cls.user1)
         cls.countNum()
 
     def test_empty_employee(cls):
-        ''' Checks to see  if there are no employees being created from a
-        default database setup in remoodwork. '''
+        ''' Valid Test Case 4: Checks to see if there are no employees being created from a
+        default database setup reset in this test suite for remoodwork. '''
         cls.assertEqual(0, len(Employee.objects.all()))
         cls.countNum()
 
     def test_creating_employee(cls):
-        ''' Checks to see if an employee can be created after a user registers
+        ''' Valid Test Case 5: Checks to see if an employee can be created after a user registers
         their account used in remoodwork. '''
         employee1 = Employee(user=cls.user1)
         employee1.save()
@@ -73,7 +74,7 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.countNum()
 
     def test_get_or_create_employee(cls):
-        ''' Checks to see if an employee can be created or not
+        ''' Valid Test Case 5: Checks to see if an employee can be created or not
         after creating a user from a register page using
         get_or_create method used in User model. '''
         if cls.user1.job_classification_choice == "EMPLOYEE":
@@ -81,6 +82,8 @@ class UserModelTestCases(UserTestCaseCounter):
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
             cls.assertTrue(created)
             cls.assertEqual(create_user, dummy_employee.user)
+            # The only invalid test case in the overall content of this valid test case,
+            # the same employee info should not be created again
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
             cls.assertFalse(created)
             cls.assertEqual(create_user, dummy_employee.user)
