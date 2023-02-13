@@ -1,7 +1,7 @@
-from users.models import User, Employee
+from users.models import User
 from users.forms import UserLogInForm
 from django.contrib.auth import authenticate
-from users.test_base import UserTestCaseCounter
+from users.tests.test_base import UserTestCaseCounter
 
 class UserLoginFormTestCase(UserTestCaseCounter):
 

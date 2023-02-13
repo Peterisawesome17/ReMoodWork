@@ -1,6 +1,5 @@
-from django.test import TestCase
 from users.models import User, Employee
-from users.test_base import UserTestCaseCounter
+from users.tests.test_base import UserTestCaseCounter
 
 
 # Create your tests here.

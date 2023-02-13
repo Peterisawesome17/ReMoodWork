@@ -1,6 +1,6 @@
 from users.forms import UserRegistrationForm
 from users.models import User
-from users.test_base import UserTestCaseCounter
+from users.tests.test_base import UserTestCaseCounter
 
 
 class UserRegistrationFormTestCase(UserTestCaseCounter):
