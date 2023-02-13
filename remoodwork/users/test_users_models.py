@@ -1,10 +1,10 @@
 from django.test import TestCase
-import os, django
-from users.models import User, CLASSIFICATION_CHOICE, Employee
+from users.models import User, Employee
+from users.test_base import UserTestCaseCounter
 
 
 # Create your tests here.
-class UserModelTestCases(TestCase):
+class UserModelTestCases(UserTestCaseCounter):
     @classmethod
     def setUpClass(cls):
         ''' Sets up test cases of creating a new User model and
@@ -25,47 +25,34 @@ class UserModelTestCases(TestCase):
             job_classification_choice=cls.job_classification_choice
         )
         cls.user1.save()
-        cls.count = 0
 
     def test_all_user_model(cls):
-        ''' Tests all the user models created in the remoodwork/default database tables'''
+        ''' Valid Test Case 1: Tests all the user models
+        created in the remoodwork/default database tables'''
         cls.assertEqual(1, len(User.objects.all()))
         cls.countNum()
 
-    def test_username(cls):
-        ''' Tests an existing username already created. '''
+    def test_user_content_info(cls):
+        ''' Valid Test Case 2: Tests all the valid data attribute contents
+        after creating a user model in remoodwork '''
+        # Tests an existing username that has recently been created
         cls.assertEqual(cls.username, cls.user1.username)
-        cls.countNum()
-
-    def test_password(cls):
-        ''' Tests an existing password already created. '''
+        # Tests an existing password that has recently been created
         cls.assertEqual(cls.password, cls.user1.password)
-        cls.countNum()
-
-    def test_full_name(cls):
-        ''' Tests an existing full name already created. '''
+        # Tests an existing full name that has recently been created
         cls.assertEqual(cls.full_name, cls.user1.full_name)
-        cls.countNum()
-
-    def test_email(cls):
-        ''' Tests an existing email already created. '''
+        # Tests an existing email address name that has already been created
         cls.assertEqual(cls.email, cls.user1.email)
-        cls.countNum()
-
-    def test_company_name(cls):
-        '''Tests an existing company name already created. '''
+        # Tests an existing company name that has already been created
         cls.assertEqual(cls.company_name, cls.user1.company_name)
-        cls.countNum()
-
-    def test_job_classification_choice(cls):
-        '''Tests to see if a job classification status of a user is already created. '''
-        cls.assertEqual(cls.job_classification_choice, cls.user1.job_classification_choice)
+        # Tests a job classification status of a user that has already been created
+        cls.assertEqual(cls.company_name, cls.user1.company_name)
         cls.countNum()
 
     def test_user_existence(cls):
         '''Tests to see if a new user is created in a user model of remoodwork system. '''
-        userslst = User.objects.all().filter(pk=1)
-        dummy_user = userslst[0]
+        userslst = User.objects.get(pk=cls.user1.pk)
+        dummy_user = userslst
         cls.assertEqual(dummy_user, cls.user1)
         cls.countNum()
 
@@ -100,17 +87,6 @@ class UserModelTestCases(TestCase):
             cls.assertEqual(create_user, dummy_employee.user)
         cls.countNum()
 
-
-    @classmethod
-    def countNum(cls):
-        ''' Helper and mutator method to keep counting the number of test cases that were passed
-                for a user registration page. '''
-        cls.count += 1
-    @classmethod
-    def getNumOfTestCases(cls):
-        ''' Helper and a getter method to count a total number of test cases that were passed for a
-               user registration page. '''
-        return cls.count
 
     @classmethod
     def tearDownClass(cls):
