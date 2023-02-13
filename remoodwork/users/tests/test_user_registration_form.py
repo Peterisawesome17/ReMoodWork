@@ -51,14 +51,16 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.create_same_full_name_form = UserRegistrationForm(data=create_same_full_name_data_form)
 
     def test_valid_form(cls):
-        ''' Valid Test Case 1: Check to make sure the correct user registration form is valid
-        before saving its data content associated to the model '''
+        ''' Test 1: A valid test case
+        to make sure the correct user registration form is valid before saving
+        its data content associated to the model '''
         cls.assertTrue(cls.correct_form.is_valid())
         cls.countNum()
 
     def test_existed_user(cls):
-        ''' Valid Test Case 2: Check to see of a correct user registration form is saved
-        and can be used for creating a new user stored in a database model record. '''
+        ''' Test 2: A valid test case
+        to see of a correct user registration form is saved
+        for creating a new user stored in a database model record. '''
         cls.correct_form.save()
         cls.assertEqual(1, len(User.objects.all()))
         user1 = User.objects.first()
@@ -71,15 +73,17 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
                         user1.job_classification_choice)
         cls.countNum()
 
-    def test_invalid_form(cls):
-        ''' Invalid test case 1: Checks to see if an invalid user registration form
+    def test_invalid_bad_form(cls):
+        ''' Test 3: An invalid test case
+        to see if an invalid user registration form
         is unable to be valid and will not be able to save its data content associated to its
         model. '''
         cls.assertFalse(cls.bad_form.is_valid())
         cls.countNum()
 
     def test_bad_form(cls):
-        ''' Invalid test case 2: Checks to see if a user registration form provides a prompt
+        ''' Test 4: An invalid test case
+        to see if a user registration form provides a prompt
         to user stating that any empty fields must be required to fill in before a user
         gets registered saved through a database model of a software application. '''
         required_field_text = 'This field is required.'
@@ -92,8 +96,8 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.countNum()
 
     def test_username_already_created(cls):
-        ''' Checks to see if a username has already been created
-        using an is_valid method. '''
+        ''' Test 5: An invalid test case to see if a username of a user has already been created
+        when a user tries to create a new user registration for remoodwork. '''
         cls.correct_form.save()
         cls.assertEqual(1, len(User.objects.all()))
         # Should be invalid due to a username's existence found on the remoodwork's
@@ -104,26 +108,18 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.countNum()
 
     def test_full_name_already_created(cls):
-        ''' Checks to see if a full name of a user already exists
-        through a database table of remoodwork using is_valid method name.
+        ''' Test 6: An invalid test case to see if a full name of a user already exists
+        when a user tries to create a new user registration for remoodwork.
         '''
         cls.correct_form.save()
         cls.assertEqual(1, len(User.objects.all()))
-        cls.create_same_full_name_form.is_valid()
+        cls.assertFalse(cls.create_same_full_name_form.is_valid())
         assert 'A user with that full name already exists.' \
                in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
         cls.countNum()
 
     @classmethod
     def tearDownClass(cls):
-        ''' Used to display the total number of test cases passed with a complete percentage
-        number for measuring a test suite of a user registration form test cases.
-        It also displays the amount of failed test cases presented in the user registration
-        form test cases. '''
-        test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
-        tot_num_test_methods = len(test_methods)
-        print(f'Ran {tot_num_test_methods} number of test cases in '
-              f'{(cls.getNumOfTestCases() / tot_num_test_methods) * 100}% test suite of {cls.__name__}')
-        num_of_failed_test_cases = tot_num_test_methods - cls.getNumOfTestCases()
-        if num_of_failed_test_cases:
-            print(f'Number of failed test cases occuring {num_of_failed_test_cases}')
+        ''' Invokes teardownClass method from test_base.py file of all
+        test suites of the user app for remoodwork. '''
+        super().tearDownClass()

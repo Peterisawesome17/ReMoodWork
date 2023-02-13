@@ -26,13 +26,13 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.user1.save()
 
     def test_all_user_model(cls):
-        ''' Valid Test Case 1: Tests all the user models
+        ''' Test 1: A valid test case to cover all the user models
         created in the remoodwork/default database tables'''
         cls.assertEqual(1, len(User.objects.all()))
         cls.countNum()
 
     def test_user_content_info(cls):
-        ''' Valid Test Case 2: Tests all the valid data attribute contents
+        ''' Test 2: A valid test case that covers all the valid data attribute contents
         after creating a user model in remoodwork '''
         # Tests an existing username that has recently been created
         cls.assertEqual(cls.username, cls.user1.username)
@@ -49,7 +49,7 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.countNum()
 
     def test_user_existence(cls):
-        '''Valid Test Case 3: Tests to see if a new user is created
+        ''' Test 3: A valid test case to see if a new user is created
         in a user model of remoodwork system. '''
         userslst = User.objects.get(pk=cls.user1.pk)
         dummy_user = userslst
@@ -57,13 +57,15 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.countNum()
 
     def test_empty_employee(cls):
-        ''' Valid Test Case 4: Checks to see if there are no employees being created from a
+        ''' Test 4: A valid test case
+        to see if there are no employees being created from a
         default database setup reset in this test suite for remoodwork. '''
         cls.assertEqual(0, len(Employee.objects.all()))
         cls.countNum()
 
     def test_creating_employee(cls):
-        ''' Valid Test Case 5: Checks to see if an employee can be created after a user registers
+        ''' Test 5: A valid test case
+        to see if an employee can be created after a user registers
         their account used in remoodwork. '''
         employee1 = Employee(user=cls.user1)
         employee1.save()
@@ -74,9 +76,10 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.countNum()
 
     def test_get_or_create_employee(cls):
-        ''' Valid Test Case 5: Checks to see if an employee can be created or not
+        ''' Test 6: A valid test case
+        to see if an employee can be created or not
         after creating a user from a register page using
-        get_or_create method used in User model. '''
+        get_or_create method used in User model for remoodwork. '''
         if cls.user1.job_classification_choice == "EMPLOYEE":
             create_user = User.objects.get(username=cls.user1.username)
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
@@ -92,16 +95,8 @@ class UserModelTestCases(UserTestCaseCounter):
 
     @classmethod
     def tearDownClass(cls):
-        ''' Used to display the total number of test cases passed with a complete percentage
-                number for measuring a test suite of a user registration form test cases.
-                It also displays the amount of failed test cases presented in the user registration
-                form test cases. '''
-        test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
-        tot_num_test_methods = len(test_methods)
-        print(f'Ran {tot_num_test_methods} number of test cases in '
-              f'{(cls.getNumOfTestCases()/tot_num_test_methods) * 100}% test suite of {cls.__name__}')
-        num_of_failed_test_cases = tot_num_test_methods-cls.getNumOfTestCases()
-        if num_of_failed_test_cases:
-            print(f'Number of failed test cases occuring {num_of_failed_test_cases}')
+        ''' Invokes teardownClass method from test_base.py file of all
+        test suites of the user app for remoodwork. '''
+        super().tearDownClass()
 
 

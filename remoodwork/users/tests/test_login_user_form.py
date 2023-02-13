@@ -24,15 +24,15 @@ class UserLoginFormTestCase(UserTestCaseCounter):
         cls.input_user_login_cred_form = UserLogInForm(data=input_user_data_login_cred_form)
 
     def test_user_created(cls):
-        ''' Valid Test Case 1: Checks to see if a user
+        ''' Test 1: A valid test case to see if a user
         has already been created before running test cases used to
-        test out login view from the user '''
+        test out the login page from the user '''
         user_created = User.objects.get(username=cls.username)
         cls.assertEqual(cls.user1.username, user_created.username)
         cls.countNum()
 
     def test_user_authenticated(cls):
-        ''' Valid Test Case 2: Checks if a user can
+        ''' Test 2: A valid test case to see if a user can
         successfully be authenticated based on the user's existing
         credentials with their username and password as two main attributes
         for a login user story feature '''
@@ -47,7 +47,7 @@ class UserLoginFormTestCase(UserTestCaseCounter):
         cls.countNum()
 
     def test_invalid_user_authenticated(cls):
-        ''' Invalid Test Case 1: Checks to see if an unregistered user cannot be authenticated
+        ''' Test 3: An invalid test case to see if an unregistered user cannot be authenticated
         and have access to their survey records or other information in remoodwork '''
         invalid_user_data = {
             'username': 'timtest',
@@ -61,17 +61,9 @@ class UserLoginFormTestCase(UserTestCaseCounter):
 
     @classmethod
     def tearDownClass(cls):
-        ''' Used to display the total number of test cases passed with a complete percentage
-        number for measuring a test suite of a user login form test cases.
-        It also displays the amount of failed test cases presented in the user login
-        form test cases. '''
-        test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
-        tot_num_test_methods = len(test_methods)
-        print(f'Ran {tot_num_test_methods} number of test cases in '
-              f'{(cls.getNumOfTestCases() / tot_num_test_methods) * 100}% test suite of {cls.__name__}')
-        num_of_failed_test_cases = tot_num_test_methods - cls.getNumOfTestCases()
-        if num_of_failed_test_cases:
-            print(f'Number of failed test cases occuring {num_of_failed_test_cases}')
+        ''' Invokes teardownClass method from test_base.py file of all
+        test suites of the user app for remoodwork. '''
+        super().tearDownClass()
 
 
 
