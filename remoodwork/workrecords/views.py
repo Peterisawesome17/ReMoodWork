@@ -48,6 +48,11 @@ def pulse_survey_view(request):
     #Update 1: Will be used to print out today's date of a work/activity record logs of an employee later on
     date_today = datetime.today()
     # {{date_today}} in the templates (later on) for context - Peter
+
+    # This controller function must include a list of survey records that were created
+    # by and employee (user),
+    # otherwise it will return a message to the employee
+    # 'Hmm..it looks like to me that you have not created any recent pulse survey records'
     context = {
 
     }
