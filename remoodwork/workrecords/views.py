@@ -48,11 +48,9 @@ def pulse_survey_view(request):
     #Update 1: Will be used to print out today's date of a work/activity record logs of an employee later on
     date_today = datetime.today()
     # {{date_today}} in the templates (later on) for context - Peter
-    return HttpResponse('<head>'
-                        '<title>ReMoodWork</title>'
-                        '</head>'
-                        '<body>'
-                        '<h1>ReMoodWork Pulse Survey</h1>'
-                        f"<p>Today's date {date_today}</p>"
-                        '</body>'
-                        )
+    context = {
+
+    }
+    return render(request=request,
+                  template_name='workrecords/pulse_survey_main_page.html',
+                  context=context)
