@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import Employee
 
 # Create your models here.
 
@@ -29,3 +30,4 @@ class PulseSurvey(models.Model):
     activity_description = models.TextField(blank=True, null=True)
     work_stressor_status = models.CharField(max_length=5, choices=WORK_STRESSOR_STATUS_CHOICE)
     activity_created = models.DateField(auto_now_add=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
