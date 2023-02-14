@@ -1,20 +1,20 @@
 {% extends 'workrecords/base.html' %}
 {% block content %}
-    {% for employee_log in log_records %}
-    <div class="row">
-      <div class="col-md-5">
-        <div class="card" style="width: 26rem;">
-            <div class="card-body">
-                <h1>{{ employee_log.title }}</h1>
-                <p>{{ employee_log.posted_date}}, Purpose: {{ employee_log.category_type }}</p>
-                <p>Number of hours: {{ employee_log.number_of_hours}}</p>
-                <p>Location: {{ employee_log.location }}</p>
-                <p>Feeling Rating: {{ employee_log.emoji_face }}</p>
-            </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
+<!--    {% for employee_log in log_records %}-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-5">-->
+<!--        <div class="card" style="width: 26rem;">-->
+<!--            <div class="card-body">-->
+<!--                <h1>{{ employee_log.title }}</h1>-->
+<!--                <p>{{ employee_log.posted_date}}, Purpose: {{ employee_log.category_type }}</p>-->
+<!--                <p>Number of hours: {{ employee_log.number_of_hours}}</p>-->
+<!--                <p>Location: {{ employee_log.location }}</p>-->
+<!--                <p>Feeling Rating: {{ employee_log.emoji_face }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
 {% endblock content %}
 <!-- References to the template structure: Author Corey Shafer
 (https://www.youtube.com/watch?v=qDwdMDQ8oX4&list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p&index=3)-->
