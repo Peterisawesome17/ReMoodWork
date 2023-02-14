@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'workrecords',
     'users',
     'crispy_forms',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
