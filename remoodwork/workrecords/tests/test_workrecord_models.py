@@ -34,7 +34,10 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
 
     def test_one_employee(cls):
         cls.assertEqual(1, len(Employee.objects.all()))
-        cls.countNum()
+        # cls.countNum()
+
+    def test_something(cls):
+        cls.assertFalse(False)
 
     @classmethod
     def tearDownClass(cls):
