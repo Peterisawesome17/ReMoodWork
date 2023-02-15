@@ -42,9 +42,12 @@ a. ```pip install -r requirements.txt```
 
 # List of URL path names used in this project (URL route paths will be modified later this semester)
 Main Home page of the website: ```http://127.0.0.1:8000/```   
-Future Pulse Survey page of the website for my first milestone: ```http://127.0.0.1:8000/pulsesurvey/```  
+Pulse Survey page of the website: ```http://127.0.0.1:8000/pulsesurvey/```  
 Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)  
-User registration page for employees/employers: ```http://127.0.0.1:8000/register/```  
+User registration page for users: ```http://127.0.0.1:8000/register/```  
+User login page for users: ```http://127.0.0.1:8000/login/```  
+User logout page for users: ```http://127.0.0.1:8000/logout/```  
+Create a pulse survey: ```http://127.0.0.1:8000/createpulsesurvey/```
 
 
 # Migration commands in Django 
@@ -56,6 +59,16 @@ Optionally display an SQL statement for a database migration in Django
 ```python manage.py sqlmigrate```  
 
 # Run a shell console of Django to do some operations and play around with other objects in the project
-```python manage.py shell```  
+```python manage.py shell```
+
+# Show a list of url routes of ReMoodWork
+```python manage.py show_urls | grep 'remoodwork'```
+
+# Create a superuser of ReMoodWork
+```python manage.py createsuperuser```
+
+# Run all test suites
+User test suites: ```python manage.py test users.tests```  
+Workrecords (where pulse survey is being tested): ```python manage.py test workrecords.tests```
 
 
