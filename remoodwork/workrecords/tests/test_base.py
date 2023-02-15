@@ -11,21 +11,6 @@ class WorkRecordsTestCaseCounter(TestCase):
         cls.count = 0
         cls.test_result = None
 
-    # Alternative if needed
-    # @classmethod
-    # def countNum(cls):
-    #     ''' Helper and mutator method to keep counting the number of test cases that were passed
-    #     for each test suite script files made for the workrecords app of remoodwork '''
-    #     cls.count += 1
-    #
-    # @classmethod
-    # def getNumOfTestCases(cls):
-    #     ''' Helper and a getter method to count a total number of test cases that were passed for
-    #     each test suite script files made for the workrecords app of remoodwork '''
-    #     return cls.count
-    #
-    # Alternative if needed
-
     @classmethod
     def tearDownClass(cls):
         ''' Used to display the total number of test cases passed with a complete percentage
@@ -44,19 +29,6 @@ class WorkRecordsTestCaseCounter(TestCase):
         if result.errors:
             print(f'Number of errors in this test script: {len(result.errors)}')
 
-    # Alternative to teardownClass if needed
-    #     ''' Used to display the total number of test cases passed with a complete percentage
-    #     number for measuring each test suite of the workrecords app for remoodwork.
-    #     It also displays the amount of failed test cases presented in all test cases
-    #     covered for each test suite of the workrecords app for remoodwork. '''
-    #     test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
-    #     tot_num_test_methods = len(test_methods)
-    #     print(f'Ran {tot_num_test_methods} number of test cases in '
-    #           f'{(cls.getNumOfTestCases() / tot_num_test_methods) * 100}% test suite of {cls.__name__}')
-    #     num_of_failed_test_cases = tot_num_test_methods - cls.getNumOfTestCases()
-    #     if num_of_failed_test_cases:
-    #         print(f'Number of failed test cases occuring {num_of_failed_test_cases}')
-    # Alternative to teardownClass if needed
 
     @classmethod
     def setResults(cls, result):
@@ -73,4 +45,33 @@ class WorkRecordsTestCaseCounter(TestCase):
     def run(self, result=None):
         super().run(result)
         self.setResults(result)
-        
+
+
+# Alternative to teardownClass if needed
+#     ''' Used to display the total number of test cases passed with a complete percentage
+#     number for measuring each test suite of the workrecords app for remoodwork.
+#     It also displays the amount of failed test cases presented in all test cases
+#     covered for each test suite of the workrecords app for remoodwork. '''
+#     test_methods = set(test_method for test_method in cls.__dict__ if 'test' in test_method)
+#     tot_num_test_methods = len(test_methods)
+#     print(f'Ran {tot_num_test_methods} number of test cases in '
+#           f'{(cls.getNumOfTestCases() / tot_num_test_methods) * 100}% test suite of {cls.__name__}')
+#     num_of_failed_test_cases = tot_num_test_methods - cls.getNumOfTestCases()
+#     if num_of_failed_test_cases:
+#         print(f'Number of failed test cases occuring {num_of_failed_test_cases}')
+# Alternative to teardownClass if needed
+
+# Alternative if needed
+# @classmethod
+# def countNum(cls):
+#     ''' Helper and mutator method to keep counting the number of test cases that were passed
+#     for each test suite script files made for the workrecords app of remoodwork '''
+#     cls.count += 1
+#
+# @classmethod
+# def getNumOfTestCases(cls):
+#     ''' Helper and a getter method to count a total number of test cases that were passed for
+#     each test suite script files made for the workrecords app of remoodwork '''
+#     return cls.count
+#
+# Alternative if needed

@@ -1,6 +1,7 @@
 from users.models import User, Employee
 from workrecords.models import PulseSurvey
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
+import emoji
 
 class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
     @classmethod
@@ -36,8 +37,11 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         cls.assertEqual(1, len(Employee.objects.all()))
         # cls.countNum()
 
-    def test_something(cls):
-        cls.assertFalse(False)
+    def test_emoji_reactions(cls):
+        emoji_reactions = dict(PulseSurvey.EMOJI_STATUS_CHOICE)
+        for emoji_reaction in emoji_reactions.values():
+            assert True == emoji.is_emoji(emoji_reaction), \
+                f'{emoji_reaction} is not an emoji reaction'
 
     @classmethod
     def tearDownClass(cls):
