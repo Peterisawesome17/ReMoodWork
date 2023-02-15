@@ -44,7 +44,10 @@ class UserModelTestCases(UserTestCaseCounter):
         # Tests an existing company name that has already been created
         cls.assertEqual(cls.company_name, cls.user1.company_name)
         # Tests a job classification status of a user that has already been created
-        cls.assertEqual(cls.company_name, cls.user1.company_name)
+        cls.assertEqual(cls.job_classification_choice, cls.user1.job_classification_choice)
+        # Tests a job classification status that exists in its choice used for User (employee)
+        assert cls.user1.job_classification_choice in dict(User.CLASSIFICATION_CHOICE), \
+            f'{cls.user1.job_classification_choice} not in a job classification status of a User'
 
     def test_user_existence(cls):
         ''' Test 3: A valid test case to see if a new user is created
