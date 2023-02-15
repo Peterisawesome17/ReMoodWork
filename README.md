@@ -45,7 +45,7 @@ Main Home page of the website: ```http://127.0.0.1:8000/```
 Pulse Survey page of the website: ```http://127.0.0.1:8000/pulsesurvey/```  
 Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)  
 User registration page for users: ```http://127.0.0.1:8000/register/```  
-User login page for users: ```http://127.0.0.1:8000/login/```
+User login page for users: ```http://127.0.0.1:8000/login/```  
 User logout page for users: ```http://127.0.0.1:8000/logout/```  
 Create a pulse survey: ```http://127.0.0.1:8000/createpulsesurvey/```
 
