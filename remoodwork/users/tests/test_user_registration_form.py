@@ -55,7 +55,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         to make sure the correct user registration form is valid before saving
         its data content associated to the model '''
         cls.assertTrue(cls.correct_form.is_valid())
-        cls.countNum()
 
     def test_existed_user(cls):
         ''' Test 2: A valid test case
@@ -71,7 +70,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertEqual(cls.correct_form.data.get('company_name'), user1.company_name)
         cls.assertEqual(cls.correct_form.data.get('job_classification_choice'),
                         user1.job_classification_choice)
-        cls.countNum()
 
     def test_invalid_bad_form(cls):
         ''' Test 3: An invalid test case
@@ -79,7 +77,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         is unable to be valid and will not be able to save its data content associated to its
         model. '''
         cls.assertFalse(cls.bad_form.is_valid())
-        cls.countNum()
 
     def test_bad_form(cls):
         ''' Test 4: An invalid test case
@@ -93,7 +90,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertEqual(required_field_text,
                         ''.join(cls.bad_form.errors.get('job_classification_choice')))
         cls.assertEqual(0, len(User.objects.all()))
-        cls.countNum()
 
     def test_username_already_created(cls):
         ''' Test 5: An invalid test case to see if a username of a user has already been created
@@ -105,7 +101,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertFalse(cls.create_same_username_form.is_valid())
         assert 'A user with that username already exists.' \
                in cls.create_same_username_form.errors.get('username'), 'Username is created again'
-        cls.countNum()
 
     def test_full_name_already_created(cls):
         ''' Test 6: An invalid test case to see if a full name of a user already exists
@@ -116,7 +111,6 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertFalse(cls.create_same_full_name_form.is_valid())
         assert 'A user with that full name already exists.' \
                in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
-        cls.countNum()
 
     @classmethod
     def tearDownClass(cls):

@@ -29,7 +29,6 @@ class UserLoginFormTestCase(UserTestCaseCounter):
         test out the login page from the user '''
         user_created = User.objects.get(username=cls.username)
         cls.assertEqual(cls.user1.username, user_created.username)
-        cls.countNum()
 
     def test_user_authenticated(cls):
         ''' Test 2: A valid test case to see if a user can
@@ -44,7 +43,6 @@ class UserLoginFormTestCase(UserTestCaseCounter):
         cls.assertIsNotNone(user_authenticated)
         cls.assertTrue(user_authenticated.is_authenticated)
         cls.assertEqual('Jamie Smith', user_authenticated.full_name)
-        cls.countNum()
 
     def test_invalid_user_authenticated(cls):
         ''' Test 3: An invalid test case to see if an unregistered user cannot be authenticated
@@ -57,7 +55,6 @@ class UserLoginFormTestCase(UserTestCaseCounter):
         password = invalid_user_data.get('password')
         user_authenticated = authenticate(username=username, password=password)
         cls.assertIsNone(user_authenticated)
-        cls.countNum()
 
     @classmethod
     def tearDownClass(cls):

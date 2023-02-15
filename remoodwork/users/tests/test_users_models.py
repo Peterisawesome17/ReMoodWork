@@ -29,7 +29,6 @@ class UserModelTestCases(UserTestCaseCounter):
         ''' Test 1: A valid test case to cover all the user models
         created in the remoodwork/default database tables'''
         cls.assertEqual(1, len(User.objects.all()))
-        cls.countNum()
 
     def test_user_content_info(cls):
         ''' Test 2: A valid test case that covers all the valid data attribute contents
@@ -46,7 +45,6 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.assertEqual(cls.company_name, cls.user1.company_name)
         # Tests a job classification status of a user that has already been created
         cls.assertEqual(cls.company_name, cls.user1.company_name)
-        cls.countNum()
 
     def test_user_existence(cls):
         ''' Test 3: A valid test case to see if a new user is created
@@ -54,14 +52,12 @@ class UserModelTestCases(UserTestCaseCounter):
         userslst = User.objects.get(pk=cls.user1.pk)
         dummy_user = userslst
         cls.assertEqual(dummy_user, cls.user1)
-        cls.countNum()
 
     def test_empty_employee(cls):
         ''' Test 4: A valid test case
         to see if there are no employees being created from a
         default database setup reset in this test suite for remoodwork. '''
         cls.assertEqual(0, len(Employee.objects.all()))
-        cls.countNum()
 
     def test_creating_employee(cls):
         ''' Test 5: A valid test case
@@ -73,7 +69,6 @@ class UserModelTestCases(UserTestCaseCounter):
         dummy_user = User.objects.filter(username=cls.user1.username)[0]
         dummy_employee = Employee.objects.filter(pk=employee1.pk)[0]
         cls.assertEqual(dummy_user, dummy_employee.user)
-        cls.countNum()
 
     def test_get_or_create_employee(cls):
         ''' Test 6: A valid test case
@@ -90,7 +85,6 @@ class UserModelTestCases(UserTestCaseCounter):
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
             cls.assertFalse(created)
             cls.assertEqual(create_user, dummy_employee.user)
-        cls.countNum()
 
 
     @classmethod
