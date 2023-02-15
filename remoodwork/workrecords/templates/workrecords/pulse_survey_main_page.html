@@ -5,7 +5,7 @@
         My Pulse Survey Records
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#">
+        <a class="dropdown-item" href="{% url 'remoodwork-create-pulse-survey' %}">
             Create a new pulse survey record</a>
 <!--              <div class="dropdown-divider"></div>-->
 <!--              <a class="dropdown-item" href="#">Something else here</a>-->
@@ -18,7 +18,7 @@
     <div class="col-md-6 mx-auto">
         <small style="font-size: 20px" class="text-muted">
             Hmm..it looks like you have not created any recent pulse survey records
-            <a class="ml-2" href="#">Create your first pulse survey record</a>
+            <a class="ml-2" href="{% url 'remoodwork-create-pulse-survey' %}">Create your first pulse survey record</a>
             <!-- Placeholder '#' after implementing models/forms of a pulse survey record log
             in a workrecords directory -->
         </small>

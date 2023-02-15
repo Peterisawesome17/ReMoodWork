@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse # Used for testing http response to view web pages of remoodwork's workrecords - Peter
 from datetime import datetime # Useful for implementing pulse survey page later in this project - Peter
+from workrecords.forms import PulseSurveyCreationForm
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
@@ -58,4 +59,16 @@ def pulse_survey_view(request):
     }
     return render(request=request,
                   template_name='workrecords/pulse_survey_main_page.html',
+                  context=context)
+
+def create_pulse_survey_view(request):
+    if request.method == 'POST':
+        pass
+    else:
+        form = PulseSurveyCreationForm()
+        context = {
+            'form': form,
+        }
+    return render(request=request,
+                  template_name='workrecords/create_pulse_survey_page.html',
                   context=context)
