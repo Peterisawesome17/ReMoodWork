@@ -13,7 +13,7 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         super(WorkRecordsTestCases, cls).setUpClass()
         cls.employee = cls._create_an_employee()
         cls.employee.save()
-        cls.pulsesurvey = cls._create_pulse_survey(cls.employee)
+        cls.pulsesurvey = cls._create_pulse_survey_1(cls.employee)
         cls.pulsesurvey.save()
 
     @classmethod
@@ -36,7 +36,7 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         employee = Employee(user=user)
         return employee
     @classmethod
-    def _create_pulse_survey(cls, employee=None):
+    def _create_pulse_survey_1(cls, employee=None):
         pulse_survey = None
         if employee:
             cls.activity_name = 'Implemented campaign feature test cases for ecommerce website'
@@ -60,13 +60,13 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         return pulse_survey
 
     def test_one_employee(cls):
-        '''Test 1: Test if an Employee object lists only one
+        '''Test 1: Valid test case to see if an Employee object lists only one
         Employee used for this test case'''
         cls.assertEqual(1, len(Employee.objects.all()))
         # cls.countNum()
 
     def test_emoji_reactions(cls):
-        '''Test 2: Tests all the valid emoji reactions
+        '''Test 2: Valid test case to see all the valid emoji reactions
         tested for creating pulse survey records of workrecords in remoodwork '''
         emoji_reactions = dict(PulseSurvey.EMOJI_STATUS_CHOICE)
         for emoji_reaction in emoji_reactions.values():
@@ -74,7 +74,7 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
                 f'{emoji_reaction} is not an emoji reaction'
 
     def test_pulse_survey_content(cls):
-        '''Test 3: Tests the contents and data attributes
+        '''Test 3: Valid test case to see the contents and data attributes
         of creating a pulse survey record of workrecords in remoodwork '''
         # Tests an existing activity name that has recently been created
         cls.assertEqual(cls.activity_name, cls.pulsesurvey.activity_name)
@@ -101,7 +101,44 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.activity_created, cls.pulsesurvey.activity_created)
         # Tests if a pulse survey was recently created by the right employee
         cls.assertEqual(cls.employee, cls.pulsesurvey.employee)
-        
+
+    def test_all_pulse_survey(cls):
+        '''Test 4: Valid test case to see if any pulse surveys
+        have already created by the right employee'''
+        cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
+        another_pulse_survey = cls._create_pulse_survey_2(cls.employee)
+        another_pulse_survey.save()
+        #Should have about 2 pulse surveys created by an employee
+        cls.assertEqual(2, len(cls.employee.pulse_survey.all()))
+        dummy_pulse_survey = PulseSurvey.objects.get(pk=cls.pulsesurvey.pk)
+        cls.assertNotEqual(dummy_pulse_survey, another_pulse_survey)
+
+    def test_only_one_pulse_survey(cls):
+        '''Test 5: Valid test case to see if there is only
+        one pulse survey already created by an employee for this test case'''
+        cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
+    def _create_pulse_survey_2(cls, employee=None):
+        pulse_survey = None
+        if employee:
+            cls.activity_name = 'Taco Party'
+            cls.activity_type = 'TB'
+            cls.num_hours = '1'
+            cls.emotional_rate_status = "taking_break_or_vacation"
+            cls.activity_description = 'Celebrating taco party with a few of my coworkers at a break room!'
+            cls.work_stressor_status = 'NO'
+            cls.activity_created = date.today()
+            pulse_survey = PulseSurvey(
+                activity_name=cls.activity_name,
+                activity_type=cls.activity_type,
+                num_hours=cls.num_hours,
+                emotional_rate_status=cls.emotional_rate_status,
+                activity_description=cls.activity_description,
+                work_stressor_status=cls.work_stressor_status,
+                activity_created=cls.activity_created,
+                employee=employee
+            )
+        return pulse_survey
+
     @classmethod
     def tearDownClass(cls):
         ''' Invokes teardownClass method from test_base.py file of all

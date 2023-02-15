@@ -30,4 +30,4 @@ class PulseSurvey(models.Model):
     activity_description = models.TextField(blank=True, null=True)
     work_stressor_status = models.CharField(max_length=5, choices=WORK_STRESSOR_STATUS_CHOICE)
     activity_created = models.DateField(auto_now_add=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='pulse_survey')
