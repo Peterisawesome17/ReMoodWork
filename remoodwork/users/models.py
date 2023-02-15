@@ -3,16 +3,13 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-CLASSIFICATION_CHOICE = (
-    ("EMPLOYEE", 'Employee'),
-    ("EMPLOYER", 'Employer')
-)
-
-# job_classification = models.TextChoices("JOBCLASS", "EMPLOYEE EMPLOYER")
-
 class User(AbstractUser):
     ''' A User model contains about 6 attribute fields needed to be created in the database table
-    of remoodwork '''
+       of remoodwork '''
+    CLASSIFICATION_CHOICE = (
+        ("EMPLOYEE", 'Employee'),
+        ("EMPLOYER", 'Employer')
+    )
     # AbstractUser should contain a username and a password attribute
     full_name = models.CharField(max_length=205, verbose_name='full name')
     email = models.EmailField(max_length=205, verbose_name='email')

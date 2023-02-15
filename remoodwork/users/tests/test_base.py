@@ -25,6 +25,7 @@ class UserTestCaseCounter(TestCase):
         return cls.test_result
 
     def run(self, result=None):
+        ''' Runs all the test cases for each user's test suite operation '''
         super().run(result)
         self.setResults(result)
 

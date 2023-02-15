@@ -3,7 +3,7 @@ from users.models import User, Employee
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 class UserRegistrationForm(UserCreationForm, forms.ModelForm):
     ''' Used for producing a registration form for the user
-    presented in an html register template page '''
+    presented in a html register template page '''
     # password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
@@ -44,7 +44,10 @@ class UserRegistrationForm(UserCreationForm, forms.ModelForm):
         return is_valid
 
 class UserLogInForm(AuthenticationForm):
+    ''' Used for producing a login form for the user
+    presented in a html login template page '''
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
         fields = ['username', 'password']
+    # No need to override save and is_valid method for user login form class
