@@ -39,11 +39,14 @@ class UserTestCaseCounter(TestCase):
         result = cls.getResults()
         tot_test_cases = result.testsRun - UserTestCaseCounter.countPreviousTestSuite
         UserTestCaseCounter.countPreviousTestSuite = result.testsRun
-        passed_test_cases = tot_test_cases - len(result.errors) - len(result.failures)
+        any_failure_tests = dict(result.failures)
+        get_curr_test_suites = {testSuite.__class__.__name__ for testSuite in any_failure_tests.keys()}
+        num_failed_test_cases = 0 if cls.__name__ not in get_curr_test_suites else len(result.failures)
+        passed_test_cases = tot_test_cases - len(result.errors) - num_failed_test_cases
         print(f'Ran {tot_test_cases} number of test cases in '
               f'{(passed_test_cases / tot_test_cases) * 100}% test suite of '
               f'{cls.__name__}')
-        if result.failures:
+        if num_failed_test_cases:
             print(f'Total number of failed test cases: {len(result.failures)}')
         if result.errors:
             print(f'Number of errors in this test script: {len(result.errors)}')

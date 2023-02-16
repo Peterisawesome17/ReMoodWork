@@ -4,6 +4,8 @@ from django.core.management import call_command
 class WorkRecordsTestCaseCounter(TestCase):
     ''' A test case basis to count all the passed test cases used to
     test workrecords app for remoodwork '''
+
+    countPreviousTestSuite = 0
     @classmethod
     def setUpClass(cls):
         ''' Initializes a set-up to count a number of test cases passed'''
@@ -19,12 +21,16 @@ class WorkRecordsTestCaseCounter(TestCase):
         covered for each test suite of the workrecords app for remoodwork. '''
         call_command('flush', interactive=False)
         result = cls.getResults()
-        tot_test_cases = result.testsRun
-        passed_test_cases = tot_test_cases - len(result.errors) - len(result.failures)
+        tot_test_cases = result.testsRun - WorkRecordsTestCaseCounter.countPreviousTestSuite
+        WorkRecordsTestCaseCounter.countPreviousTestSuite = result.testsRun
+        any_failure_tests = dict(result.failures)
+        get_curr_test_suites = {testSuite.__class__.__name__ for testSuite in any_failure_tests.keys()}
+        num_failed_test_cases = 0 if cls.__name__ not in get_curr_test_suites else len(result.failures)
+        passed_test_cases = tot_test_cases - len(result.errors) - num_failed_test_cases
         print(f'Ran {tot_test_cases} number of test cases in '
               f'{(passed_test_cases / tot_test_cases) * 100}% test suite of '
               f'{cls.__name__}')
-        if result.failures:
+        if num_failed_test_cases:
             print(f'Total number of failed test cases: {len(result.failures)}')
         if result.errors:
             print(f'Number of errors in this test script: {len(result.errors)}')
