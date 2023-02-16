@@ -33,6 +33,11 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
             'activity_created': date.today(),
         }
         cls.create_same_activity_name_form = PulseSurveyCreationForm(data=create_same_activity_name_data_form)
+        text_required_data_form = {
+            'activity_name': 'Office party',
+            'num_of_hours': '3'
+        }
+        cls.text_required_form = PulseSurveyCreationForm(data=text_required_data_form)
 
     def test_valid_pulse_survey_form(cls):
         ''' Test 1: A valid test case
@@ -64,6 +69,8 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
                         pulse_survey_record.activity_description)
         cls.assertEqual(cls.correct_pulse_survey_form.data.get('work_stressor_status'),
                         pulse_survey_record.work_stressor_status)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('activity_created'),
+                        pulse_survey_record.activity_created)
 
     def test_activity_name_already_created(cls):
         ''' Test 3: An invalid test case to see if an activity name has already
@@ -78,6 +85,20 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
         assert 'This activity name already exists from one of your pulse survey records.' in \
                cls.create_same_activity_name_form.errors.get('activity_name') , \
             'Should not create the same activity name as a new pulse survey record'
+
+    def test_required_invalid_text_form(cls):
+        ''' Test 4: An invalid test cases to see if an invalid
+        pulse survey creation form is unable to be valid and will not be saved
+        into its data content associated to its model'''
+        cls.assertFalse(cls.text_required_form.is_valid())
+        required_field_text = 'This field is required.'
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('activity_type')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('emotional_rate_status')))
+        cls.assertIsNone(cls.text_required_form.errors.get('activity_description'))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('work_stressor_status')))
 
 
     @classmethod
