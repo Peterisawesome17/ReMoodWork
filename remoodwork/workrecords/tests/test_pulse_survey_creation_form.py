@@ -22,6 +22,17 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
             'activity_created': date.today(),
         }
         cls.correct_pulse_survey_form = PulseSurveyCreationForm(data=correct_pulse_survey_data_form)
+        create_same_activity_name_data_form = {
+            'activity_name': 'Created specifications report for campaign pages for an ecommerce',
+            'activity_type': 'WT',
+            'num_hours': '10',
+            'emotional_rate_status': 'sleeping',
+            'activity_description': 'Wrote two descriptive features deliveres for campaign pages ' \
+                                    'of an ecommerce',
+            'work_stressor_status': 'YES',
+            'activity_created': date.today(),
+        }
+        cls.create_same_activity_name_form = PulseSurveyCreationForm(data=create_same_activity_name_data_form)
 
     def test_valid_pulse_survey_form(cls):
         ''' Test 1: A valid test case
@@ -53,6 +64,20 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
                         pulse_survey_record.activity_description)
         cls.assertEqual(cls.correct_pulse_survey_form.data.get('work_stressor_status'),
                         pulse_survey_record.work_stressor_status)
+
+    def test_activity_name_already_created(cls):
+        ''' Test 3: An invalid test case to see if an activity name has already
+        been created from one of the pulse surveys done by an employee '''
+        pulse_survey = cls.correct_pulse_survey_form.save(commit=False)
+        pulse_survey.employee = cls.employee
+        cls.correct_pulse_survey_form.save()
+        cls.assertEqual(1, len(PulseSurvey.objects.all()))
+        # Should be invalid due an existing activity name created from one of the pulse
+        # surveys done by an employee
+        cls.assertFalse(cls.create_same_activity_name_form.is_valid())
+        assert 'This activity name already exists from one of your pulse survey records.' in \
+               cls.create_same_activity_name_form.errors.get('activity_name') , \
+            'Should not create the same activity name as a new pulse survey record'
 
 
     @classmethod
