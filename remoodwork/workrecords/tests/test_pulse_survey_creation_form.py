@@ -20,7 +20,6 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
                                     'of an ecommerce',
             'work_stressor_status': 'YES',
             'activity_created': date.today(),
-            'employee_id': cls.employee.pk
         }
         cls.correct_pulse_survey_form = PulseSurveyCreationForm(data=correct_pulse_survey_data_form)
 
@@ -35,7 +34,26 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
         to see if a correct pulse survey creation form is saved
         for creating a new pulse survey record stored in
         a database model '''
-        pass
+        pulse_survey = cls.correct_pulse_survey_form.save(commit=False)
+        pulse_survey.employee = cls.employee
+        cls.correct_pulse_survey_form.save()
+        cls.assertEqual(1, len(PulseSurvey.objects.all()))
+        cls.assertEqual(cls.correct_pulse_survey_form.instance.employee, pulse_survey.employee)
+        cls.assertEqual(cls.employee, cls.correct_pulse_survey_form.instance.employee)
+        pulse_survey_record = PulseSurvey.objects.first()
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('activity_name'),
+                        pulse_survey_record.activity_name)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('activity_type'),
+                        pulse_survey_record.activity_type)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('num_hours'),
+                        pulse_survey_record.num_hours)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('emotional_rate_status'),
+                        pulse_survey_record.emotional_rate_status)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('activity_description'),
+                        pulse_survey_record.activity_description)
+        cls.assertEqual(cls.correct_pulse_survey_form.data.get('work_stressor_status'),
+                        pulse_survey_record.work_stressor_status)
+
 
     @classmethod
     def _create_an_employee(cls):
@@ -55,3 +73,9 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
         )
         user.save()
         return user
+
+    @classmethod
+    def tearDownClass(cls):
+        ''' Invokes teardownClass method from test_base.py file of all
+        test suites of the user app for remoodwork. '''
+        super().tearDownClass()
