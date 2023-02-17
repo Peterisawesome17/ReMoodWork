@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse # Used for testing http response to view web pages of remoodwork's workrecords - Peter
 from datetime import datetime # Useful for implementing pulse survey page later in this project - Peter
 from workrecords.forms import PulseSurveyCreationForm
+from users.models import Employee, User
+from django.contrib import messages
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
@@ -55,19 +57,33 @@ def pulse_survey_view(request):
     # otherwise it will return a message to the employee
     # 'Hmm..it looks like to me that you have not created any recent pulse survey records'
     context = {
-
+        'user_id': request.user.id
     }
     return render(request=request,
                   template_name='workrecords/pulse_survey_main_page.html',
                   context=context)
 
-def create_pulse_survey_view(request):
+def create_pulse_survey_view(request, pk):
+    user = User.objects.get(pk=pk)
+    employee = Employee.objects.get(user=user)
     if request.method == 'POST':
-        pass
+        pulse_survey_form = PulseSurveyCreationForm(request.POST)
+        if pulse_survey_form.is_valid():
+            pulse_survey = pulse_survey_form.save(commit=False)
+            pulse_survey.employee = employee
+            pulse_survey_form.save()
+            activity_name = pulse_survey_form.cleaned_data.get('activity_name')
+            messages.success(request=request, message=f'{activity_name} successfully created '
+                                                      f'from your pulse survey records')
+            return redirect('remoodwork-pulse-survey')
+        else:
+            context = {
+                'form': pulse_survey_form
+            }
     else:
-        form = PulseSurveyCreationForm()
+        pulse_survey_form = PulseSurveyCreationForm()
         context = {
-            'form': form,
+            'form': pulse_survey_form,
         }
     return render(request=request,
                   template_name='workrecords/create_pulse_survey_page.html',
