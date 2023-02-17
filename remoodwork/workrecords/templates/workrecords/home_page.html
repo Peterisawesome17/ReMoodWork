@@ -1,20 +1,38 @@
 {% extends 'workrecords/base.html' %}
 {% block content %}
-<!--    {% for employee_log in log_records %}-->
-<!--    <div class="row">-->
-<!--      <div class="col-md-5">-->
-<!--        <div class="card" style="width: 26rem;">-->
-<!--            <div class="card-body">-->
-<!--                <h1>{{ employee_log.title }}</h1>-->
-<!--                <p>{{ employee_log.posted_date}}, Purpose: {{ employee_log.category_type }}</p>-->
-<!--                <p>Number of hours: {{ employee_log.number_of_hours}}</p>-->
-<!--                <p>Location: {{ employee_log.location }}</p>-->
-<!--                <p>Feeling Rating: {{ employee_log.emoji_face }}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    {% endfor %}-->
+{% if user.is_authenticated %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Title</h1>
+    </div>
+    {% for pulse_survey in pulse_survey_records %}
+        <div class="card border-success mb-2" style="max-width: 30rem;">
+          <div class="card-header border-success">{{ pulse_survey.get_activity_type_display }}</div>
+          <div class="card-body text-success">
+            <h5 class="card-title">{{ pulse_survey.activity_name }}</h5>
+            <h4 class="card-subtitle mb-2 text-muted">{{ pulse_survey.activity_created }}</h4>
+            <p class="card-text">Number of hours spend on this activity:
+                {{ pulse_survey.num_hours }}</p>
+            <p class="card-text">Your emotional scale:
+                {{ pulse_survey.get_emotional_rate_status_display }}</p>
+            <p class="card-text"><strong>Your description to this activity</p>
+            <p class="card-text">{{ pulse_survey.activity_description }}</p>
+          </div>
+          <div class="card-footer border-success">Any work-related stresses in this activity?:
+                {{ pulse_survey.get_work_stressor_status_display }}</div>
+        </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Welcome to ReMoodWork!</h1>
+    </div>
+  </div>
+{% endif %}
 {% endblock content %}
 <!-- References to the template structure: Author Corey Shafer
 (https://www.youtube.com/watch?v=qDwdMDQ8oX4&list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p&index=3)-->
