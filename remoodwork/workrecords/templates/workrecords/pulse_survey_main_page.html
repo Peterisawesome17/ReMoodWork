@@ -15,6 +15,32 @@
 
 {% block content %}
 <body>
+{% if pulse_survey_records %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>My Pulse Survey Records</h1>
+            </div>
+            {% for pulse_survey in pulse_survey_records %}
+            <div class="card border-success mb-2" style="max-width: 30rem;">
+                <div class="card-header border-success">{{ pulse_survey.get_activity_type_display }}</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">{{ pulse_survey.activity_name }}</h5>
+                    <h4 class="card-subtitle mb-2 text-muted">{{ pulse_survey.activity_created }}</h4>
+                    <p class="card-text">Number of hours spend on this activity:
+                        {{ pulse_survey.num_hours }}</p>
+                    <p class="card-text">Your emotional scale:
+                        {{ pulse_survey.get_emotional_rate_status_display }}</p>
+                    <p class="card-text"><strong>Your description to this activity</p>
+                    <p class="card-text">{{ pulse_survey.activity_description }}</p>
+                </div>
+                <div class="card-footer border-success">Any work-related stresses in this activity?:
+                {{ pulse_survey.get_work_stressor_status_display }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
     <div class="col-md-6 mx-auto">
         <small style="font-size: 20px" class="text-muted">
             Hmm..it looks like you have not created any recent pulse survey records
@@ -23,5 +49,6 @@
             in a workrecords directory -->
         </small>
     </div>
+{% endif %}
 </body>
 {% endblock content %}
