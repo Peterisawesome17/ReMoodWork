@@ -31,3 +31,6 @@ class PulseSurvey(models.Model):
     work_stressor_status = models.CharField(max_length=5, choices=WORK_STRESSOR_STATUS_CHOICE)
     activity_created = models.DateField(auto_now_add=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='pulse_survey')
+
+    def __str__(self):
+        return f'Pulse Survey Record: {self.activity_name}'
