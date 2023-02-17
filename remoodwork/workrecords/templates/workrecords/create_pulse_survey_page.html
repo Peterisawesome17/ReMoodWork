@@ -20,7 +20,7 @@
           <div class="col-md-6 mx-auto">
               <small class="text-muted">
                   Want to see your recent pulse survey?
-                  <a class="ml-2" href="{% url 'remoodwork-pulse-survey' %}">
+                  <a class="ml-2" href="{% url 'remoodwork-pulse-survey' request.user.pk %}">
                       Go back to your pulse survey records</a>
               </small>
           </div>
