@@ -18,6 +18,8 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
 
     @classmethod
     def _create_an_employee(cls):
+        ''' Sets up an employee creation used for creating and evaluating test
+        cases for pulse survey '''
         username = 'mikerandy'
         password = 'anothertest555!'
         full_name = 'Mike Randy'
@@ -37,6 +39,8 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         return employee
     @classmethod
     def _create_pulse_survey_1(cls, employee=None):
+        ''' Sets up the first pulse survey to make some
+        test cases provided in this script '''
         pulse_survey = None
         if employee:
             cls.activity_name = 'Implemented campaign feature test cases for ecommerce website'
@@ -118,6 +122,8 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         one pulse survey already created by an employee for this test case'''
         cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
     def _create_pulse_survey_2(cls, employee=None):
+        ''' Sets up a second pulse survey to make some
+        test cases provided in this script '''
         pulse_survey = None
         if employee:
             cls.activity_name = 'Taco Party'

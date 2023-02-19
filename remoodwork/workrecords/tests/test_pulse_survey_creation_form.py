@@ -103,6 +103,8 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
 
     @classmethod
     def _create_an_employee(cls):
+        ''' Sets up an employee creation used for creating and evaluating test
+        cases for pulse survey '''
         username = 'adamsmart'
         password = 'anothertest666!'
         full_name = 'Adam Smart'

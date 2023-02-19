@@ -4,6 +4,8 @@ from users.models import Employee
 # Create your models here.
 
 class PulseSurvey(models.Model):
+    ''' A PulseSurvey model contains about 6 to 8 attribute fields needed to be created
+    in the database table of remoodwork '''
     ACTIVITY_TYPE_CHOICES = (
         ("WT", "Work task"),
         ("TB", "Take a break"),

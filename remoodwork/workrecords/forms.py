@@ -2,6 +2,8 @@ from django import forms
 from workrecords.models import PulseSurvey
 
 class PulseSurveyCreationForm(forms.ModelForm):
+    ''' Used for allowing employees to create their pulse survey with
+    a couple of required fields '''
     class Meta:
         model = PulseSurvey
         fields = ["activity_name", "activity_type", "num_hours", "emotional_rate_status",
