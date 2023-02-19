@@ -12,8 +12,8 @@ from workrecords.models import PulseSurvey
 
 def home_view(request):
     '''A view of a home website page of remoodwork'''
-    # More details will be added later on
-    # Default return to check an http reponse of a web page
+    # Only displays a list of pulse survey records from the employee (user)
+    # and will also be the main home page of remoodwork for adding few features later on
     pulse_survey_records = None
     if request.user.id:
         user = User.objects.get(pk=request.user.id)
@@ -45,6 +45,7 @@ def pulse_survey_view(request, pk):
                   context=context)
 
 def create_pulse_survey_view(request, pk):
+    ''' A view controller to create pulse surveys produced by an employee (user)'''
     user = User.objects.get(pk=pk)
     employee = Employee.objects.get(user=user)
     if request.method == 'POST':
@@ -56,7 +57,7 @@ def create_pulse_survey_view(request, pk):
             activity_name = pulse_survey_form.cleaned_data.get('activity_name')
             messages.success(request=request, message=f'{activity_name} successfully created '
                                                       f'from your pulse survey records')
-            return redirect('remoodwork-pulse-survey')
+            return redirect('remoodwork-pulse-survey', pk=pk)
         else:
             context = {
                 'form': pulse_survey_form
