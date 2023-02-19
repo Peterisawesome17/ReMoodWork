@@ -1,10 +1,11 @@
+<!-- ReMoodWork Home Page -->
 {% extends 'workrecords/base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1>Title</h1>
+      <h1>Your Pulse Survey Records</h1>
     </div>
     {% for pulse_survey in pulse_survey_records %}
         <div class="card border-success mb-2" style="max-width: 30rem;">
