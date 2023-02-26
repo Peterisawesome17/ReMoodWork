@@ -3,28 +3,43 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>Your Pulse Survey Records</h1>
-    </div>
-    {% for pulse_survey in pulse_survey_records %}
-        <div class="card border-success mb-2" style="max-width: 30rem;">
-          <div class="card-header border-success">{{ pulse_survey.get_activity_type_display }}</div>
+  {% if employer_exists %}
+    <div class="row">
+      <div class="col-12">
+        <h1>Your Employees at {{ company_name_title }}</h1>
+      </div>
+      {% for employee in employer_employee_list %}
+        <div class="card border-success mb-1" style="max-width: 30rem;">
           <div class="card-body text-success">
-            <h5 class="card-title">{{ pulse_survey.activity_name }}</h5>
-            <h4 class="card-subtitle mb-2 text-muted">{{ pulse_survey.activity_created }}</h4>
-            <p class="card-text">Number of hours spend on this activity:
-                {{ pulse_survey.num_hours }}</p>
-            <p class="card-text">Your emotional scale:
-                {{ pulse_survey.get_emotional_rate_status_display }}</p>
-            <p class="card-text"><strong>Your description to this activity</p>
-            <p class="card-text">{{ pulse_survey.activity_description }}</p>
+            <a href="#"><p> {{ employee.user.full_name }}</p></a>
           </div>
-          <div class="card-footer border-success">Any work-related stresses in this activity?:
-                {{ pulse_survey.get_work_stressor_status_display }}</div>
         </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% elif employee_exists %}
+    <div class="row">
+      <div class="col-12">
+        <h1>Your Pulse Survey Records</h1>
+      </div>
+      {% for pulse_survey in employee_pulse_survey_records %}
+          <div class="card border-success mb-2" style="max-width: 30rem;">
+            <div class="card-header border-success">{{ pulse_survey.get_activity_type_display }}</div>
+            <div class="card-body text-success">
+              <h5 class="card-title">{{ pulse_survey.activity_name }}</h5>
+              <h4 class="card-subtitle mb-2 text-muted">{{ pulse_survey.activity_created }}</h4>
+              <p class="card-text">Number of hours spend on this activity:
+                  {{ pulse_survey.num_hours }}</p>
+              <p class="card-text">Your emotional scale:
+                  {{ pulse_survey.get_emotional_rate_status_display }}</p>
+              <p class="card-text"><strong>Your description to this activity</strong></p>
+              <p class="card-text">{{ pulse_survey.activity_description }}</p>
+            </div>
+            <div class="card-footer border-success">Any work-related stresses in this activity?:
+                  {{ pulse_survey.get_work_stressor_status_display }}</div>
+          </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
 {% else %}
 <div class="container">
@@ -33,6 +48,7 @@
       <h1>Welcome to ReMoodWork!</h1>
     </div>
   </div>
+</div>
 {% endif %}
 {% endblock content %}
 <!-- References to the template structure: Author Corey Shafer
