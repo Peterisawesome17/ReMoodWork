@@ -1,5 +1,5 @@
 from users.forms import UserRegistrationForm
-from users.models import User
+from users.models import User, Employer
 from users.tests.test_base import UserTestCaseCounter
 
 
@@ -49,6 +49,18 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         }
 
         cls.create_same_full_name_form = UserRegistrationForm(data=create_same_full_name_data_form)
+
+        create_employer_data_form = {
+            'username': 'jamesjohnson',
+            'password1': 'jamestest456!',
+            'password2': 'jamestest456!',
+            'full_name': 'James S. Johnson',
+            'email': 'jamesjohnson@gmail.com',
+            'company_name': 'Google',
+            'job_classification_choice': 'EMPLOYER'
+        }
+
+        cls.create_employer_form = UserRegistrationForm(data=create_employer_data_form)
 
     def test_valid_form(cls):
         ''' Test 1: A valid test case
@@ -111,6 +123,19 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertFalse(cls.create_same_full_name_form.is_valid())
         assert 'A user with that full name already exists.' \
                in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
+
+    def test_create_employer_form(cls):
+        cls.create_employer_form.save()
+        cls.assertEqual(1, len(Employer.objects.all()))
+        cls.assertEqual(1, len(User.objects.all()))
+        user2 = User.objects.first()
+        cls.assertEqual(cls.create_employer_form.data.get('username'), user2.username)
+        cls.assertTrue(user2.check_password(cls.create_employer_form.data.get('password1')))
+        cls.assertEqual(cls.create_employer_form.data.get('full_name'), user2.full_name)
+        cls.assertEqual(cls.create_employer_form.data.get('email'), user2.email)
+        cls.assertEqual(cls.create_employer_form.data.get('company_name'), user2.company_name)
+        cls.assertEqual(cls.create_employer_form.data.get('job_classification_choice'),
+                        user2.job_classification_choice)
 
     @classmethod
     def tearDownClass(cls):

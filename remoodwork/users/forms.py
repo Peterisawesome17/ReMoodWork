@@ -1,5 +1,5 @@
 from django import forms
-from users.models import User, Employee
+from users.models import User, Employee, Employer
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 class UserRegistrationForm(UserCreationForm, forms.ModelForm):
     ''' Used for producing a registration form for the user
@@ -28,6 +28,8 @@ class UserRegistrationForm(UserCreationForm, forms.ModelForm):
             if user_created.job_classification_choice == 'EMPLOYEE':
                 employee, created = Employee.objects.get_or_create(user=user_created)
                 # print(f'{employee} is created {created}')
+            if user_created.job_classification_choice == 'EMPLOYER':
+                employer, create = Employer.objects.get_or_create(user=user_created)
         return instance
 
     def is_valid(self):
