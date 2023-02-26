@@ -1,5 +1,5 @@
 from users.tests.test_base import UserTestCaseCounter
-from users.models import User, Employee
+from users.models import User, Employee, Employer
 from django.test import Client
 from django.urls import reverse
 
@@ -20,6 +20,15 @@ class UsersViewTestCase(UserTestCaseCounter):
             'email': 'johntsmith@gmail.com',
             'company_name': 'Google',
             'job_classification_choice': 'EMPLOYEE'
+        }
+        cls.register_employer_data = {
+            'username': 'jamesjohnson',
+            'password1': 'jamestest456!',
+            'password2': 'jamestest456!',
+            'full_name': 'James S. Johnson',
+            'email': 'jamesjohnson@gmail.com',
+            'company_name': 'Google',
+            'job_classification_choice': 'EMPLOYER'
         }
 
     def test_user_registration_view(cls):
@@ -88,5 +97,29 @@ class UsersViewTestCase(UserTestCaseCounter):
         # due to the logout process from the user's credentials (username and password)
         with cls.assertRaises(Exception):
             cls.client.get(reverse('remoodwork-create-pulse-survey', kwargs={'pk': user.pk}))
+
+    def test_register_employer_view(cls):
+        ''' Test 3: Valid test case to see if an employer
+        can register their account in a registration view page of remoodwork '''
+        response = cls.client.get(reverse('remoodwork-register-user'))
+        csrf_token = response.cookies.get('csrftoken')
+        cls.assertIsNotNone(csrf_token)
+        cls.assertEqual(200, response.status_code)
+        cls.assertTemplateUsed(response=response,
+                               template_name='users/register_page.html')
+        # Checks if a user is able to successfully register their account from a registration
+        # view page of remoodwork
+        employer_registration_response = cls.client.post(reverse('remoodwork-register-user'),
+                                                     data=cls.register_employer_data | {'csrfmiddlewaretoken': csrf_token})
+        cls.assertNotEqual(200, employer_registration_response.status_code)
+        cls.assertEqual(302, employer_registration_response.status_code)
+        # User and Employer should be able to have one user after successfully registering
+        # their account through remoodwork
+        cls.assertEqual(1, len(User.objects.all()))
+        cls.assertEqual(1, len(Employer.objects.all()))
+        # Users should be able to be redirected back to the home page of remoodwork
+        # after successfully registering their account
+        cls.assertRedirects(response=employer_registration_response,
+                            expected_url=reverse('remoodwork-home'))
 
 
