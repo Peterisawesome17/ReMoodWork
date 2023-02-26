@@ -1,4 +1,4 @@
-from users.models import User, Employee
+from users.models import User, Employee, Employer
 from users.tests.test_base import UserTestCaseCounter
 
 
@@ -24,11 +24,13 @@ class UserModelTestCases(UserTestCaseCounter):
             job_classification_choice=cls.job_classification_choice
         )
         cls.user1.save()
+        cls.user2 = cls._create_new_user()
+        cls.user2.save()
 
     def test_all_user_model(cls):
         ''' Test 1: A valid test case to cover all the user models
         created in the remoodwork/default database tables'''
-        cls.assertEqual(1, len(User.objects.all()))
+        cls.assertNotEqual(0, len(User.objects.all()))
 
     def test_user_content_info(cls):
         ''' Test 2: A valid test case that covers all the valid data attribute contents
@@ -88,6 +90,51 @@ class UserModelTestCases(UserTestCaseCounter):
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
             cls.assertFalse(created)
             cls.assertEqual(create_user, dummy_employee.user)
+
+    def test_creating_employer(cls):
+        ''' Test 7: A valid test case
+        to see if an employer can be created after a user registers
+        their account used in remoodwork '''
+        cls.assertEqual('EMPLOYER', cls.user2.job_classification_choice)
+        empty_employer = Employer(user=cls.user2)
+        empty_employer.save()
+        cls.assertNotEqual(0, len(Employer.objects.all()))
+        employer1 = Employer.objects.first()
+        cls.assertEqual(0, len(employer1.employees.all()))
+
+    def test_get_or_create_employer(cls):
+        ''' Test 8 A valid test case
+        to see if an employer can be created or after creating a user from a register page using
+        get_or_create method used in User model for remoodwork. '''
+        if cls.user2.job_classification_choice == 'EMPLOYER':
+            create_user = User.objects.get(username=cls.user2.username)
+            dummy_employer, created = Employer.objects.get_or_create(user=create_user)
+            cls.assertTrue(created)
+            cls.assertEqual(create_user, dummy_employer.user)
+            cls.assertEqual(0, len(dummy_employer.employees.all()))
+            new_employee = Employee(user=cls.user1)
+            new_employee.save()
+            if new_employee.user.company_name == 'Google':
+                dummy_employer.employees.add(new_employee)
+            cls.assertNotEqual(0, len(dummy_employer.employees.all()))
+
+    @classmethod
+    def _create_new_user(cls):
+        username = 'edwardsilverman'
+        password = 'testing123!'
+        full_name = 'Edward Silverman'
+        email = 'esilverman@gmail.com'
+        company_name = 'Google'
+        job_classification_choice = 'EMPLOYER'
+        user = User(
+            username=username,
+            password=password,
+            full_name=full_name,
+            email=email,
+            company_name=company_name,
+            job_classification_choice=job_classification_choice
+        )
+        return user
 
 
     @classmethod

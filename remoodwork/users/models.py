@@ -22,3 +22,10 @@ class Employee(models.Model):
     def __str__(self):
         return f'{self.user.full_name}'
 
+class Employer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    employees = models.ManyToManyField(Employee, related_name='employers')
+
+    def __str__(self):
+        return f'{self.user.full_name}'
+
