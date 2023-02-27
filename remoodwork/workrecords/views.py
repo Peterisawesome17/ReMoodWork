@@ -18,6 +18,7 @@ def home_view(request):
     # and will also be the main home page of remoodwork for adding few features later on
     pulse_survey_records, employees_with_same_company_name, employer_exists, employee_exists = [None]*4
     company_name_title = ''
+    employer = None
     if request.user.id:
         curr_user = User.objects.get(pk=request.user.id)
         employer_exists, employee_exists = Employer.objects.filter(user=curr_user)\
@@ -36,14 +37,12 @@ def home_view(request):
         'user_id': request.user.id,
         'employee_pulse_survey_records': pulse_survey_records,
         'employer_employee_list': employees_with_same_company_name,
-        'employer_exists': employer_exists,
-        'employee_exists': employee_exists,
         'company_name_title': company_name_title,
         'employer': employer
     }
     return render(request=request, template_name='workrecords/home_page.html', context=context)
 
-def pulse_survey_view(request, pk):
+def pulse_survey_view(request, pk, emp_pk=None):
     '''A view of a pulse survey page where employee creates their work/activity record logs'''
     # This controller function must include a list of survey records that were created
     # by and employee (user),
@@ -54,13 +53,9 @@ def pulse_survey_view(request, pk):
         user = User.objects.get(pk=pk)
         employee = Employee.objects.get(user=user)
         pulse_survey_records = PulseSurvey.objects.filter(employee=employee)
-        employer_exists, employee_exists = Employer.objects.filter(user=user) \
-            , Employee.objects.filter(user=user)
     context = {
         'user_id': pk,
         'pulse_survey_records': pulse_survey_records,
-        'employee_exists': employee_exists,
-        'employer_exists': employer_exists
     }
     return render(request=request,
                   template_name='workrecords/pulse_survey_main_page.html',
@@ -70,7 +65,6 @@ def create_pulse_survey_view(request, pk):
     ''' A view controller to create pulse surveys produced by an employee (user)'''
     user = User.objects.get(pk=pk)
     employee = Employee.objects.get(user=user)
-    employee_exists = Employee.objects.filter(user=user)
     if request.method == 'POST':
         pulse_survey_form = PulseSurveyCreationForm(request.POST)
         if pulse_survey_form.is_valid():
@@ -84,13 +78,11 @@ def create_pulse_survey_view(request, pk):
         else:
             context = {
                 'form': pulse_survey_form,
-                'employee_exists': employee_exists
             }
     else:
         pulse_survey_form = PulseSurveyCreationForm()
         context = {
             'form': pulse_survey_form,
-            'employee_exists': employee_exists
         }
     return render(request=request,
                   template_name='workrecords/create_pulse_survey_page.html',

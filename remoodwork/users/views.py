@@ -1,8 +1,10 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 # from django.contrib.auth.forms import UserCreationForm
 from users.forms import UserRegistrationForm, UserLogInForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from users.models import Employee, Employer, User
+from django.urls import reverse
 
 # Create your views here.
 def register_view(request):
@@ -76,3 +78,19 @@ def logout_view(request):
     from their exisiting credential '''
     logout(request=request)
     return render(request=request, template_name='users/logout_page.html')
+
+def add_an_employee(request, pk, emp_pk):
+    employee = get_object_or_404(Employee, user=emp_pk)
+    employer = get_object_or_404(Employer, user=pk)
+    employer_exists = Employer.objects.filter(pk=employer.pk)
+    if request.method == 'POST':
+        add_employee = request.POST.get('add_employee')
+        if add_employee == 'yes':
+            employer.employees.add(employee)
+            url = reverse('remoodwork-pulse-survey', kwargs={'pk':emp_pk, 'emp_pk':pk})
+            return redirect(url)
+        elif add_employee == 'no':
+            return redirect('remoodwork-home')
+    else:
+        return render(request=request, template_name='users/add_an_employee_page.html',
+               context={'pk': pk, 'emp_pk': emp_pk, 'employer_exists': employer_exists})
