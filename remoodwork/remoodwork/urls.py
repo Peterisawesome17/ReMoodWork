@@ -23,4 +23,5 @@ urlpatterns = [
     path('register/', user_views.register_view, name='remoodwork-register-user'),
     path('login/', auth_view.login_view, name='remoodwork-login-user'),
     path('logout/', auth_view.logout_view, name='remoodwork-logout-user'),
+    path('', include('users.urls'))
 ]
