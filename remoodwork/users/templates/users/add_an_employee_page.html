@@ -1,0 +1,14 @@
+{% extends 'workrecords/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<body>
+    <form method="post" action="{% url 'remoodwork-add-employee' pk emp_pk %}">
+      {% csrf_token %}
+      <p style="text-align: center;">Do you want to add this employee?</p>
+          <div class="d-flex justify-content-center">
+            <button type="submit" name="add_employee" value="yes" class="btn btn-primary mr-2">Yes</button>
+            <button type="submit" name="add_employee" value="no" class="btn btn-secondary ml-2">No</button>
+          </div>
+    </form>
+</body>
+{% endblock content %}
