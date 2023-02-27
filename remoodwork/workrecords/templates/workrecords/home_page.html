@@ -9,11 +9,20 @@
         <h1>Your Employees at {{ company_name_title }}</h1>
       </div>
       {% for employee in employer_employee_list %}
-        <div class="card border-success mb-1" style="max-width: 30rem;">
-          <div class="card-body text-success">
-            <a href="#"><p> {{ employee.user.full_name }}</p></a>
+        {% if employee not in employer.employees.all %}
+          <!-- Where an employee will be added in an employer's record -->
+          <div class="card border-success mb-1" style="max-width: 30rem;">
+            <div class="card-body text-success">
+              <a href="#"><p> {{ employee.user.full_name }}</p></a>
+            </div>
           </div>
-        </div>
+        {% else %}
+          <div class="card border-success mb-1" style="max-width: 30rem;">
+            <div class="card-body text-success">
+              <a href="#"><p> {{ employee.user.full_name }}</p></a>
+            </div>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   {% elif employee_exists %}

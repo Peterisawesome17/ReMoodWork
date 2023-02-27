@@ -26,6 +26,7 @@ def home_view(request):
             employee = Employee.objects.get(user=curr_user)
             pulse_survey_records = PulseSurvey.objects.filter(employee=employee)
         if employer_exists.exists():
+            employer = Employer.objects.get(user=curr_user)
             employees_with_same_company_name = Employee.objects.filter(
                 user__job_classification_choice = 'EMPLOYEE',
                 user__company_name = curr_user.company_name
@@ -37,7 +38,8 @@ def home_view(request):
         'employer_employee_list': employees_with_same_company_name,
         'employer_exists': employer_exists,
         'employee_exists': employee_exists,
-        'company_name_title': company_name_title
+        'company_name_title': company_name_title,
+        'employer': employer
     }
     return render(request=request, template_name='workrecords/home_page.html', context=context)
 
