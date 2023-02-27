@@ -123,3 +123,55 @@ class UsersViewTestCase(UserTestCaseCounter):
                             expected_url=reverse('remoodwork-home'))
 
 
+    def test_add_an_employee(cls):
+        response = cls.client.get(reverse('remoodwork-register-user'))
+        csrf_token = response.cookies.get('csrftoken')
+        user_registration_response = cls.client.post(reverse('remoodwork-register-user'),
+                                                     data=cls.register_data | {'csrfmiddlewaretoken': csrf_token})
+        # User and Employee should be able to have one user after successfully registering
+        # their account through remoodwork
+        cls.assertEqual(1, len(User.objects.all()))
+        cls.assertEqual(1, len(Employee.objects.all()))
+
+        #Now for an employer
+        response = cls.client.get(reverse('remoodwork-register-user'))
+        csrf_token = response.cookies.get('csrftoken')
+        # Checks if a user is able to successfully register their account from a registration
+        # view page of remoodwork
+        # An new employer will be created
+        employer_registration_response = cls.client.post(reverse('remoodwork-register-user'),
+                                                         data=cls.register_employer_data | {
+                                                             'csrfmiddlewaretoken': csrf_token})
+        cls.assertEqual(2, len(User.objects.all()))
+        cls.assertEqual(1, len(Employee.objects.all()))
+        login_display_reponse = cls.client.get(reverse('remoodwork-login-user'))
+        login_response = cls.client.post(reverse('remoodwork-login-user'),
+                                         {'username': 'jamesjohnson', 'password': 'jamestest456!'})
+        employer_response = cls.client.get(reverse('remoodwork-home'))
+        cls.assertContains(employer_response, 'Google')
+
+        employer = Employer.objects.get(user__username='jamesjohnson')
+        employee = Employee.objects.get(user__username='johnsmith')
+        employee_response = cls.client.get(reverse('remoodwork-add-employee',
+                                                   kwargs={'pk': employer.user.pk,
+                                                    'emp_pk': employee.user.pk}))
+        cls.assertEqual(200, employee_response.status_code)
+        cls.assertTemplateUsed(response=employee_response,
+                               template_name='users/add_an_employee_page.html')
+        cls.assertContains(employee_response, 'Do you want to add this employee?')
+        add_employee_response = cls.client.post(reverse('remoodwork-add-employee',
+                                                   kwargs={ 'pk': employer.user.pk,
+                                                    'emp_pk': employee.user.pk}),
+                                                {'add_employee': 'yes'})
+        cls.assertNotEqual(0, employer.employees.all())
+        cls.assertNotEqual(200, add_employee_response.status_code)
+        cls.assertEqual(302, add_employee_response.status_code)
+        cls.client.get(reverse('remoodwork-home'))
+        pulse_survey_employee_response = cls.client.get(reverse('remoodwork-pulse-survey',
+                                                   kwargs={'pk': employee.user.pk,
+                                                           'emp_pk': employer.user.pk}))
+        cls.assertTemplateUsed(pulse_survey_employee_response,
+                               template_name='workrecords/pulse_survey_main_page.html')
+
+
+
