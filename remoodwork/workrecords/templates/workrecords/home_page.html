@@ -3,7 +3,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="container">
-  {% if employer_exists %}
+  {% if user.job_classification_choice == "EMPLOYER" %}
     <div class="row">
       <div class="col-12">
         <h1>Your Employees at {{ company_name_title }}</h1>
@@ -13,19 +13,19 @@
           <!-- Where an employee will be added in an employer's record -->
           <div class="card border-success mb-1" style="max-width: 30rem;">
             <div class="card-body text-success">
-              <a href="#"><p> {{ employee.user.full_name }}</p></a>
+              <a href="{% url 'remoodwork-add-employee' request.user.pk employee.user.pk %}"><p> {{ employee.user.full_name }}</p></a>
             </div>
           </div>
         {% else %}
           <div class="card border-success mb-1" style="max-width: 30rem;">
             <div class="card-body text-success">
-              <a href="#"><p> {{ employee.user.full_name }}</p></a>
+              <a href="{% url 'remoodwork-pulse-survey' employee.user.pk request.user.pk %}"><p> {{ employee.user.full_name }}</p></a>
             </div>
           </div>
         {% endif %}
       {% endfor %}
     </div>
-  {% elif employee_exists %}
+  {% elif user.job_classification_choice == "EMPLOYEE" %}
     <div class="row">
       <div class="col-12">
         <h1>Your Pulse Survey Records</h1>
