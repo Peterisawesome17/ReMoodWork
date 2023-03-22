@@ -2,6 +2,17 @@ from django.db import models
 from users.models import Employee
 
 # Create your models here.
+class MealPlan(models.Model):
+    calories = models.PositiveIntegerField()
+    dietary_restrictions = models.CharField(max_length=100)
+    goal = models.CharField(max_length=100, blank=True)
+    allergy = models.CharField(max_length=100)
+    budget = models.FloatField()
+    cuisine = models.CharField(max_length=100)
+    employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'employee: {self.employee}'
 
 class PulseSurvey(models.Model):
     ''' A PulseSurvey model contains about 6 to 8 attribute fields needed to be created
