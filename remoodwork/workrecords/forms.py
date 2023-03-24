@@ -1,5 +1,20 @@
 from django import forms
-from workrecords.models import PulseSurvey
+from workrecords.models import PulseSurvey, MealPlan
+
+class MealAssessementCreationForm(forms.ModelForm):
+    ''' Used for aloowing employees to create their meal planning assessments with a
+    couple of required fields '''
+    class Meta:
+        model = MealPlan
+        fields = ["calories", "dietary_restrictions", "goal", "allergy", "budget", "cuisine"]
+        labels = {
+            "calories": "Enter your calorie diet",
+            "dietary_restrictions": "What is your dietary restrictions?",
+            "goal": "What is your expected health measurement goal?",
+            "allergy": "Do you have any food allergies?",
+            "budget": "What is your current budget?",
+            "cuisine": "What is the cuisine you are looking for?"
+        }
 
 class PulseSurveyCreationForm(forms.ModelForm):
     ''' Used for allowing employees to create their pulse survey with
