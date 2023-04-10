@@ -61,6 +61,10 @@ def pulse_survey_view(request, pk, emp_pk=None):
                   template_name='workrecords/pulse_survey_main_page.html',
                   context=context)
 
+def meal_plan_view(request, pk):
+    ''' View for the meal plan '''
+    pass
+
 def create_pulse_survey_view(request, pk):
     ''' A view controller to create pulse surveys produced by an employee (user)'''
     user = User.objects.get(pk=pk)
