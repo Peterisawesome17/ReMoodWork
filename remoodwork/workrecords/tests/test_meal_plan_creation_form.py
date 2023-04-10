@@ -12,11 +12,11 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.user = cls._create_an_employee()
         cls.employee = Employee.objects.create(user=cls.user)
         correct_meal_plan_form = {
-            "calories": '300',
+            "calories": 300,
             "dietary_restrictions": "gluten-free",
             "goal": "To lose weight by 30 lbs",
             "allergy": "wheat",
-            "budget": "20.00",
+            "budget": 20.00,
             "cuisine": "American"
         }
         cls.correct_meal_plan_form = MealAssessementCreationForm(data=correct_meal_plan_form)
