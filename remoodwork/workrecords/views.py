@@ -4,7 +4,7 @@ from datetime import datetime # Useful for implementing pulse survey page later 
 from workrecords.forms import PulseSurveyCreationForm
 from users.models import Employee, User, Employer
 from django.contrib import messages
-from workrecords.models import PulseSurvey
+from workrecords.models import PulseSurvey, MealPlan
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
@@ -63,7 +63,11 @@ def pulse_survey_view(request, pk, emp_pk=None):
 
 def meal_plan_view(request, pk):
     ''' View for the meal plan '''
-    pass
+    if pk:
+        user = User.objects.get(pk=pk)
+        employee = Employee.objects.get(user=user)
+        meal_plan_record = MealPlan.objects.filter(employee=employee)
+    return render(request=request, template_name='workrecords/meal_plan_main_page.html', context={})
 
 def create_pulse_survey_view(request, pk):
     ''' A view controller to create pulse surveys produced by an employee (user)'''
