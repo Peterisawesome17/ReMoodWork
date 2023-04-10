@@ -20,9 +20,17 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
             "cuisine": "American"
         }
         cls.correct_meal_plan_form = MealAssessementCreationForm(data=correct_meal_plan_form)
+        text_required_data_form = {
+            "allergy": "peanuts",
+            "cuisine": "Asian"
+        }
+        cls.text_required_form = MealAssessementCreationForm(data=text_required_data_form)
 
     def test_meal_plan_form(cls):
         cls.assertTrue(cls.correct_meal_plan_form.is_valid())
+
+    def test_required_invalid_text_form(cls):
+        cls.assertFalse(cls.text_required_form.is_valid())
 
     @classmethod
     def _create_an_employee(cls):
