@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse # Used for testing http response to view web pages of remoodwork's workrecords - Peter
 from datetime import datetime # Useful for implementing pulse survey page later in this project - Peter
-from workrecords.forms import PulseSurveyCreationForm
+from workrecords.forms import PulseSurveyCreationForm, MealAssessementCreationForm
 from users.models import Employee, User, Employer
 from django.contrib import messages
 from workrecords.models import PulseSurvey, MealPlan
@@ -75,7 +75,24 @@ def meal_plan_view(request, pk):
 
 def create_meal_plan_view(request, pk):
     ''' A view controller to create meal plan assessment record made by an employee (user) '''
-    pass
+    user = User.objects.get(pk=pk)
+    employee = Employee.objects.get(user=user)
+    if request.method == 'POST':
+        meal_plan_form = MealAssessementCreationForm(request.POST)
+        if meal_plan_form.is_valid():
+            pass
+        else:
+            context = {
+                'form': meal_plan_form
+            }
+    else:
+        meal_plan_form = MealAssessementCreationForm()
+        context = {
+            'form': meal_plan_form
+        }
+    return render(request=request,
+                  template_name='workrecords/create_meal_plan_page.html',
+                  context=context)
 
 def create_pulse_survey_view(request, pk):
     ''' A view controller to create pulse surveys produced by an employee (user)'''

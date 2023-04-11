@@ -1,0 +1,21 @@
+{% extends 'workrecords/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<body>
+    <!-- class="col-md-12 mx-auto" -->
+        <form method="POST" class="col-md-6 mx-auto">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Create a new pulse survey
+                </legend>
+                {{ form|crispy }}
+                <!-- Used for displaying the form from a view register function in users app -->
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">
+                    Submit your pulse survey record</button>
+            </div>
+        </form>
+</body>
+{% endblock content %}
