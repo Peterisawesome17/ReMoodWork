@@ -28,6 +28,9 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
 
     def test_meal_plan_form(cls):
         cls.assertTrue(cls.correct_meal_plan_form.is_valid())
+        meal_plan = cls.correct_meal_plan_form.save(commit=False)
+        meal_plan.employee = cls.employee
+        cls.correct_meal_plan_form.save()
 
     def test_required_invalid_text_form(cls):
         cls.assertFalse(cls.text_required_form.is_valid())
