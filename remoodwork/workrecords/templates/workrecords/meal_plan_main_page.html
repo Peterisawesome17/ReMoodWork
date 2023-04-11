@@ -1,5 +1,12 @@
 {% extends 'workrecords/base.html' %}
 {% block navigation %}
+{% if user.job_classification_choice == 'EMPLOYEE' %}
+<li class="nav-item active">
+        <a class="nav-link" href="#">
+            My Meal Plan Records
+        </a>
+</li>
+{% endif %}
 {% endblock %}
 
 {% block content %}
