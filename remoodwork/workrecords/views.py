@@ -67,7 +67,15 @@ def meal_plan_view(request, pk):
         user = User.objects.get(pk=pk)
         employee = Employee.objects.get(user=user)
         meal_plan_record = MealPlan.objects.filter(employee=employee)
-    return render(request=request, template_name='workrecords/meal_plan_main_page.html', context={})
+    context = {
+        'user_id': pk,
+        'meal_plan_record': meal_plan_record
+    }
+    return render(request=request, template_name='workrecords/meal_plan_main_page.html', context=context)
+
+def create_meal_plan_view(request, pk):
+    ''' A view controller to create meal plan assessment record made by an employee (user) '''
+    pass
 
 def create_pulse_survey_view(request, pk):
     ''' A view controller to create pulse surveys produced by an employee (user)'''
