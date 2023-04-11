@@ -80,7 +80,7 @@ def create_meal_plan_view(request, pk):
     if request.method == 'POST':
         meal_plan_form = MealAssessementCreationForm(request.POST)
         if meal_plan_form.is_valid():
-            pass
+            pass #TODO
         else:
             context = {
                 'form': meal_plan_form
