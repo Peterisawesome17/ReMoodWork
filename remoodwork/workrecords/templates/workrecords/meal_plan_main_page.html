@@ -11,6 +11,29 @@
 
 {% block content %}
 <body>
+{% if meal_plan_record %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>My Meal Plan Records</h1>
+            <div class="card border-success mb-2" style="max-width: 30rem;">
+                <div class="card-header border-success">Goal: {{ meal_plan_record.goal }}</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">Calories: {{ meal_plan_record.calories }}</h5>
+                    <h4 class="card-subtitle mb-2 text-muted">
+                        Dietary restrictions: {{ meal_plan_record.dietary_restrictions }}</h4>
+                    <p class="card-text">Food allergies:
+                        {{ meal_plan_record.allergy }}</p>
+                    <p class="card-text">Food budget:
+                        {{ meal_plan_record.budget }}</p>
+                    <p class="card-text"><strong>Cuisines</strong></p>
+                    <p class="card-text">{{ meal_plan_record.cuisine }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
 <div class="col-md-6 mx-auto">
         <small style="font-size: 20px" class="text-muted">
             Hmm..it looks like you have not created any meal plan assessment yet
@@ -20,4 +43,5 @@
         </small>
     </div>
 </body>
+{% endif %}
 {% endblock content %}
