@@ -66,7 +66,7 @@ def meal_plan_view(request, pk):
     if pk:
         user = User.objects.get(pk=pk)
         employee = Employee.objects.get(user=user)
-        meal_plan_record = MealPlan.objects.filter(employee=employee)
+        meal_plan_record = MealPlan.objects.filter(employee=employee).first()
     context = {
         'user_id': pk,
         'meal_plan_record': meal_plan_record
@@ -80,7 +80,11 @@ def create_meal_plan_view(request, pk):
     if request.method == 'POST':
         meal_plan_form = MealAssessementCreationForm(request.POST)
         if meal_plan_form.is_valid():
-            pass #TODO
+            meal_plan = meal_plan_form.save(commit=False)
+            meal_plan.employee = employee
+            meal_plan.save()
+            messages.success(request=request, message='Your meal plan has already been created')
+            return redirect('remoodwork-meal-plan', pk=pk)
         else:
             context = {
                 'form': meal_plan_form
