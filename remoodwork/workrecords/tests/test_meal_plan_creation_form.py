@@ -49,7 +49,6 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.correct_meal_plan_form.save()
         cls.assertEqual(1, len(MealPlan.objects.all()))
         meal_plan_update = MealPlan.objects.get(employee=meal_plan.employee)
-        print(meal_plan_update)
         incorrect_meal_plan_form = {
             "calories": -1,
             "dietary_restrictions": "gluten-free",
@@ -66,6 +65,14 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
 
     def test_required_invalid_text_form(cls):
         cls.assertFalse(cls.text_required_form.is_valid())
+        required_field_text = 'This field is required.'
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('calories')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('dietary_restrictions')))
+        cls.assertIsNone(cls.text_required_form.errors.get('goal'))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('budget')))
 
     @classmethod
     def _create_an_employee(cls):
