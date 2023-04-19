@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Employee
+from users.models import Employee, Employer
 
 # Create your models here.
 class MealPlan(models.Model):
@@ -47,3 +47,38 @@ class PulseSurvey(models.Model):
 
     def __str__(self):
         return f'Pulse Survey Record: {self.activity_name}'
+
+class FoodItem(models.Model):
+    CUISINE_CHOICES = [
+        ('italian', 'Italian'),
+        ('american', 'American'),
+        ('mexican', 'Mexican'),
+        ('asian', 'Asian'),
+    ]
+
+    DIETARY_RESTRICTION_CHOICES = [
+        ('gluten-free', 'Gluten-free'),
+        ('vegetarian', 'Vegetarian')
+    ]
+
+    ALLERGY_CHOICES = [
+        ('wheat', 'Wheat'),
+        ('peanuts', 'Peanuts')
+    ]
+
+    TYPE_CHOICES = [
+        ('restaurant', 'Restaurant Item'),
+        ('recipe', 'Recipe'),
+    ]
+
+    food_name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    price = models.FloatField()
+    cuisine_type = models.CharField(max_length=30, choices=CUISINE_CHOICES)
+    food_item_type = models.CharField(max_length=30, choices=TYPE_CHOICES)
+    recipe_url = models.URLField(blank=True, null=True)
+    restaurant_name = models.CharField(max_length=100, blank=True, null=True)
+    calories = models.PositiveIntegerField()
+    dietary_restrictions = models.CharField(max_length=100)
+    allergy = models.CharField(max_length=100)
+    employer = models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True, blank=True)
