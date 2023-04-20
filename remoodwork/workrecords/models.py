@@ -67,18 +67,21 @@ class FoodItem(models.Model):
     ]
 
     TYPE_CHOICES = [
-        ('restaurant', 'Restaurant Item'),
+        ('restaurant', 'Restaurant'),
         ('recipe', 'Recipe'),
     ]
 
     food_name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    price = models.FloatField()
+    price = models.FloatField(null=True, blank=True)
     cuisine_type = models.CharField(max_length=30, choices=CUISINE_CHOICES)
     food_item_type = models.CharField(max_length=30, choices=TYPE_CHOICES)
     recipe_url = models.URLField(blank=True, null=True)
     restaurant_name = models.CharField(max_length=100, blank=True, null=True)
     calories = models.PositiveIntegerField()
-    dietary_restrictions = models.CharField(max_length=100)
-    allergy = models.CharField(max_length=100)
+    dietary_restrictions = models.CharField(max_length=100, choices=DIETARY_RESTRICTION_CHOICES)
+    allergy = models.CharField(max_length=100, choices=ALLERGY_CHOICES)
     employer = models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f'Food name: {self.food_name}'
