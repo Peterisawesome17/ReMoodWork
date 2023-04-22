@@ -1,8 +1,28 @@
 from django import forms
-from workrecords.models import PulseSurvey, MealPlan
+from workrecords.models import PulseSurvey, MealPlan, FoodItem
+
+class FoodItemCreationForm(forms.ModelForm):
+    ''' Used for allowing employers to create a food item with a couple of required fields '''
+    class Meta:
+        model = FoodItem
+        fields = ['food_name', 'description', 'price', 'cuisine_type', 'food_item_type',
+                  'recipe_url', 'restaurant_name', 'calories', 'dietary_restrictions',
+                  'allergy']
+        labels = {
+            'food_name': 'Enter the name of the food',
+            'description': 'Is there any description you would like to discuss contents on the food?',
+            'price': 'Is there a price range you would like to include on a food item?',
+            'cuisine_type': 'Which cuisine works best for this food item?',
+            'food_item_type': 'Is this food item a food recipe or restaurant',
+            'recipe_url': 'If recipe, please enter the url of a recipe',
+            'restaurant_name': 'If restaurant, please enter the name of the restaurant',
+            'calories': 'What are calories of this food item?',
+            'dietary_restrictions': 'Which dietary restriction works best for this food item?',
+            'allergy': 'What allergy contains in this food?'
+        }
 
 class MealAssessementCreationForm(forms.ModelForm):
-    ''' Used for aloowing employees to create their meal planning assessments with a
+    ''' Used for allowing employees to create their meal planning assessments with a
     couple of required fields '''
     class Meta:
         model = MealPlan
