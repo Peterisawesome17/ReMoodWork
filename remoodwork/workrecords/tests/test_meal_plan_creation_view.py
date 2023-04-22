@@ -11,7 +11,7 @@ class MealPlanCreationView(WorkRecordsTestCaseCounter):
     def setUpClass(cls):
         ''' Sets up test cases on testing view responses of a meal planning creation
         produced from an employee '''
-        cls.user = cls._create_an_employee()
+        cls.user = cls._create_an_user()
         cls.employee = Employee(user=cls.user)
         cls.employee.save()
         cls.client = Client()
@@ -65,26 +65,6 @@ class MealPlanCreationView(WorkRecordsTestCaseCounter):
                                                            kwargs={'pk': cls.user.pk}))
         cls.assertContains(response=create_meal_plan_response_2,
                            text='Calories:')
-
-    @classmethod
-    def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
-        username = 'adamsmart'
-        password = 'anothertest666!'
-        full_name = 'Adam Smart'
-        email = 'adamsmart@test.com'
-        company_name = 'Apple'
-        job_classification_choice = 'EMPLOYEE'
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        return user
 
 
 

@@ -8,30 +8,8 @@ class MealPlanTestCase(WorkRecordsTestCaseCounter):
         ''' Sets up test cases for creating a meal plan survey made for an employee
         where an employee shall be allowed to create a single one-to-one relationship
         of their meal plan assessment survey '''
-        cls.employee = cls._create_and_employee()
+        cls.employee = cls._create_an_employee()
         cls.employee.save()
-
-    @classmethod
-    def _create_and_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-                cases for creating a single meal plan assessment survey '''
-        username = 'mikerandy'
-        password = 'anothertest555!'
-        full_name = 'Mike Randy'
-        email = 'mikerandy@test.com'
-        company_name = 'Amazon'
-        job_classification_choice = 'EMPLOYEE'
-        user = User(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        user.save()
-        employee = Employee(user=user)
-        return employee
 
     @classmethod
     def _create_meal_plan(cls, employee=None):

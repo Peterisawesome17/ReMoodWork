@@ -9,7 +9,7 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
     def setUpClass(cls):
         ''' Sets up test of a valid and invalid data inputs for meal plan
         assessement survey creation form '''
-        cls.user = cls._create_an_employee()
+        cls.user = cls._create_an_user()
         cls.employee = Employee.objects.create(user=cls.user)
         correct_meal_plan_form = {
             "calories": 300,
@@ -73,24 +73,3 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertIsNone(cls.text_required_form.errors.get('goal'))
         cls.assertEqual(required_field_text,
                         ''.join(cls.text_required_form.errors.get('budget')))
-
-    @classmethod
-    def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
-        username = 'adamsmart'
-        password = 'anothertest666!'
-        full_name = 'Adam Smart'
-        email = 'adamsmart@test.com'
-        company_name = 'Apple'
-        job_classification_choice = 'EMPLOYEE'
-        user = User(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        user.save()
-        return user

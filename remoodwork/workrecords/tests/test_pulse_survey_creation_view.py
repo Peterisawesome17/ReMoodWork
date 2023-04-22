@@ -10,30 +10,11 @@ class PulseSurveyCreationViewTestCase(WorkRecordsTestCaseCounter):
     def setUpClass(cls):
         ''' Sets ups test cases on testing view responses of a
         pulse survey creation produced from an employee '''
-        cls.user = cls._create_an_employee()
+        cls.user = cls._create_an_user()
         cls.employee = Employee(user=cls.user)
         cls.employee.save()
         cls.client = Client()
 
-    @classmethod
-    def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
-        username = 'adamsmart'
-        password = 'anothertest666!'
-        full_name = 'Adam Smart'
-        email = 'adamsmart@test.com'
-        company_name = 'Apple'
-        job_classification_choice = 'EMPLOYEE'
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        return user
     def test_pulse_survey_main_page(cls):
         ''' Test 1: Valid test case for users(employee) responding
         to view their lists of pulse survey (Must be in pulse_survey_main_page.html)'''

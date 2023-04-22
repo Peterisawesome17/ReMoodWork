@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.management import call_command
+from users.models import User, Employee, Employer
 
 class WorkRecordsTestCaseCounter(TestCase):
     ''' A test case basis to count all the passed test cases used to
@@ -47,6 +48,70 @@ class WorkRecordsTestCaseCounter(TestCase):
         ''' Helper and a getter method to get a number of test cases
         for each test suite script files made for the workrecords app of remoodwork '''
         return cls.test_result
+
+    @classmethod
+    def _create_an_employee(cls):
+        ''' Sets up an employee creation used for creating and evaluating test
+        cases for pulse survey '''
+        username = 'mikerandy'
+        password = 'anothertest555!'
+        full_name = 'Mike Randy'
+        email = 'mikerandy@test.com'
+        company_name = 'Amazon'
+        job_classification_choice = 'EMPLOYEE'
+        user = User(
+            username=username,
+            password=password,
+            full_name=full_name,
+            email=email,
+            company_name=company_name,
+            job_classification_choice=job_classification_choice
+        )
+        user.save()
+        employee = Employee(user=user)
+        return employee
+
+    @classmethod
+    def _create_an_user(cls):
+        ''' Sets up an employee creation used for creating and evaluating test
+        cases for pulse survey '''
+        username = 'adamsmart'
+        password = 'anothertest666!'
+        full_name = 'Adam Smart'
+        email = 'adamsmart@test.com'
+        company_name = 'Apple'
+        job_classification_choice = 'EMPLOYEE'
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            full_name=full_name,
+            email=email,
+            company_name=company_name,
+            job_classification_choice=job_classification_choice
+        )
+        return user
+
+    @classmethod
+    def _create_an_employer(cls):
+        ''' Sets up an employer creation used for creating and evaluating test
+        cases for creating food item '''
+        username = 'tobeysmith'
+        password = 'testingemployer123!'
+        full_name = 'Tobey Smith'
+        email = 'tobeysmith@test.com'
+        company_name = 'Amazon'
+        job_classification_choice = 'EMPLOYER'
+        user = User(
+            username=username,
+            password=password,
+            full_name=full_name,
+            email=email,
+            company_name=company_name,
+            job_classification_choice=job_classification_choice
+        )
+        user.save()
+        employer = Employer(user=user)
+        return employer
 
     def run(self, result=None):
         super().run(result)

@@ -17,28 +17,6 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
 
 
     @classmethod
-    def _create_an_employer(cls):
-        ''' Sets up an employer creation used for creating and evaluating test
-        cases for creating food item '''
-        username = 'tobeysmith'
-        password = 'testingemployer123!'
-        full_name = 'Tobey Smith'
-        email = 'tobeysmith@test.com'
-        company_name = 'Amazon'
-        job_classification_choice = 'EMPLOYER'
-        user = User(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        user.save()
-        employer = Employer(user=user)
-        return employer
-
-    @classmethod
     def _create_food_item(cls, employer):
         ''' Sets up the first food item to make some test cases used in this script '''
         if employer:
@@ -117,7 +95,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
             return food_item
 
 
-    def test_an_employee(cls):
+    def test_an_employer(cls):
         cls.assertNotEqual(0, len(Employer.objects.all()))
 
     def test_food_item_model_1(cls):

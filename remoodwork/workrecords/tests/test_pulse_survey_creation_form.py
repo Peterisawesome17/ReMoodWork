@@ -1,7 +1,7 @@
 from workrecords.forms import PulseSurveyCreationForm
 from workrecords.models import PulseSurvey
+from users.models import User, Employee, Employer
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
-from users.models import User, Employee
 from datetime import date
 
 class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
@@ -9,8 +9,8 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
     def setUpClass(cls):
         ''' Sets up test cases of a valid and invalid data inputs
         for the pulse survey creation form shown in create_pulse_survey_page.html '''
-        cls.user = cls._create_an_employee()
-        cls.employee = Employee.objects.create(user=cls.user)
+        cls.employee = cls._create_an_employee()
+        cls.employee.save()
         correct_pulse_survey_data_form = {
             'activity_name': 'Created specifications report for campaign pages for an ecommerce',
             'activity_type': 'WT',
@@ -99,28 +99,6 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertIsNone(cls.text_required_form.errors.get('activity_description'))
         cls.assertEqual(required_field_text,
                         ''.join(cls.text_required_form.errors.get('work_stressor_status')))
-
-
-    @classmethod
-    def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
-        username = 'adamsmart'
-        password = 'anothertest666!'
-        full_name = 'Adam Smart'
-        email = 'adamsmart@test.com'
-        company_name = 'Apple'
-        job_classification_choice = 'EMPLOYEE'
-        user = User(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        user.save()
-        return user
 
     @classmethod
     def tearDownClass(cls):

@@ -1,5 +1,5 @@
-from users.models import User, Employee
 from workrecords.models import PulseSurvey
+from users.models import User, Employee, Employer
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
 import emoji
 from datetime import date
@@ -16,27 +16,7 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         cls.pulsesurvey = cls._create_pulse_survey_1(cls.employee)
         cls.pulsesurvey.save()
 
-    @classmethod
-    def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
-        username = 'mikerandy'
-        password = 'anothertest555!'
-        full_name = 'Mike Randy'
-        email = 'mikerandy@test.com'
-        company_name = 'Amazon'
-        job_classification_choice = 'EMPLOYEE'
-        user = User(
-            username=username,
-            password=password,
-            full_name=full_name,
-            email=email,
-            company_name=company_name,
-            job_classification_choice=job_classification_choice
-        )
-        user.save()
-        employee = Employee(user=user)
-        return employee
+
     @classmethod
     def _create_pulse_survey_1(cls, employee=None):
         ''' Sets up the first pulse survey to make some
