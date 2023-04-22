@@ -28,7 +28,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
             restaurant_name = 'Dr.Dock\'s Seafood Restaurant'
             calories = 200
             dietary_restrictions = 'gluten-free'
-            allergy = 'fish'
+            allergy = 'shellfish'
             food_item = FoodItem(
                 food_name=food_name,
                 description=description,
@@ -141,7 +141,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(2, len(FoodItem.objects.all()))
         cuisine_text = 'American, mexican'
         dietary_restrictions_text = 'Gluten-free, vegetarian'
-        allergy_text = 'Wheat, peanuts'
+        allergy_text = 'Wheat, peanuts, shellfish'
         filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
         filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
         filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
@@ -152,7 +152,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
                                 dietary_restrictions__in=filter_dietary_restrictions.split(),
                                 calories__lte=calories,
                                 ).exclude(allergy__in=filter_allergy.split())
-        cls.assertEqual(2, len(food_item_filter))
+        cls.assertEqual(1, len(food_item_filter))
 
     @classmethod
     def tearDownClass(cls):

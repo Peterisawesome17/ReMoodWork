@@ -63,7 +63,9 @@ class FoodItem(models.Model):
 
     ALLERGY_CHOICES = [
         ('wheat', 'Wheat'),
-        ('peanuts', 'Peanuts')
+        ('peanuts', 'Peanuts'),
+        ('shellfish', 'Shellfish'),
+        ('beef', 'Beef')
     ]
 
     TYPE_CHOICES = [
