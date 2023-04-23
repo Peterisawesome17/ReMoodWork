@@ -5,7 +5,7 @@ from workrecords.forms import PulseSurveyCreationForm, MealAssessementCreationFo
     FoodItemCreationForm
 from users.models import Employee, User, Employer
 from django.contrib import messages
-from workrecords.models import PulseSurvey, MealPlan
+from workrecords.models import PulseSurvey, MealPlan, FoodItem
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
@@ -34,12 +34,14 @@ def home_view(request):
                 user__company_name = curr_user.company_name
             )
             company_name_title =  curr_user.company_name
+            food_item_lists = FoodItem.objects.filter(employer=employer)
     context =  {
         'user_id': request.user.id,
         'employee_pulse_survey_records': pulse_survey_records,
         'employer_employee_list': employees_with_same_company_name,
         'company_name_title': company_name_title,
-        'employer': employer
+        'employer': employer,
+        'food_items': food_item_lists
     }
     return render(request=request, template_name='workrecords/home_page.html', context=context)
 
