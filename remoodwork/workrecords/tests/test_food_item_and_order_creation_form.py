@@ -23,6 +23,39 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         }
         cls.correct_food_item_restaurant_form = FoodItemCreationForm(data=correct_food_item_restaurant_data_form)
 
+        correct_food_item_recipe_data_form = {
+            'food_name': 'Carne Asada',
+            'description': 'This recipe will be good if you are a meat lover',
+            'cuisine_type': 'mexican',
+            'food_item_type': 'recipe',
+            'recipe_url': 'https://loseweightbyeating.com/carne-asada-recipe/',
+            'calories': 250,
+            'dietary_restrictions': 'gluten-free',
+            'allergy': 'beef'
+        }
+
+        cls.correct_food_item_recipe_form = FoodItemCreationForm(data=correct_food_item_recipe_data_form)
+
+        text_required_data_form = {
+            'food_name': 'Goulash',
+            'description': 'You will enjoy this meal if you like meat and vegetables',
+        }
+
+        invalid_choices_data_form = {
+            'food_name': 'Strawberry Crepes',
+            'description': 'Can be served during breakfast, lunch, or dinner',
+            'cuisine_type': 'french',
+            'food_item_type': 'other',
+            'calories': 150,
+            'dietary_restictions': 'glutenfree',
+            'allergy': 'strawberry'
+        }
+
+        cls.text_required_form = FoodItemCreationForm(data=text_required_data_form)
+
+        cls.invalid_choices_form = FoodItemCreationForm(data=invalid_choices_data_form)
+
+
     def test_valid_food_item_restaurant_form(cls):
         ''' Test 1: A valid test case to make sure the correct food item creation form
         is valid based on a restaurant food type item before saving its data content
@@ -40,8 +73,7 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(1, len(FoodItem.objects.all()))
         cls.assertEqual(cls.correct_food_item_restaurant_form.instance.employer, food_item.employer)
         food_item = FoodItem.objects.first()
-        cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('food_name'),
-                        food_item.food_name)
+        cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('food_name'), food_item.food_name)
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('description'),
                         food_item.description)
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('price'),
@@ -58,6 +90,58 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('dietary_restrictions'),
                         food_item.dietary_restrictions)
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('allergy'), food_item.allergy)
+
+    def test_valid_food_item_recipe_form(cls):
+        ''' Test 3: A valid test case to see if a correct food item creation form
+        is saved as a recipe food type item for creating a new food item stored in a
+        database model '''
+        cls.assertTrue(cls.correct_food_item_recipe_form.is_valid())
+        food_item = cls.correct_food_item_recipe_form.save(commit=True)
+        food_item.employer = cls.employer
+        cls.correct_food_item_recipe_form.save()
+        cls.assertEqual(1, len(FoodItem.objects.all()))
+        cls.assertEqual(cls.correct_food_item_recipe_form.instance.employer, food_item.employer)
+        food_item = FoodItem.objects.first()
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('food_name'), food_item.food_name)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('description'),
+                        food_item.description)
+        cls.assertIsNone(cls.correct_food_item_recipe_form.data.get('price'))
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('price'), food_item.price)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('cuisine_type'), food_item.cuisine_type)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('food_item_type'),
+                        food_item.food_item_type)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('recipe_url'), food_item.recipe_url)
+        cls.assertIsNone(cls.correct_food_item_recipe_form.data.get('restaurant_name'))
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('restaurant_name'),
+                        food_item.restaurant_name)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('calories'), food_item.calories)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('dietary_restrictions'),
+                        food_item.dietary_restrictions)
+        cls.assertEqual(cls.correct_food_item_recipe_form.data.get('allergy'),
+                        food_item.allergy)
+
+    def test_required_invalid_text_form(cls):
+        ''' Test 4: An invalid test case to see if an invalid food item creation
+        is unable to be valid and will not be saved into its data content associated to its model '''
+        cls.assertFalse(cls.text_required_form.is_valid())
+        required_field_text = 'This field is required.'
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('cuisine_type')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('food_item_type')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('calories')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('dietary_restrictions')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.text_required_form.errors.get('allergy')))
+
+    def test_invalid_choice_options(cls):
+        ''' Test 5: An invalid test case to see if an invalid food item creation
+        is unable to be valid and will not be saved due to some invalid choices to create food item '''
+        cls.assertFalse(cls.invalid_choices_form.is_valid())
+        with cls.assertRaises(Exception):
+            cls.invalid_choices_form.save(commit=True)
 
 
 
