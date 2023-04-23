@@ -39,8 +39,15 @@
                         </div>
                     </li>
                 {% elif user.job_classification_choice == "EMPLOYER" %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Food records</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarFoodDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Food Records
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarFoodDropdown">
+                            <a class="dropdown-item" href="{% url 'remoodwork-create-food-item' request.user.pk %}">Create a Food Item</a>
+    <!--              <div class="dropdown-divider"></div>-->
+    <!--              <a class="dropdown-item" href="#">Something else here</a>-->
+                        </div>
                     </li>
                 {% endif %}
                 {% block navigation %}{% endblock %}
