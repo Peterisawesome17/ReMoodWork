@@ -90,7 +90,8 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
                 recipe_url = recipe_url,
                 calories = calories,
                 dietary_restrictions = dietary_restrictions,
-                allergy = allergy
+                allergy = allergy,
+                employer=employer
             )
             return food_item
 
