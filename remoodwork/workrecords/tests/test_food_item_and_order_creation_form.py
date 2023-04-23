@@ -90,6 +90,8 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('dietary_restrictions'),
                         food_item.dietary_restrictions)
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('allergy'), food_item.allergy)
+        cls.assertEqual(cls.correct_food_item_restaurant_form.instance.employer, food_item.employer)
+        cls.assertEqual(1, len(FoodItem.objects.filter(employer=cls.correct_food_item_restaurant_form.instance.employer)))
 
     def test_valid_food_item_recipe_form(cls):
         ''' Test 3: A valid test case to see if a correct food item creation form
