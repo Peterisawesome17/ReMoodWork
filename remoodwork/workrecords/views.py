@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse # Used for testing http response to view web pages of remoodwork's workrecords - Peter
 from datetime import datetime # Useful for implementing pulse survey page later in this project - Peter
-from workrecords.forms import PulseSurveyCreationForm, MealAssessementCreationForm
+from workrecords.forms import PulseSurveyCreationForm, MealAssessementCreationForm, \
+    FoodItemCreationForm
 from users.models import Employee, User, Employer
 from django.contrib import messages
 from workrecords.models import PulseSurvey, MealPlan
@@ -96,6 +97,27 @@ def create_meal_plan_view(request, pk):
         }
     return render(request=request,
                   template_name='workrecords/create_meal_plan_page.html',
+                  context=context)
+
+def create_food_item_view(request, emp_pk):
+    ''' A view controller to create food items produced by an employer (user)'''
+    user = User.objects.get(pk=emp_pk)
+    employer = Employer.objects.get(user=user)
+    if request.method == 'POST':
+        food_item_form = FoodItemCreationForm(request.POST)
+        if food_item_form.is_valid():
+            food_item = food_item_form.save(commit=True)
+            food_item.employer = employer
+            food_item.save()
+            messages.success(request=request, message='Your food item has already been created')
+            return redirect('remoodwork-home')
+    else:
+        food_item_form = FoodItemCreationForm()
+        context = {
+            'form': food_item_form
+        }
+    return render(request=request,
+                  template_name='workrecords/create_food_item_page.html',
                   context=context)
 
 def create_pulse_survey_view(request, pk):
