@@ -51,8 +51,8 @@ class WorkRecordsTestCaseCounter(TestCase):
 
     @classmethod
     def _create_an_employee(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
+        ''' Sets up an employee creation used for testing and integrating
+        various models, forms, and views of ReMoodWork '''
         username = 'mikerandy'
         password = 'anothertest555!'
         full_name = 'Mike Randy'
@@ -73,8 +73,8 @@ class WorkRecordsTestCaseCounter(TestCase):
 
     @classmethod
     def _create_an_user(cls):
-        ''' Sets up an employee creation used for creating and evaluating test
-        cases for pulse survey '''
+        ''' Sets up a user creation used for testing and integrating
+        various models, forms, and views of ReMoodWork '''
         username = 'adamsmart'
         password = 'anothertest666!'
         full_name = 'Adam Smart'
@@ -93,8 +93,8 @@ class WorkRecordsTestCaseCounter(TestCase):
 
     @classmethod
     def _create_an_employer(cls):
-        ''' Sets up an employer creation used for creating and evaluating test
-        cases for creating food item '''
+        ''' Sets up an employer creation used for testing and integrating
+        various models, forms, and views of ReMoodWork '''
         username = 'tobeysmith'
         password = 'testingemployer123!'
         full_name = 'Tobey Smith'
