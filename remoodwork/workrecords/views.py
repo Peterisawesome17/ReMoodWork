@@ -8,6 +8,7 @@ from django.contrib import messages
 from workrecords.models import PulseSurvey, MealPlan, FoodItem
 from django.contrib.auth.decorators import login_required, user_passes_test
 import re
+from django.db.models import Q
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
