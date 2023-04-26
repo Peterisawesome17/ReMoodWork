@@ -51,9 +51,23 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
             'allergy': 'strawberry'
         }
 
+        negative_num_calorie_data_form = {
+            'food_name': 'Smoked salmon',
+            'description': 'Cooked and marinated with lemon juice',
+            'price': 20.00,
+            'cuisine_type': 'american',
+            'food_item_type': 'restaurant',
+            'restaurant_name': 'Dr.Dock\'s Seafood Restaurant',
+            'calories': -1,
+            'dietary_restrictions': 'gluten-free',
+            'allergy': 'shellfish'
+        }
+
         cls.text_required_form = FoodItemCreationForm(data=text_required_data_form)
 
         cls.invalid_choices_form = FoodItemCreationForm(data=invalid_choices_data_form)
+
+        cls.negative_num_calorie_form = FoodItemCreationForm(data=negative_num_calorie_data_form)
 
 
     def test_valid_food_item_restaurant_form(cls):
@@ -145,5 +159,10 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         with cls.assertRaises(Exception):
             cls.invalid_choices_form.save(commit=True)
 
-
-
+    def test_negative_num_calorie(cls):
+        ''' Test 6: An invalid test case to see if calories attribute does not accept
+        any negative numbers '''
+        cls.assertFalse(cls.negative_num_calorie_form.is_valid())
+        valid_val_text = 'Ensure this value is greater than or equal to 0.'
+        cls.assertEqual(valid_val_text,
+                        ''.join(cls.negative_num_calorie_form.errors.get('calories')))
