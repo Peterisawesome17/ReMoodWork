@@ -86,4 +86,4 @@ class FoodItem(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f'Food name: {self.food_name}'
+        return f'Food name: {self.food_name}, pk: {self.pk}'
