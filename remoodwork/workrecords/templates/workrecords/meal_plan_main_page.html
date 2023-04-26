@@ -12,10 +12,10 @@
 {% block content %}
 <body>
 {% if meal_plan_record %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1>My Meal Plan Records</h1>
+<div style="display: flex; justify-content: center;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 60%; text-align: center;">
+            <h2>My Meal Plan Records</h2>
             <div class="card border-success mb-2" style="max-width: 30rem;">
                 <div class="card-header border-success">Goal: {{ meal_plan_record.goal }}</div>
                 <div class="card-body text-success">
@@ -30,7 +30,12 @@
                     <p class="card-text">{{ meal_plan_record.cuisine }}</p>
                 </div>
             </div>
-        </div>
+    </div>
+    <div style="width: 90%;">
+        <h3>
+            Meal choices that are recommended for you
+        </h3>
+    </div>
     </div>
 </div>
 {% else %}
