@@ -87,3 +87,10 @@ class FoodItem(models.Model):
 
     def __str__(self):
         return f'Food name: {self.food_name}, pk: {self.pk}'
+
+class Order(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    food_items = models.ManyToManyField(FoodItem, related_name='orders')
+
+    def __str__(self):
+        return f'Order Food item from ({self.employee}), pk {self.pk}'
