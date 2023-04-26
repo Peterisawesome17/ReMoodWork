@@ -1,6 +1,6 @@
 from users.models import User, Employer, Employee
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
-from workrecords.models import FoodItem, MealPlan
+from workrecords.models import FoodItem, MealPlan, Order
 import re
 from django.db.models import Q
 
@@ -12,6 +12,8 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         super(WorkRecordsTestCaseCounter, cls).setUpClass()
         cls.employer = cls._create_an_employer()
         cls.employer.save()
+        cls.employee = cls._create_an_employee()
+        cls.employee.save()
         cls.food_item_start = cls._create_food_item(cls.employer)
         cls.food_item_start.save()
 
@@ -28,7 +30,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
             restaurant_name = 'Dr.Dock\'s Seafood Restaurant'
             calories = 200
             dietary_restrictions = 'gluten-free'
-            allergy = 'shellfish'
+            allergy = 'soy'
             food_item = FoodItem(
                 food_name=food_name,
                 description=description,
@@ -135,25 +137,53 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.allergy, food_item_match.allergy)
         cls.assertEqual(food_item.employer, food_item_match.employer)
 
+    def _create_meal_plan(cls, employee=None):
+        meal_plan = None
+        if employee:
+            cls.calories = 250
+            cls.dietary_restrictions = 'Gluten-free, vegetarian'
+            cls.goal = 'To lose weight by 30 lbs'
+            cls.allergy = 'Wheat, peanuts, shellfish'
+            cls.budget = 20.00
+            cls.cuisine = 'American, mexican'
+            meal_plan = MealPlan(
+                calories=cls.calories,
+                dietary_restrictions=cls.dietary_restrictions,
+                goal=cls.goal,
+                allergy=cls.allergy,
+                budget=cls.budget,
+                cuisine=cls.cuisine,
+                employee=employee
+            )
+            return meal_plan
+
     def test_filter_food_item_contents(cls):
         # Data shall be filtered from employee's meal plan data info
         food_item = cls._create_food_item_2(cls.employer)
         food_item.save()
+        meal_plan = cls._create_meal_plan(cls.employee)
+        meal_plan.save()
         cls.assertEqual(2, len(FoodItem.objects.all()))
-        cuisine_text = 'American, mexican'
-        dietary_restrictions_text = 'Gluten-free, vegetarian'
-        allergy_text = 'Wheat, peanuts, shellfish'
+        cuisine_text = meal_plan.cuisine
+        dietary_restrictions_text = meal_plan.dietary_restrictions
+        allergy_text = meal_plan.allergy
         filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
         filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
         filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
-        calories = 250
-        price = 20.00
+        calories = meal_plan.calories
+        price = meal_plan.budget
         food_item_filter = FoodItem.objects.filter(Q(price__lte=price)|Q(price__isnull=True),
                                 cuisine_type__in=filter_cuisine.split(),
                                 dietary_restrictions__in=filter_dietary_restrictions.split(),
                                 calories__lte=calories,
                                 ).exclude(allergy__in=filter_allergy.split())
-        cls.assertEqual(1, len(food_item_filter))
+        cls.assertEqual(2, len(food_item_filter))
+        select_food_item = food_item_filter.get(food_name='Smoked Salmon', pk=1)
+        cls.assertEqual('Smoked Salmon', select_food_item.food_name)
+        cls.order = Order(employee=cls.employee)
+        cls.order.save()
+        cls.order.food_items.add(select_food_item)
+        cls.assertEqual(1, len(cls.order.food_items.all()))
 
     @classmethod
     def tearDownClass(cls):
