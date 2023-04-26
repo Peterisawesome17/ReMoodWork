@@ -7,6 +7,7 @@ from users.models import Employee, User, Employer
 from django.contrib import messages
 from workrecords.models import PulseSurvey, MealPlan, FoodItem
 from django.contrib.auth.decorators import login_required, user_passes_test
+import re
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
@@ -19,6 +20,7 @@ def home_view(request):
     # and will also be the main home page of remoodwork for adding few features later on
     pulse_survey_records, employees_with_same_company_name, employer_exists, employee_exists = [None]*4
     company_name_title = ''
+    food_item_lists = None
     employer = None
     if request.user.id:
         curr_user = User.objects.get(pk=request.user.id)
@@ -64,12 +66,29 @@ def pulse_survey_view(request, pk, emp_pk=None):
                   template_name='workrecords/pulse_survey_main_page.html',
                   context=context)
 
+def filter_food_item(meal_plan):
+    cuisine_text = meal_plan.cuisine
+    dietary_restrictions_text = meal_plan.dietary_restrictions
+    allergy_text = meal_plan.allergy
+    filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
+    filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
+    filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
+    calories = meal_plan.calories
+    price = meal_plan.budget
+    food_item_filter = FoodItem.objects.filter(Q(price__lte=price) | Q(price__isnull=True),
+                                               cuisine_type__in=filter_cuisine.split(),
+                                               dietary_restrictions__in=filter_dietary_restrictions.split(),
+                                               calories__lte=calories,
+                                               ).exclude(allergy__in=filter_allergy.split())
+    return food_item_filter
+
 def meal_plan_view(request, pk):
     ''' View for the meal plan '''
     if pk:
         user = User.objects.get(pk=pk)
         employee = Employee.objects.get(user=user)
         meal_plan_record = MealPlan.objects.filter(employee=employee).first()
+        food_item_result = filter_food_item(meal_plan_record)
     context = {
         'user_id': pk,
         'meal_plan_record': meal_plan_record
