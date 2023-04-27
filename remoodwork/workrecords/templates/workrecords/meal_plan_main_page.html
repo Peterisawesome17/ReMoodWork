@@ -35,6 +35,43 @@
         <h3>
             Meal choices that are recommended for you
         </h3>
+        {% for food_item in food_item_lists %}
+        <div class="card border-primary mb-1">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        Food name: {{ food_item.food_name }}</h6>
+                    <p class="card-text">
+                        Description: {{ food_item.description }}</p>
+                    {% if food_item.price %}
+                        <h4 class="card-title">
+                            Price: {{ food_item.price }}</h4>
+                    {% endif %}
+                    <h5 class="card-title">
+                        Cuisine: {{ food_item.cuisine_type }}</h5>
+                    <h5 class="card-title">
+                        Type: {{ food_item.food_item_type }}</h5>
+                    {% if food_item.recipe_url %}
+                        <h4 class="card-title">
+                            Recipe Link: {{ food_item.recipe_url }}</h4>
+                    {% elif food_item.restaurant_name %}
+                        <h4 class="card-title">
+                            Restaurant name: {{ food_item.restaurant_name }}</h4>
+                    {% endif %}
+                    <h3 class="card-title">Calories: {{ food_item.calories }}</h3>
+                    <h3 class="card-title">
+                        Dietary Restrictions: {{ food_item.dietary_restrictions }}
+                    </h3>
+                    <h3 class="card-title">
+                        Allergy: {{ food_item.allergy }}
+                    </h3>
+                {% if food_item not in order_food %}
+                <button class="btn btn-primary">
+                    <a href="{% url 'remoodwork-order-meal' request.user.pk food_item.pk %}"  style="color: white; text-decoration: none;">Select</a>
+                </button>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
     </div>
 </div>
