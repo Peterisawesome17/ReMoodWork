@@ -1,0 +1,14 @@
+{% extends 'workrecords/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<body>
+    <form method="post" action="{% url 'remoodwork-order-meal' pk food_pk %}">
+      {% csrf_token %}
+      <p style="text-align: center;">Do you want to order this meal {{ food_item.food_name }}</p>
+          <div class="d-flex justify-content-center">
+            <button type="submit" name="order_meal" value="yes" class="btn btn-primary mr-2">Yes</button>
+            <button type="submit" name="order_meal" value="no" class="btn btn-secondary ml-2">No</button>
+          </div>
+    </form>
+</body>
+{% endblock content %}
