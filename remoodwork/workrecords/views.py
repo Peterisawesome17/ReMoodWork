@@ -5,10 +5,12 @@ from workrecords.forms import PulseSurveyCreationForm, MealAssessementCreationFo
     FoodItemCreationForm
 from users.models import Employee, User, Employer
 from django.contrib import messages
-from workrecords.models import PulseSurvey, MealPlan, FoodItem
+from workrecords.models import PulseSurvey, MealPlan, FoodItem, Order
 from django.contrib.auth.decorators import login_required, user_passes_test
 import re
 from django.db.models import Q
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.urls import reverse
 
 # Create your views here.
 # Used for creating a main website of remoodwork and work record logs of an employee- Peter
@@ -67,7 +69,7 @@ def pulse_survey_view(request, pk, emp_pk=None):
                   template_name='workrecords/pulse_survey_main_page.html',
                   context=context)
 
-def filter_food_item(meal_plan):
+def filter_food_item(meal_plan, company_name):
     cuisine_text = meal_plan.cuisine
     dietary_restrictions_text = meal_plan.dietary_restrictions
     allergy_text = meal_plan.allergy
@@ -80,8 +82,29 @@ def filter_food_item(meal_plan):
                                                cuisine_type__in=filter_cuisine.split(),
                                                dietary_restrictions__in=filter_dietary_restrictions.split(),
                                                calories__lte=calories,
+                                               employer__user__company_name=company_name
                                                ).exclude(allergy__in=filter_allergy.split())
     return food_item_filter
+
+def order_food_meal_item(request, pk, food_pk):
+    employee = get_object_or_404(Employee, user=pk)
+    food_item = get_object_or_404(FoodItem, pk=food_pk)
+    url = reverse('remoodwork-meal-plan', kwargs={'pk': pk})
+    if request.method == "POST":
+        order_meal = request.POST.get('order_meal')
+        if order_meal == "yes":
+            order = Order(employee=employee)
+            order.save()
+            order.food_items.add(food_item)
+            messages.success(request=request, message='Your meal plan has already been created')
+            return redirect(url)
+        elif order_meal == "no":
+            return redirect(url)
+    else:
+        return render(
+            request=request, template_name='workrecords/order_food_meal_plan.html',
+    context={'pk': pk, 'food_pk': food_pk, 'food_item': food_item}
+        )
 
 def meal_plan_view(request, pk):
     ''' View for the meal plan '''
@@ -89,10 +112,15 @@ def meal_plan_view(request, pk):
         user = User.objects.get(pk=pk)
         employee = Employee.objects.get(user=user)
         meal_plan_record = MealPlan.objects.filter(employee=employee).first()
-        food_item_result = filter_food_item(meal_plan_record)
+        food_item_result = filter_food_item(meal_plan_record, user.company_name)
+        employee_order_exists = Order.objects.filter(employee=employee)
+        if employee_order_exists.exists():
+            order = Order.objects.get(employee=employee)
     context = {
         'user_id': pk,
-        'meal_plan_record': meal_plan_record
+        'meal_plan_record': meal_plan_record,
+        'food_item_lists': food_item_result,
+        'order_food': order.food_items.all()
     }
     return render(request=request, template_name='workrecords/meal_plan_main_page.html', context=context)
 
