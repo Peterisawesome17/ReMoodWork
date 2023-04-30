@@ -96,7 +96,8 @@ def order_food_meal_item(request, pk, food_pk):
             order = Order(employee=employee)
             order.save()
             order.food_items.add(food_item)
-            messages.success(request=request, message='Your meal plan has already been created')
+            messages.success(request=request, message='You have successfully placed an ordered'
+                                                      f'meal item {food_item.food_name}')
             return redirect(url)
         elif order_meal == "no":
             return redirect(url)
@@ -116,11 +117,14 @@ def meal_plan_view(request, pk):
         employee_order_exists = Order.objects.filter(employee=employee)
         if employee_order_exists.exists():
             order = Order.objects.get(employee=employee)
+            order = order.food_items.all()
+        else:
+            order = Order.objects.filter(employee=employee).prefetch_related('food_items')
     context = {
         'user_id': pk,
         'meal_plan_record': meal_plan_record,
         'food_item_lists': food_item_result,
-        'order_food': order.food_items.all()
+        'order_food': order
     }
     return render(request=request, template_name='workrecords/meal_plan_main_page.html', context=context)
 
