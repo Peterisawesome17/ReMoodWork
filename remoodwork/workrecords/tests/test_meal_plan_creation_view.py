@@ -64,7 +64,22 @@ class MealPlanCreationView(WorkRecordsTestCaseCounter):
         create_meal_plan_response_2 = cls.client.get(reverse('remoodwork-meal-plan',
                                                            kwargs={'pk': cls.user.pk}))
         cls.assertContains(response=create_meal_plan_response_2,
-                           text='Calories:')
+                           text='Calories: 300')
+        cls.assertContains(create_meal_plan_response_2, "Dietary restrictions: gluten-free")
+        cls.assertContains(create_meal_plan_response_2, "Food allergies: wheat")
+        cls.assertContains(create_meal_plan_response_2, "Food budget: 20.0")
+        cls.assertContains(create_meal_plan_response_2, "Cuisines")
+        cls.assertContains(create_meal_plan_response_2, "American")
+        cls.assertContains(create_meal_plan_response_2, "Goal: To lose weight by 30 lbs")
+
+        meal_plan_on_home_page_response = cls.client.get(reverse('remoodwork-home',
+                                                             kwargs={}))
+        cls.assertContains(meal_plan_on_home_page_response, "Dietary restrictions: gluten-free")
+        cls.assertContains(meal_plan_on_home_page_response, "Food allergies: wheat")
+        cls.assertContains(meal_plan_on_home_page_response, "Food budget: 20.0")
+        cls.assertContains(meal_plan_on_home_page_response, "Cuisines")
+        cls.assertContains(meal_plan_on_home_page_response, "American")
+        cls.assertContains(meal_plan_on_home_page_response, "Goal: To lose weight by 30 lbs")
 
 
 

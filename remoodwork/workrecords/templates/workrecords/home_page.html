@@ -85,6 +85,25 @@
           </div>
       {% endfor %}
     </div>
+    {% if meal_plan %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Your Meal Plan Assessment</h1>
+      </div>
+        <div class="card border-success mb-2" style="max-width: 30rem;">
+                <div class="card-header border-success">Goal: {{ meal_plan.goal }}</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">Calories: {{ meal_plan.calories }}</h5>
+                    <h4 class="card-subtitle mb-2 text-muted">
+                        Dietary restrictions: {{ meal_plan.dietary_restrictions }}</h4>
+                    <p class="card-text">Food allergies: {{ meal_plan.allergy }}</p>
+                    <p class="card-text">Food budget: {{ meal_plan.budget }}</p>
+                    <p class="card-text"><strong>Cuisines</strong></p>
+                    <p class="card-text">{{ meal_plan.cuisine }}</p>
+                </div>
+            </div>
+    </div>
+    {% endif %}
   {% endif %}
 </div>
 {% else %}
