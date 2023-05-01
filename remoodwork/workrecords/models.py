@@ -65,7 +65,8 @@ class FoodItem(models.Model):
         ('wheat', 'Wheat'),
         ('peanuts', 'Peanuts'),
         ('shellfish', 'Shellfish'),
-        ('beef', 'Beef')
+        ('beef', 'Beef'),
+        ('soy', 'Soy')
     ]
 
     TYPE_CHOICES = [
