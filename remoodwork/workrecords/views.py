@@ -70,20 +70,22 @@ def pulse_survey_view(request, pk, emp_pk=None):
                   context=context)
 
 def filter_food_item(meal_plan, company_name):
-    cuisine_text = meal_plan.cuisine
-    dietary_restrictions_text = meal_plan.dietary_restrictions
-    allergy_text = meal_plan.allergy
-    filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
-    filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
-    filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
-    calories = meal_plan.calories
-    price = meal_plan.budget
-    food_item_filter = FoodItem.objects.filter(Q(price__lte=price) | Q(price__isnull=True),
-                                               cuisine_type__in=filter_cuisine.split(),
-                                               dietary_restrictions__in=filter_dietary_restrictions.split(),
-                                               calories__lte=calories,
-                                               employer__user__company_name=company_name
-                                               ).exclude(allergy__in=filter_allergy.split())
+    food_item_filter = None
+    if meal_plan:
+        cuisine_text = meal_plan.cuisine
+        dietary_restrictions_text = meal_plan.dietary_restrictions
+        allergy_text = meal_plan.allergy
+        filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
+        filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
+        filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
+        calories = meal_plan.calories
+        price = meal_plan.budget
+        food_item_filter = FoodItem.objects.filter(Q(price__lte=price) | Q(price__isnull=True),
+                                                   cuisine_type__in=filter_cuisine.split(),
+                                                   dietary_restrictions__in=filter_dietary_restrictions.split(),
+                                                   calories__lte=calories,
+                                                   employer__user__company_name=company_name
+                                                   ).exclude(allergy__in=filter_allergy.split())
     return food_item_filter
 
 def order_food_meal_item(request, pk, food_pk):
