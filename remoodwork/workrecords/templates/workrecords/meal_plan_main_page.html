@@ -22,10 +22,8 @@
                     <h5 class="card-title">Calories: {{ meal_plan_record.calories }}</h5>
                     <h4 class="card-subtitle mb-2 text-muted">
                         Dietary restrictions: {{ meal_plan_record.dietary_restrictions }}</h4>
-                    <p class="card-text">Food allergies:
-                        {{ meal_plan_record.allergy }}</p>
-                    <p class="card-text">Food budget:
-                        {{ meal_plan_record.budget }}</p>
+                    <p class="card-text">Food allergies: {{ meal_plan_record.allergy }}</p>
+                    <p class="card-text">Food budget: {{ meal_plan_record.budget }}</p>
                     <p class="card-text"><strong>Cuisines</strong></p>
                     <p class="card-text">{{ meal_plan_record.cuisine }}</p>
                 </div>
@@ -47,9 +45,9 @@
                             Price: {{ food_item.price }}</h4>
                     {% endif %}
                     <h5 class="card-title">
-                        Cuisine: {{ food_item.cuisine_type }}</h5>
+                        Cuisine: {{ food_item.get_cuisine_type_display }}</h5>
                     <h5 class="card-title">
-                        Type: {{ food_item.food_item_type }}</h5>
+                        Type: {{ food_item.get_food_item_type_display }}</h5>
                     {% if food_item.recipe_url %}
                         <h4 class="card-title">
                             Recipe Link: {{ food_item.recipe_url }}</h4>
@@ -59,10 +57,10 @@
                     {% endif %}
                     <h3 class="card-title">Calories: {{ food_item.calories }}</h3>
                     <h3 class="card-title">
-                        Dietary Restrictions: {{ food_item.dietary_restrictions }}
+                        Dietary Restrictions: {{ food_item.get_dietary_restrictions_display }}
                     </h3>
                     <h3 class="card-title">
-                        Allergy: {{ food_item.allergy }}
+                        Allergy: {{ food_item.get_allergy_display }}
                     </h3>
                 {% if food_item not in order_food %}
                 <button class="btn btn-primary">
