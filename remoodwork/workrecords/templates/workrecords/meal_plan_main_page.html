@@ -68,6 +68,8 @@
                 <button class="btn btn-primary">
                     <a href="{% url 'remoodwork-order-meal' request.user.pk food_item.pk %}"  style="color: white; text-decoration: none;">Select</a>
                 </button>
+                {% else %}
+                    <h2> Already selected this meal </h2>
                 {% endif %}
                 </div>
             </div>
