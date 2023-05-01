@@ -20,7 +20,7 @@
           </li>
             <!-- Checks to see if a user is authenticated or not -->
             <!-- If a user is authenticated, then it should contain a Logout and Survey buttons
-            other than ReMooWork/Home and Search button (More will be on that later in this project)
+            other than ReMooWork/Home button (More will be on that later in this project)
             -->
             {% if user.is_authenticated %}
                 <li class="nav-item active">
@@ -52,7 +52,7 @@
                 {% endif %}
                 {% block navigation %}{% endblock %}
           <!-- If a user is not authenticated, then it should contain a Login and Register
-          buttons other than ReMooWork/Home and Search button (More will be on that later in this project)
+          buttons other than ReMooWork/Home button (More will be on that later in this project)
           -->
           {% else %}
             <li class="nav-item active">
@@ -63,10 +63,7 @@
             </li>
           {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+
       </div>
     </nav>
     <!-- End of navigation bar for the main web page website of remoodwork -->
