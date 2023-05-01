@@ -26,7 +26,13 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
         }
         cls.text_required_form = MealAssessementCreationForm(data=text_required_data_form)
 
+    def test_employee_created(cls):
+        ''' Test 1: Valid test to see if an employee has already been created. '''
+        cls.assertEqual(1, len(Employee.objects.all()))
+
     def test_meal_plan_form_creation(cls):
+        ''' Test 2: Valid test to see if a meal plan assessment form has successfully
+        been created by an employee. '''
         cls.assertTrue(cls.correct_meal_plan_form.is_valid())
         meal_plan = cls.correct_meal_plan_form.save(commit=False)
         meal_plan.employee = cls.employee
@@ -43,7 +49,9 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(meal_plan.budget, cls.correct_meal_plan_form.data.get('budget'))
         cls.assertEqual(meal_plan.cuisine, cls.correct_meal_plan_form.data.get('cuisine'))
 
-    def test_meal_plan_form_creation_update(cls):
+    def test_meal_plan_form_no_negative_number(cls):
+        ''' Test 3: Invalid test to see if a meal plan assessment form
+        does not accept negative numbers of a calorie information. '''
         meal_plan = cls.correct_meal_plan_form.save(commit=False)
         meal_plan.employee = cls.employee
         cls.correct_meal_plan_form.save()
@@ -64,6 +72,9 @@ class MealAssessementCreationFormTestCase(WorkRecordsTestCaseCounter):
 
 
     def test_required_invalid_text_form(cls):
+        ''' Test 4: An invalid test case to see if an invalid
+        meal planning assessment form is unable to be valid and will not be saved
+        into its data content associated to its model. '''
         cls.assertFalse(cls.text_required_form.is_valid())
         required_field_text = 'This field is required.'
         cls.assertEqual(required_field_text,

@@ -39,17 +39,17 @@ class PulseSurveyCreationFormTestCase(WorkRecordsTestCaseCounter):
         }
         cls.text_required_form = PulseSurveyCreationForm(data=text_required_data_form)
 
-    def test_valid_pulse_survey_form(cls):
-        ''' Test 1: A valid test case
-        to make sure the correct pulse survey creation form is valid before
-        saving its data content associated to pulse survey model'''
-        cls.assertTrue(cls.correct_pulse_survey_form.is_valid())
+    def test_one_employee(cls):
+        ''' Test 1: Valid test case to see if an Employee object lists only one
+        Employee used for this test case. '''
+        cls.assertEqual(1, len(Employee.objects.all()))
 
     def test_created_pulse_survey(cls):
         ''' Test 2: A valid test case
         to see if a correct pulse survey creation form is saved
         for creating a new pulse survey record stored in
         a database model '''
+        cls.assertTrue(cls.correct_pulse_survey_form.is_valid())
         pulse_survey = cls.correct_pulse_survey_form.save(commit=False)
         pulse_survey.employee = cls.employee
         cls.correct_pulse_survey_form.save()

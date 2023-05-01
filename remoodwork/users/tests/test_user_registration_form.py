@@ -62,16 +62,11 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
 
         cls.create_employer_form = UserRegistrationForm(data=create_employer_data_form)
 
-    def test_valid_form(cls):
+    def test_creating_user_employee(cls):
         ''' Test 1: A valid test case
-        to make sure the correct user registration form is valid before saving
-        its data content associated to the model '''
-        cls.assertTrue(cls.correct_form.is_valid())
-
-    def test_existed_user(cls):
-        ''' Test 2: A valid test case
         to see of a correct user registration form is saved
-        for creating a new user stored in a database model record. '''
+        as an employee for creating a new user stored in a database model record. '''
+        cls.assertTrue(cls.correct_form.is_valid())
         cls.correct_form.save()
         cls.assertEqual(1, len(User.objects.all()))
         user1 = User.objects.first()
@@ -83,48 +78,9 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertEqual(cls.correct_form.data.get('job_classification_choice'),
                         user1.job_classification_choice)
 
-    def test_invalid_bad_form(cls):
-        ''' Test 3: An invalid test case
-        to see if an invalid user registration form
-        is unable to be valid and will not be able to save its data content associated to its
-        model. '''
-        cls.assertFalse(cls.bad_form.is_valid())
-
-    def test_bad_form(cls):
-        ''' Test 4: An invalid test case
-        to see if a user registration form provides a prompt
-        to user stating that any empty fields must be required to fill in before a user
-        gets registered saved through a database model of a software application. '''
-        required_field_text = 'This field is required.'
-        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('full_name')))
-        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('email')))
-        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('company_name')))
-        cls.assertEqual(required_field_text,
-                        ''.join(cls.bad_form.errors.get('job_classification_choice')))
-        cls.assertEqual(0, len(User.objects.all()))
-
-    def test_username_already_created(cls):
-        ''' Test 5: An invalid test case to see if a username of a user has already been created
-        when a user tries to create a new user registration for remoodwork. '''
-        cls.correct_form.save()
-        cls.assertEqual(1, len(User.objects.all()))
-        # Should be invalid due to a username's existence found on the remoodwork's
-        # database table
-        cls.assertFalse(cls.create_same_username_form.is_valid())
-        assert 'A user with that username already exists.' \
-               in cls.create_same_username_form.errors.get('username'), 'Username is created again'
-
-    def test_full_name_already_created(cls):
-        ''' Test 6: An invalid test case to see if a full name of a user already exists
-        when a user tries to create a new user registration for remoodwork.
-        '''
-        cls.correct_form.save()
-        cls.assertEqual(1, len(User.objects.all()))
-        cls.assertFalse(cls.create_same_full_name_form.is_valid())
-        assert 'A user with that full name already exists.' \
-               in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
-
     def test_create_employer_form(cls):
+        ''' Test 2: A valid test case to see of a correct user registration form is saved
+        as an employer for creating a new user stored in a database model record. '''
         cls.create_employer_form.save()
         cls.assertEqual(1, len(Employer.objects.all()))
         cls.assertEqual(1, len(User.objects.all()))
@@ -136,6 +92,41 @@ class UserRegistrationFormTestCase(UserTestCaseCounter):
         cls.assertEqual(cls.create_employer_form.data.get('company_name'), user2.company_name)
         cls.assertEqual(cls.create_employer_form.data.get('job_classification_choice'),
                         user2.job_classification_choice)
+
+    def test_saving_bad_form(cls):
+        ''' Test 3: An invalid test case
+        to see if a user registration form provides a prompt
+        to user stating that any empty fields must be required to fill in before a user
+        gets registered saved through a database model of a software application. '''
+        cls.assertFalse(cls.bad_form.is_valid())
+        required_field_text = 'This field is required.'
+        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('full_name')))
+        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('email')))
+        cls.assertEqual(required_field_text, ''.join(cls.bad_form.errors.get('company_name')))
+        cls.assertEqual(required_field_text,
+                        ''.join(cls.bad_form.errors.get('job_classification_choice')))
+        cls.assertEqual(0, len(User.objects.all()))
+
+    def test_username_already_created(cls):
+        ''' Test 4: An invalid test case to see if a username of a user has already been created
+        when a user tries to create a new user registration for remoodwork. '''
+        cls.correct_form.save()
+        cls.assertEqual(1, len(User.objects.all()))
+        # Should be invalid due to a username's existence found on the remoodwork's
+        # database table
+        cls.assertFalse(cls.create_same_username_form.is_valid())
+        assert 'A user with that username already exists.' \
+               in cls.create_same_username_form.errors.get('username'), 'Username is created again'
+
+    def test_full_name_already_created(cls):
+        ''' Test 5: An invalid test case to see if a full name of a user already exists
+        when a user tries to create a new user registration for remoodwork.
+        '''
+        cls.correct_form.save()
+        cls.assertEqual(1, len(User.objects.all()))
+        cls.assertFalse(cls.create_same_full_name_form.is_valid())
+        assert 'A user with that full name already exists.' \
+               in cls.create_same_full_name_form.errors.get('full_name'), 'Full name is created again'
 
     @classmethod
     def tearDownClass(cls):

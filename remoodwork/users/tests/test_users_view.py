@@ -124,6 +124,8 @@ class UsersViewTestCase(UserTestCaseCounter):
 
 
     def test_add_an_employee(cls):
+        ''' Test 4: Test case to see if an employer can add an employee
+        from the same company name '''
         response = cls.client.get(reverse('remoodwork-register-user'))
         csrf_token = response.cookies.get('csrftoken')
         user_registration_response = cls.client.post(reverse('remoodwork-register-user'),

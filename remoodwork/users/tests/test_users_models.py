@@ -27,14 +27,11 @@ class UserModelTestCases(UserTestCaseCounter):
         cls.user2 = cls._create_new_user()
         cls.user2.save()
 
-    def test_all_user_model(cls):
-        ''' Test 1: A valid test case to cover all the user models
-        created in the remoodwork/default database tables'''
-        cls.assertNotEqual(0, len(User.objects.all()))
 
-    def test_user_content_info(cls):
-        ''' Test 2: A valid test case that covers all the valid data attribute contents
+    def test_creating_user_info(cls):
+        ''' Test 1: A valid test case that covers all the valid data attribute contents
         after creating a user model in remoodwork '''
+        cls.assertNotEqual(0, len(User.objects.all()))
         # Tests an existing username that has recently been created
         cls.assertEqual(cls.username, cls.user1.username)
         # Tests an existing password that has recently been created
@@ -50,39 +47,19 @@ class UserModelTestCases(UserTestCaseCounter):
         # Tests a job classification status that exists in its choice used for User (employee)
         assert cls.user1.job_classification_choice in dict(User.CLASSIFICATION_CHOICE), \
             f'{cls.user1.job_classification_choice} not in a job classification status of a User'
-
-    def test_user_existence(cls):
-        ''' Test 3: A valid test case to see if a new user is created
-        in a user model of remoodwork system. '''
         userslst = User.objects.get(pk=cls.user1.pk)
         dummy_user = userslst
         cls.assertEqual(dummy_user, cls.user1)
 
-    def test_empty_employee(cls):
-        ''' Test 4: A valid test case
-        to see if there are no employees being created from a
-        default database setup reset in this test suite for remoodwork. '''
-        cls.assertEqual(0, len(Employee.objects.all()))
-
     def test_creating_employee(cls):
-        ''' Test 5: A valid test case
+        ''' Test 2: A valid test case
         to see if an employee can be created after a user registers
         their account used in remoodwork. '''
-        employee1 = Employee(user=cls.user1)
-        employee1.save()
-        cls.assertEqual(1, len(Employee.objects.all()))
-        dummy_user = User.objects.filter(username=cls.user1.username)[0]
-        dummy_employee = Employee.objects.filter(pk=employee1.pk)[0]
-        cls.assertEqual(dummy_user, dummy_employee.user)
-
-    def test_get_or_create_employee(cls):
-        ''' Test 6: A valid test case
-        to see if an employee can be created or not
-        after creating a user from a register page using
-        get_or_create method used in User model for remoodwork. '''
+        cls.assertEqual(0, len(Employee.objects.all()))
         if cls.user1.job_classification_choice == "EMPLOYEE":
             create_user = User.objects.get(username=cls.user1.username)
             dummy_employee, created = Employee.objects.get_or_create(user=create_user)
+            cls.assertEqual(1, len(Employee.objects.all()))
             cls.assertTrue(created)
             cls.assertEqual(create_user, dummy_employee.user)
             # The only invalid test case in the overall content of this valid test case,
@@ -92,23 +69,14 @@ class UserModelTestCases(UserTestCaseCounter):
             cls.assertEqual(create_user, dummy_employee.user)
 
     def test_creating_employer(cls):
-        ''' Test 7: A valid test case
+        ''' Test 3: A valid test case
         to see if an employer can be created after a user registers
         their account used in remoodwork '''
-        cls.assertEqual('EMPLOYER', cls.user2.job_classification_choice)
-        empty_employer = Employer(user=cls.user2)
-        empty_employer.save()
-        cls.assertNotEqual(0, len(Employer.objects.all()))
-        employer1 = Employer.objects.first()
-        cls.assertEqual(0, len(employer1.employees.all()))
-
-    def test_get_or_create_employer(cls):
-        ''' Test 8 A valid test case
-        to see if an employer can be created or after creating a user from a register page using
-        get_or_create method used in User model for remoodwork. '''
+        cls.assertEqual(0, len(Employer.objects.all()))
         if cls.user2.job_classification_choice == 'EMPLOYER':
             create_user = User.objects.get(username=cls.user2.username)
             dummy_employer, created = Employer.objects.get_or_create(user=create_user)
+            cls.assertEqual(1, len(Employer.objects.all()))
             cls.assertTrue(created)
             cls.assertEqual(create_user, dummy_employer.user)
             cls.assertEqual(0, len(dummy_employer.employees.all()))

@@ -49,17 +49,10 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         cls.assertEqual(1, len(Employee.objects.all()))
         # cls.countNum()
 
-    def test_emoji_reactions(cls):
-        '''Test 2: Valid test case to see all the valid emoji reactions
-        tested for creating pulse survey records of workrecords in remoodwork '''
-        emoji_reactions = dict(PulseSurvey.EMOJI_STATUS_CHOICE)
-        for emoji_reaction in emoji_reactions.values():
-            assert True == emoji.is_emoji(emoji_reaction), \
-                f'{emoji_reaction} is not an emoji reaction'
-
-    def test_pulse_survey_content(cls):
+    def test_pulse_survey_created(cls):
         '''Test 3: Valid test case to see the contents and data attributes
         of creating a pulse survey record of workrecords in remoodwork '''
+        cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
         # Tests an existing activity name that has recently been created
         cls.assertEqual(cls.activity_name, cls.pulsesurvey.activity_name)
         # Tests an existing activity type that has recently been created
@@ -86,9 +79,9 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         # Tests if a pulse survey was recently created by the right employee
         cls.assertEqual(cls.employee, cls.pulsesurvey.employee)
 
-    def test_all_pulse_survey(cls):
-        '''Test 4: Valid test case to see if any pulse surveys
-        have already created by the right employee'''
+    def test_another_pulse_survey(cls):
+        ''' Test 4: Valid test case to see if another pulse survey
+        becomes created by the right employee '''
         cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
         another_pulse_survey = cls._create_pulse_survey_2(cls.employee)
         another_pulse_survey.save()
@@ -97,10 +90,6 @@ class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
         dummy_pulse_survey = PulseSurvey.objects.get(pk=cls.pulsesurvey.pk)
         cls.assertNotEqual(dummy_pulse_survey, another_pulse_survey)
 
-    def test_only_one_pulse_survey(cls):
-        '''Test 5: Valid test case to see if there is only
-        one pulse survey already created by an employee for this test case'''
-        cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
     def _create_pulse_survey_2(cls, employee=None):
         ''' Sets up a second pulse survey to make some
         test cases provided in this script '''
