@@ -69,4 +69,20 @@ class PulseSurveyCreationViewTestCase(WorkRecordsTestCaseCounter):
         cls.assertRedirects(response=pulse_survey_success_created_response,
                             expected_url=reverse('remoodwork-pulse-survey',
                                           kwargs={'pk':cls.user.pk}))
+        pulse_survey_content_response = cls.client.get(reverse('remoodwork-pulse-survey',
+                                                               kwargs={'pk' : cls.user.pk}))
+        cls.assertEqual(200, pulse_survey_content_response.status_code)
+        cls.assertContains(pulse_survey_content_response, "Take a break")
+        cls.assertContains(pulse_survey_content_response, "Taco Tuesday")
+        cls.assertContains(pulse_survey_content_response, date.today().strftime("%B %-d, %Y"))
+        cls.assertContains(pulse_survey_content_response,
+                           "Number of hours spend on this activity: 2")
+        cls.assertContains(pulse_survey_content_response,
+                           "Your emotional scale: \N{smiling face with sunglasses}")
+        cls.assertContains(pulse_survey_content_response, 'Your description to this activity')
+        cls.assertContains(pulse_survey_content_response,
+                           'Had a blast attending taco party with my coworkers in a '
+                                    'breakout room',)
+        cls.assertContains(pulse_survey_content_response,
+                           'Any work-related stresses in this activity?: No')
 

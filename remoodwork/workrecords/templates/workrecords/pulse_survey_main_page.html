@@ -30,15 +30,12 @@
                 <div class="card-body text-success">
                     <h5 class="card-title">{{ pulse_survey.activity_name }}</h5>
                     <h4 class="card-subtitle mb-2 text-muted">{{ pulse_survey.activity_created }}</h4>
-                    <p class="card-text">Number of hours spend on this activity:
-                        {{ pulse_survey.num_hours }}</p>
-                    <p class="card-text">Your emotional scale:
-                        {{ pulse_survey.get_emotional_rate_status_display }}</p>
-                    <p class="card-text"><strong>Your description to this activity</p>
+                    <p class="card-text">Number of hours spend on this activity: {{ pulse_survey.num_hours }}</p>
+                    <p class="card-text">Your emotional scale: {{ pulse_survey.get_emotional_rate_status_display }}</p>
+                    <p class="card-text"><strong>Your description to this activity</strong></p>
                     <p class="card-text">{{ pulse_survey.activity_description }}</p>
                 </div>
-                <div class="card-footer border-success">Any work-related stresses in this activity?:
-                {{ pulse_survey.get_work_stressor_status_display }}</div>
+                <div class="card-footer border-success">Any work-related stresses in this activity?: {{ pulse_survey.get_work_stressor_status_display }}</div>
             </div>
             {% endfor %}
         </div>
