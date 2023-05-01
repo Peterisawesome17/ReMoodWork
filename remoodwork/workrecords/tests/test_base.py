@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.management import call_command
 from users.models import User, Employee, Employer
+from workrecords.models import FoodItem, MealPlan, Order
 
 class WorkRecordsTestCaseCounter(TestCase):
     ''' A test case basis to count all the passed test cases used to
@@ -59,7 +60,7 @@ class WorkRecordsTestCaseCounter(TestCase):
         email = 'mikerandy@test.com'
         company_name = 'Amazon'
         job_classification_choice = 'EMPLOYEE'
-        user = User(
+        user = User.objects.create_user(
             username=username,
             password=password,
             full_name=full_name,
@@ -67,7 +68,6 @@ class WorkRecordsTestCaseCounter(TestCase):
             company_name=company_name,
             job_classification_choice=job_classification_choice
         )
-        user.save()
         employee = Employee(user=user)
         return employee
 
@@ -101,7 +101,7 @@ class WorkRecordsTestCaseCounter(TestCase):
         email = 'tobeysmith@test.com'
         company_name = 'Amazon'
         job_classification_choice = 'EMPLOYER'
-        user = User(
+        user = User.objects.create_user(
             username=username,
             password=password,
             full_name=full_name,
@@ -109,9 +109,85 @@ class WorkRecordsTestCaseCounter(TestCase):
             company_name=company_name,
             job_classification_choice=job_classification_choice
         )
-        user.save()
         employer = Employer(user=user)
         return employer
+
+    # Used for testing test_order_food_item_model.py and test_order_food_item_view.py
+    @classmethod
+    def _create_meal_plan(cls, employee=None):
+        ''' Sets up a meal plan assessment to
+        integrate and filter out a list of food meal items from an employee's info '''
+        meal_plan = None
+        if employee:
+            cls.calories = 400
+            cls.dietary_restrictions = 'Gluten-free, vegetarian'
+            cls.goal = 'To lose weight by 30 lbs'
+            cls.allergy = 'Wheat, peanuts, shellfish'
+            cls.budget = 20.00
+            cls.cuisine = 'American, mexican'
+            meal_plan = MealPlan(
+                calories=cls.calories,
+                dietary_restrictions=cls.dietary_restrictions,
+                goal=cls.goal,
+                allergy=cls.allergy,
+                budget=cls.budget,
+                cuisine=cls.cuisine,
+                employee=employee
+            )
+            return meal_plan
+
+    @classmethod
+    def _create_food_item_1(cls, employer):
+        ''' Sets up the first food item to make some test cases used in this script '''
+        if employer:
+            food_name = 'Smoked Salmon'
+            description = 'Cooked and marinated with lemon juice'
+            price = 20.00
+            cuisine_type = 'american'
+            food_item_type = 'restaurant'
+            restaurant_name = 'Dr.Dock\'s Seafood Restaurant'
+            calories = 200
+            dietary_restrictions = 'gluten-free'
+            allergy = 'soy'
+            food_item = FoodItem(
+                food_name=food_name,
+                description=description,
+                price=price,
+                cuisine_type=cuisine_type,
+                food_item_type=food_item_type,
+                restaurant_name=restaurant_name,
+                calories=calories,
+                dietary_restrictions=dietary_restrictions,
+                allergy=allergy,
+                employer=employer
+            )
+            return food_item
+
+    @classmethod
+    def _create_food_item_2(cls, employer):
+        ''' Sets up the second food item to make some test cases
+        on creating a food meal item indicated as a recipe. '''
+        if employer:
+            food_name = 'Texas-Style Beef Brisket'
+            description = 'This recipe is the best if you love BBQ'
+            cuisine_type = 'american'
+            food_item_type = 'recipe'
+            recipe_url = 'https://www.tasteofhome.com/recipes/texas-style-beef-brisket/'
+            calories = 381
+            dietary_restrictions = 'gluten-free'
+            allergy = 'beef'
+            food_item = FoodItem(
+                food_name=food_name,
+                description=description,
+                cuisine_type=cuisine_type,
+                food_item_type=food_item_type,
+                recipe_url=recipe_url,
+                calories=calories,
+                dietary_restrictions=dietary_restrictions,
+                allergy=allergy,
+                employer=employer
+            )
+            return food_item
 
     def run(self, result=None):
         super().run(result)
