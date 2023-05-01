@@ -25,6 +25,7 @@ def home_view(request):
     company_name_title = ''
     food_item_lists = None
     employer = None
+    meal_plan = None
     if request.user.id:
         curr_user = User.objects.get(pk=request.user.id)
         employer_exists, employee_exists = Employer.objects.filter(user=curr_user)\
@@ -32,6 +33,7 @@ def home_view(request):
         if employee_exists.exists():
             employee = Employee.objects.get(user=curr_user)
             pulse_survey_records = PulseSurvey.objects.filter(employee=employee)
+            meal_plan = MealPlan.objects.filter(employee=employee).first()
         if employer_exists.exists():
             employer = Employer.objects.get(user=curr_user)
             employees_with_same_company_name = Employee.objects.filter(
@@ -46,7 +48,8 @@ def home_view(request):
         'employer_employee_list': employees_with_same_company_name,
         'company_name_title': company_name_title,
         'employer': employer,
-        'food_items': food_item_lists
+        'food_items': food_item_lists,
+        'meal_plan': meal_plan
     }
     return render(request=request, template_name='workrecords/home_page.html', context=context)
 
