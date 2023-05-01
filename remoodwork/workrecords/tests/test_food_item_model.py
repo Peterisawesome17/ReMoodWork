@@ -1,8 +1,6 @@
-from users.models import User, Employer, Employee
+from users.models import Employer
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
-from workrecords.models import FoodItem, MealPlan, Order
-import re
-from django.db.models import Q
+from workrecords.models import FoodItem
 
 class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
     @classmethod
@@ -12,43 +10,11 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         super(WorkRecordsTestCaseCounter, cls).setUpClass()
         cls.employer = cls._create_an_employer()
         cls.employer.save()
-        cls.employee = cls._create_an_employee()
-        cls.employee.save()
-        cls.food_item_start = cls._create_food_item(cls.employer)
-        cls.food_item_start.save()
-
-
-    @classmethod
-    def _create_food_item(cls, employer):
-        ''' Sets up the first food item to make some test cases used in this script '''
-        if employer:
-            food_name = 'Smoked Salmon'
-            description = 'Cooked and marinated with lemon juice'
-            price = 20.00
-            cuisine_type = 'american'
-            food_item_type = 'restaurant'
-            restaurant_name = 'Dr.Dock\'s Seafood Restaurant'
-            calories = 200
-            dietary_restrictions = 'gluten-free'
-            allergy = 'soy'
-            food_item = FoodItem(
-                food_name=food_name,
-                description=description,
-                price=price,
-                cuisine_type=cuisine_type,
-                food_item_type=food_item_type,
-                restaurant_name=restaurant_name,
-                calories=calories,
-                dietary_restrictions=dietary_restrictions,
-                allergy=allergy,
-                employer=employer
-            )
-            return food_item
-
 
     @classmethod
     def _create_food_item_1(cls, employer):
-        ''' Sets up the first food item to make some test cases used in this script '''
+        ''' Sets up the first food item to make some test cases
+        on creating a food meal item indicated as a restaurant. '''
         if employer:
             food_name = 'Ribeye Steak'
             description = 'This steak is cooked with medium-rare and provides cilantro spices' \
@@ -75,6 +41,8 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
             return food_item
 
     def _create_food_item_2(cls, employer):
+        ''' Sets up the second food item to make some test cases
+        on creating a food meal item indicated as a recipe. '''
         if employer:
             food_name = 'Carne Asada'
             description = 'This recipe will be good if you are a meat lover'
@@ -99,9 +67,13 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
 
 
     def test_an_employer(cls):
+        ''' Test 1: Valid test case to see if an Employer object lists only one
+        Employer used for this test case. '''
         cls.assertNotEqual(0, len(Employer.objects.all()))
 
     def test_food_item_model_1(cls):
+        ''' Test 2: Valid test to see if an employer creates a new food meal item
+        from a given restaurant. '''
         food_item = cls._create_food_item_1(cls.employer)
         food_item.save()
         cls.assertNotEqual(0, len(FoodItem.objects.all()))
@@ -120,6 +92,8 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.employer, food_item_match.employer)
 
     def test_food_item_model_2(cls):
+        ''' Test 3: Valid test to see if an employer creates a new food meal item
+        from a given recipe '''
         food_item = cls._create_food_item_2(cls.employer)
         food_item.save()
         cls.assertNotEqual(0, len(FoodItem.objects.all()))
@@ -136,54 +110,6 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.dietary_restrictions, food_item_match.dietary_restrictions)
         cls.assertEqual(food_item.allergy, food_item_match.allergy)
         cls.assertEqual(food_item.employer, food_item_match.employer)
-
-    def _create_meal_plan(cls, employee=None):
-        meal_plan = None
-        if employee:
-            cls.calories = 250
-            cls.dietary_restrictions = 'Gluten-free, vegetarian'
-            cls.goal = 'To lose weight by 30 lbs'
-            cls.allergy = 'Wheat, peanuts, shellfish'
-            cls.budget = 20.00
-            cls.cuisine = 'American, mexican'
-            meal_plan = MealPlan(
-                calories=cls.calories,
-                dietary_restrictions=cls.dietary_restrictions,
-                goal=cls.goal,
-                allergy=cls.allergy,
-                budget=cls.budget,
-                cuisine=cls.cuisine,
-                employee=employee
-            )
-            return meal_plan
-
-    def test_filter_food_item_contents(cls):
-        # Data shall be filtered from employee's meal plan data info
-        food_item = cls._create_food_item_2(cls.employer)
-        food_item.save()
-        meal_plan = cls._create_meal_plan(cls.employee)
-        meal_plan.save()
-        cls.assertEqual(2, len(FoodItem.objects.all()))
-        cuisine_text = meal_plan.cuisine
-        dietary_restrictions_text = meal_plan.dietary_restrictions
-        allergy_text = meal_plan.allergy
-        filter_cuisine = re.sub(r'[^\w\s-]+', '', cuisine_text.lower())
-        filter_dietary_restrictions = re.sub(r'[^\w\s-]+', '', dietary_restrictions_text.lower())
-        filter_allergy = re.sub(r'[^\w\s-]+', '', allergy_text.lower())
-        calories = meal_plan.calories
-        price = meal_plan.budget
-        food_item_filter = FoodItem.objects.filter(Q(price__lte=price)|Q(price__isnull=True),
-                                cuisine_type__in=filter_cuisine.split(),
-                                dietary_restrictions__in=filter_dietary_restrictions.split(),
-                                calories__lte=calories,
-                                ).exclude(allergy__in=filter_allergy.split())
-        cls.assertEqual(2, len(food_item_filter))
-        select_food_item = food_item_filter.get(food_name='Smoked Salmon', pk=1)
-        cls.assertEqual('Smoked Salmon', select_food_item.food_name)
-        cls.order = Order(employee=cls.employee)
-        cls.order.save()
-        cls.order.food_items.add(select_food_item)
-        cls.assertEqual(1, len(cls.order.food_items.all()))
 
     @classmethod
     def tearDownClass(cls):

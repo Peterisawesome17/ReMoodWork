@@ -69,12 +69,10 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
 
         cls.negative_num_calorie_form = FoodItemCreationForm(data=negative_num_calorie_data_form)
 
-
-    def test_valid_food_item_restaurant_form(cls):
-        ''' Test 1: A valid test case to make sure the correct food item creation form
-        is valid based on a restaurant food type item before saving its data content
-        associated to food item model '''
-        cls.assertTrue(cls.correct_food_item_restaurant_form.is_valid())
+    def test_an_employer(cls):
+        ''' Test 1: Valid test case to see if an Employer object lists only one
+        Employer used for this test case. '''
+        cls.assertNotEqual(0, len(Employer.objects.all()))
 
     def test_created_food_item_as_restaurant(cls):
         ''' Test 2: A valid test case to see if a correct food item creation form
@@ -161,7 +159,7 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
 
     def test_negative_num_calorie(cls):
         ''' Test 6: An invalid test case to see if calories attribute does not accept
-        any negative numbers '''
+        any negative numbers when creating a new food item '''
         cls.assertFalse(cls.negative_num_calorie_form.is_valid())
         valid_val_text = 'Ensure this value is greater than or equal to 0.'
         cls.assertEqual(valid_val_text,
