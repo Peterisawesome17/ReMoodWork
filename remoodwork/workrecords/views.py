@@ -163,7 +163,7 @@ def create_food_item_view(request, emp_pk):
     user = User.objects.get(pk=emp_pk)
     employer = Employer.objects.get(user=user)
     if request.method == 'POST':
-        food_item_form = FoodItemCreationForm(request.POST)
+        food_item_form = FoodItemCreationForm(request.POST, request.FILES)
         if food_item_form.is_valid():
             food_item = food_item_form.save(commit=True)
             food_item.employer = employer
