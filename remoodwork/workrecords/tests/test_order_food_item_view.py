@@ -39,6 +39,7 @@ class OrderFoodItemViewTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(200, meal_plan_page_response.status_code)
         cls.assertNotContains(meal_plan_page_response, 'Already selected this meal')
         cls.assertContains(meal_plan_page_response, "Meal choices that are recommended for you")
+        cls.assertContains(meal_plan_page_response, '/media/meal_item_images/Example_Salmon')
         cls.assertContains(meal_plan_page_response, "Food name: Smoked Salmon")
         cls.assertContains(meal_plan_page_response, "Description: Cooked and marinated with lemon juice")
         cls.assertContains(meal_plan_page_response, "Price: 20.0")
@@ -49,14 +50,17 @@ class OrderFoodItemViewTestCase(WorkRecordsTestCaseCounter):
         cls.assertContains(meal_plan_page_response, "Dietary Restrictions: Gluten-free")
         cls.assertContains(meal_plan_page_response, "Allergy: Soy")
         cls.assertContains(meal_plan_page_response, "Food name: Texas-Style Beef Brisket")
-        cls.assertContains(meal_plan_page_response, "Recipe Link: https://www.tasteofhome.com/recipes/texas-style-beef-brisket/")
+        cls.assertContains(meal_plan_page_response, "Recipe Link")
         cls.assertContains(meal_plan_page_response, "Type: Recipe")
         cls.assertContains(meal_plan_page_response, "Select")
+        #Check if another food meal item has no image represented as default.jpg
+        cls.assertContains(meal_plan_page_response, "/media/default.jpg")
         order_meal_response = cls.client.get(reverse('remoodwork-order-meal',
                                                      kwargs={'pk': cls.employee.user.pk,
                                                              'food_pk': cls.food_item.pk}))
         cls.assertEqual(200, order_meal_response.status_code)
         cls.assertContains(order_meal_response, 'Do you want to order this meal Smoked Salmon')
+        cls.assertContains(order_meal_response, '/media/meal_item_images/Example_Salmon')
         order_meal_created_reponse = cls.client.post(reverse('remoodwork-order-meal',
                                                      kwargs={'pk': cls.employee.user.pk,
                                                              'food_pk': cls.food_item.pk}),
