@@ -127,8 +127,8 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.dietary_restrictions, food_item_match.dietary_restrictions)
         cls.assertEqual(food_item.allergy, food_item_match.allergy)
         # Checks
-        with cls.assertRaises(AssertionError):
-            assert food_item.food_meal_image, 'Meal image not uploaded'
+        cls.assertEqual(food_item.food_meal_image.url, '/media/default.jpg')
+
         cls.assertEqual(food_item.employer, food_item_match.employer)
 
     @classmethod

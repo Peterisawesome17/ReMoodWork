@@ -157,6 +157,9 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.correct_food_item_recipe_form.data.get('allergy'),
                         food_item.allergy)
 
+        cls.assertIsNone(cls.correct_food_item_recipe_form.data.get('food_meal_image'))
+        cls.assertEqual(food_item.food_meal_image.url, '/media/default.jpg')
+
     def test_required_invalid_text_form(cls):
         ''' Test 4: An invalid test case to see if an invalid food item creation
         is unable to be valid and will not be saved into its data content associated to its model '''
