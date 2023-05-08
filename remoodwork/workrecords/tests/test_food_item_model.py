@@ -1,6 +1,9 @@
 from users.models import Employer
 from workrecords.tests.test_base import WorkRecordsTestCaseCounter
 from workrecords.models import FoodItem
+from django.core.files.uploadedfile import SimpleUploadedFile
+from remoodwork.settings import BASE_DIR
+import os
 
 class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
     @classmethod
@@ -26,6 +29,15 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
             calories = 300
             dietary_restrictions = 'gluten-free'
             allergy = 'beef'
+            example_file = os.path.join(BASE_DIR,
+                                   'workrecords/tests/food_meal_images_test', 'Example_Steak.jpg')
+            with open(example_file, 'rb') as file:
+                example_file_image = file.read()
+            food_meal_image = SimpleUploadedFile(
+                name=os.path.basename(example_file),
+                content=example_file_image,
+                content_type="image/jpeg"
+            )
             food_item = FoodItem(
                 food_name=food_name,
                 description=description,
@@ -36,6 +48,7 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
                 calories=calories,
                 dietary_restrictions=dietary_restrictions,
                 allergy=allergy,
+                food_meal_image=food_meal_image,
                 employer=employer
             )
             return food_item
@@ -89,6 +102,10 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.calories, food_item_match.calories)
         cls.assertEqual(food_item.dietary_restrictions, food_item_match.dietary_restrictions)
         cls.assertEqual(food_item.allergy, food_item_match.allergy)
+
+        #Test if an image uploads from food item model
+        cls.assertEqual(food_item.food_meal_image.url, food_item_match.food_meal_image.url)
+
         cls.assertEqual(food_item.employer, food_item_match.employer)
 
     def test_food_item_model_2(cls):
@@ -109,6 +126,9 @@ class FoodItemandOrderTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(food_item.calories, food_item_match.calories)
         cls.assertEqual(food_item.dietary_restrictions, food_item_match.dietary_restrictions)
         cls.assertEqual(food_item.allergy, food_item_match.allergy)
+        # Checks
+        with cls.assertRaises(AssertionError):
+            assert food_item.food_meal_image, 'Meal image not uploaded'
         cls.assertEqual(food_item.employer, food_item_match.employer)
 
     @classmethod

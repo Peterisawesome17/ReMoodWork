@@ -2,7 +2,9 @@ from workrecords.tests.test_base import WorkRecordsTestCaseCounter
 from workrecords.forms import FoodItemCreationForm
 from workrecords.models import FoodItem
 from users.models import User, Employee, Employer
-
+from django.core.files.uploadedfile import SimpleUploadedFile
+from remoodwork.settings import BASE_DIR
+import os
 
 class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
     @classmethod
@@ -10,6 +12,15 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         super(WorkRecordsTestCaseCounter, cls).setUpClass()
         cls.employer = cls._create_an_employer()
         cls.employer.save()
+        example_file = os.path.join(BASE_DIR,
+                                    'workrecords/tests/food_meal_images_test', 'Example_Salmon.jpg')
+        with open(example_file, 'rb') as file:
+            example_file_image = file.read()
+        food_meal_image = SimpleUploadedFile(
+            name=os.path.basename(example_file),
+            content=example_file_image,
+            content_type="image/jpeg"
+        )
         correct_food_item_restaurant_data_form = {
             'food_name': 'Smoked salmon',
             'description': 'Cooked and marinated with lemon juice',
@@ -19,9 +30,11 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
             'restaurant_name': 'Dr.Dock\'s Seafood Restaurant',
             'calories': 200,
             'dietary_restrictions': 'gluten-free',
-            'allergy': 'shellfish'
+            'allergy': 'shellfish',
+            'food_meal_image': food_meal_image
         }
-        cls.correct_food_item_restaurant_form = FoodItemCreationForm(data=correct_food_item_restaurant_data_form)
+        cls.correct_food_item_restaurant_form = FoodItemCreationForm(data=correct_food_item_restaurant_data_form,
+                                                                     files=correct_food_item_restaurant_data_form)
 
         correct_food_item_recipe_data_form = {
             'food_name': 'Carne Asada',
@@ -34,7 +47,8 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
             'allergy': 'beef'
         }
 
-        cls.correct_food_item_recipe_form = FoodItemCreationForm(data=correct_food_item_recipe_data_form)
+        cls.correct_food_item_recipe_form = FoodItemCreationForm(data=correct_food_item_recipe_data_form,
+                                                                 files={})
 
         text_required_data_form = {
             'food_name': 'Goulash',
@@ -63,11 +77,14 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
             'allergy': 'shellfish'
         }
 
-        cls.text_required_form = FoodItemCreationForm(data=text_required_data_form)
+        cls.text_required_form = FoodItemCreationForm(data=text_required_data_form,
+                                                      files={})
 
-        cls.invalid_choices_form = FoodItemCreationForm(data=invalid_choices_data_form)
+        cls.invalid_choices_form = FoodItemCreationForm(data=invalid_choices_data_form,
+                                                        files={})
 
-        cls.negative_num_calorie_form = FoodItemCreationForm(data=negative_num_calorie_data_form)
+        cls.negative_num_calorie_form = FoodItemCreationForm(data=negative_num_calorie_data_form,
+                                                             files={})
 
     def test_an_employer(cls):
         ''' Test 1: Valid test case to see if an Employer object lists only one
@@ -102,6 +119,12 @@ class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('dietary_restrictions'),
                         food_item.dietary_restrictions)
         cls.assertEqual(cls.correct_food_item_restaurant_form.data.get('allergy'), food_item.allergy)
+
+        #Test if the image successfully uploads from a food item creation form
+        assert cls.correct_food_item_restaurant_form.data.get('food_meal_image').name.strip('.jpg') in \
+               os.path.basename(food_item.food_meal_image.url), f'Image not uploaded'
+        cls.assertTrue(food_item.food_meal_image.url.startswith('/media'))
+
         cls.assertEqual(cls.correct_food_item_restaurant_form.instance.employer, food_item.employer)
         cls.assertEqual(1, len(FoodItem.objects.filter(employer=cls.correct_food_item_restaurant_form.instance.employer)))
 

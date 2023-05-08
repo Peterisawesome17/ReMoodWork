@@ -3,6 +3,9 @@ from users.models import User, Employer
 from django.test import Client
 from django.urls import reverse
 from workrecords.models import FoodItem
+from django.core.files.uploadedfile import SimpleUploadedFile
+from remoodwork.settings import BASE_DIR
+import os
 
 class FoodItemCreationViewTestCase(WorkRecordsTestCaseCounter):
     @classmethod
@@ -28,6 +31,15 @@ class FoodItemCreationViewTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(200, create_food_item_response.status_code)
         cls.assertTemplateUsed(response=create_food_item_response,
                                template_name='workrecords/create_food_item_page.html')
+        example_file = os.path.join(BASE_DIR,
+                                    'workrecords/tests/food_meal_images_test', 'Example_Salmon.jpg')
+        with open(example_file, 'rb') as file:
+            example_file_image = file.read()
+        food_meal_image = SimpleUploadedFile(
+            name=os.path.basename(example_file),
+            content=example_file_image,
+            content_type="image/jpeg"
+        )
         create_food_item_restaurant_data_form = {
             'food_name': 'Smoked Salmon',
             'description': 'Cooked and marinated with lemon juice',
@@ -38,6 +50,7 @@ class FoodItemCreationViewTestCase(WorkRecordsTestCaseCounter):
             'calories': 200,
             'dietary_restrictions': 'gluten-free',
             'allergy': 'shellfish',
+            'food_meal_image': food_meal_image,
             'csrfmiddlewaretoken': csrf_token
         }
 
@@ -63,3 +76,4 @@ class FoodItemCreationViewTestCase(WorkRecordsTestCaseCounter):
         cls.assertContains(food_item_in_home_page_response, "Calories: 200")
         cls.assertContains(food_item_in_home_page_response, "Dietary Restrictions: Gluten-free")
         cls.assertContains(food_item_in_home_page_response, "Allergy: Shellfish")
+        cls.assertContains(food_item_in_home_page_response, "/media/")
