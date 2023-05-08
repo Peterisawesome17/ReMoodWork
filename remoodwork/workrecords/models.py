@@ -84,7 +84,7 @@ class FoodItem(models.Model):
     calories = models.PositiveIntegerField()
     dietary_restrictions = models.CharField(max_length=100, choices=DIETARY_RESTRICTION_CHOICES)
     allergy = models.CharField(max_length=100, choices=ALLERGY_CHOICES)
-    food_meal_image = models.ImageField(upload_to='meal_item_images/', blank=True, null=True)
+    food_meal_image = models.ImageField(default='default.jpg', upload_to='meal_item_images/', blank=True, null=True)
     employer = models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
@@ -92,6 +92,7 @@ class FoodItem(models.Model):
 
 class Order(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, null=True, blank=True)
     food_items = models.ManyToManyField(FoodItem, related_name='orders')
 
     def __str__(self):
