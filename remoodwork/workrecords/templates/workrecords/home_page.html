@@ -30,35 +30,25 @@
             <h1>Food items that have already been created</h1>
         </div>
         {% for food_item in food_items %}
-            <div class="card border-primary mb-1">
-                <div class="card-body">
-                    <h6 class="card-title">
-                        Food name: {{ food_item.food_name }}</h6>
-                    <p class="card-text">
-                        Description: {{ food_item.description }}</p>
-                    {% if food_item.price %}
-                        <h4 class="card-title">
-                            Price: {{ food_item.price }}</h4>
-                    {% endif %}
-                    <h5 class="card-title">
-                        Cuisine: {{ food_item.get_cuisine_type_display }}</h5>
-                    <h5 class="card-title">
-                        Type: {{ food_item.get_food_item_type_display }}</h5>
-                    {% if food_item.recipe_url %}
-                        <h4 class="card-title">
-                            Recipe Link: {{ food_item.recipe_url }}</h4>
-                    {% elif food_item.restaurant_name %}
-                        <h4 class="card-title">
-                            Restaurant name: {{ food_item.restaurant_name }}</h4>
-                    {% endif %}
-                    <h3 class="card-title">Calories: {{ food_item.calories }}</h3>
-                    <h3 class="card-title">
-                        Dietary Restrictions: {{ food_item.get_dietary_restrictions_display }}
-                    </h3>
-                    <h3 class="card-title">
-                        Allergy: {{ food_item.get_allergy_display }}
-                    </h3>
-                </div>
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{ food_item.food_meal_image.url }}" alt="Image not present" style="height: 200px;">
+              <div class="card-body">
+                <h5 class="card-title">{{ food_item.food_name }}</h5>
+                <p class="card-text">{{ food_item.description }}</p>
+                {% if food_item.price %}
+                  <h6 class="card-text">Price: {{ food_item.price }}</h6>
+                {% endif %}
+                <h6 class="card-text">Cuisine: {{ food_item.get_cuisine_type_display }}</h6>
+                <h6 class="card-text">Type: {{ food_item.get_food_item_type_display }}</h6>
+                {% if food_item.recipe_url %}
+                  <a href="{{ food_item.recipe_url }}" class="card-link">Recipe Link</a>
+                {% elif food_item.restaurant_name %}
+                  <h6 class="card-text">Restaurant name: {{ food_item.restaurant_name }}</h6>
+                {% endif %}
+                <h6 class="card-text">Calories: {{ food_item.calories }}</h6>
+                <h6 class="card-text">Dietary Restrictions: {{ food_item.get_dietary_restrictions_display }}</h6>
+                <h6 class="card-text">Allergy: {{ food_item.get_allergy_display }}</h6>
+              </div>
             </div>
         {% endfor %}
     </div>
