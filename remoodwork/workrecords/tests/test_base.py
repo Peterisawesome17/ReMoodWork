@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.core.management import call_command
 from users.models import User, Employee, Employer
 from workrecords.models import FoodItem, MealPlan, Order
+from django.core.files.uploadedfile import SimpleUploadedFile
+from remoodwork.settings import BASE_DIR
+import os
 
 class WorkRecordsTestCaseCounter(TestCase):
     ''' A test case basis to count all the passed test cases used to
@@ -149,6 +152,17 @@ class WorkRecordsTestCaseCounter(TestCase):
             calories = 200
             dietary_restrictions = 'gluten-free'
             allergy = 'soy'
+
+            example_file = os.path.join(BASE_DIR,
+                                        'workrecords/tests/food_meal_images_test', 'Example_Salmon.jpg')
+            with open(example_file, 'rb') as file:
+                example_file_image = file.read()
+            food_meal_image = SimpleUploadedFile(
+                name=os.path.basename(example_file),
+                content=example_file_image,
+                content_type="image/jpeg"
+            )
+
             food_item = FoodItem(
                 food_name=food_name,
                 description=description,
@@ -159,6 +173,7 @@ class WorkRecordsTestCaseCounter(TestCase):
                 calories=calories,
                 dietary_restrictions=dietary_restrictions,
                 allergy=allergy,
+                food_meal_image=food_meal_image,
                 employer=employer
             )
             return food_item
