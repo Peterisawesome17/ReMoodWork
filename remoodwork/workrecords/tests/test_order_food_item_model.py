@@ -48,6 +48,7 @@ class OrderFoodItemTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(2, len(fooditems_employer))
         food_item_1 = fooditems_employer.get(food_name=cls.food_item.food_name)
         cls.assertEqual(cls.food_item.food_name, food_item_1.food_name)
+        cls.assertEqual(cls.food_item.food_meal_image.url, food_item_1.food_meal_image.url)
         food_item_2 = fooditems_employer.get(food_name=cls.another_food_item.food_name)
         cls.assertEqual(cls.another_food_item.food_name, food_item_2.food_name)
 
@@ -61,7 +62,7 @@ class OrderFoodItemTestCase(WorkRecordsTestCaseCounter):
         cls.assertEqual(2, len(food_item_filter))
         select_food_item = food_item_filter.get(food_name='Smoked Salmon', pk=1)
         cls.assertEqual("Smoked Salmon", select_food_item.food_name)
-        cls.order = Order(employee=cls.employee)
+        cls.order = Order(employee=cls.employee, meal_plan=cls.meal_plan)
         cls.order.save()
         cls.order.food_items.add(select_food_item)
         cls.assertEqual(1, len(cls.order.food_items.all()))
