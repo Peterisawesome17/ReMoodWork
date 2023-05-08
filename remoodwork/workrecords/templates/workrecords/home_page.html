@@ -31,10 +31,12 @@
         </div>
         {% for food_item in food_items %}
             <div class="card" style="width: 18rem;">
+                {% if food_item.food_meal_image %}
               <img class="card-img-top" src="{{ food_item.food_meal_image.url }}" alt="Image not present" style="height: 200px;">
+                {% endif %}
               <div class="card-body">
-                <h5 class="card-title">{{ food_item.food_name }}</h5>
-                <p class="card-text">{{ food_item.description }}</p>
+                <h5 class="card-title">Food name: {{ food_item.food_name }}</h5>
+                <p class="card-text">Description: {{ food_item.description }}</p>
                 {% if food_item.price %}
                   <h6 class="card-text">Price: {{ food_item.price }}</h6>
                 {% endif %}
