@@ -7,3 +7,4 @@ my-django-env
 *.gif
 !remoodwork/workrecords/tests/food_meal_images_test/Example_Steak.jpg
 !remoodwork/workrecords/tests/food_meal_images_test/Example_Salmon.jpg
+!remoodwork/media/default.jpg
