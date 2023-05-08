@@ -7,7 +7,7 @@ class FoodItemCreationForm(forms.ModelForm):
         model = FoodItem
         fields = ['food_name', 'description', 'price', 'cuisine_type', 'food_item_type',
                   'recipe_url', 'restaurant_name', 'calories', 'dietary_restrictions',
-                  'allergy']
+                  'allergy', 'food_meal_image']
         labels = {
             'food_name': 'Enter the name of the food',
             'description': 'Is there any description you would like to discuss contents on the food?',
@@ -18,7 +18,8 @@ class FoodItemCreationForm(forms.ModelForm):
             'restaurant_name': 'If restaurant, please enter the name of the restaurant',
             'calories': 'What are calories of this food item?',
             'dietary_restrictions': 'Which dietary restriction works best for this food item?',
-            'allergy': 'What allergy contains in this food?'
+            'allergy': 'What allergy contains in this food?',
+            'food_meal_image': 'Images you want to upload for a food item?'
         }
 
 class MealAssessementCreationForm(forms.ModelForm):
