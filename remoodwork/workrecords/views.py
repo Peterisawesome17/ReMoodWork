@@ -94,15 +94,20 @@ def filter_food_item(meal_plan, company_name):
 def order_food_meal_item(request, pk, food_pk):
     employee = get_object_or_404(Employee, user=pk)
     food_item = get_object_or_404(FoodItem, pk=food_pk)
+    meal_plan = MealPlan.objects.get(employee=employee)
     url = reverse('remoodwork-meal-plan', kwargs={'pk': pk})
     if request.method == "POST":
         order_meal = request.POST.get('order_meal')
         if order_meal == "yes":
-            order = Order(employee=employee)
-            order.save()
+            check_order = Order.objects.filter(employee=employee)
+            if not check_order.exists():
+                order = Order(employee=employee, meal_plan=meal_plan)
+                order.save()
+            else:
+                order = Order.objects.get(employee=employee, meal_plan=meal_plan)
             order.food_items.add(food_item)
             messages.success(request=request, message='You have successfully placed an ordered'
-                                                      f'meal item {food_item.food_name}')
+                                                      f' meal item {food_item.food_name}')
             return redirect(url)
         elif order_meal == "no":
             return redirect(url)
