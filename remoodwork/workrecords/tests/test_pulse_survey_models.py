@@ -50,7 +50,7 @@ class PulseSurveyTestCases(WorkRecordsTestCaseCounter):
         # cls.countNum()
 
     def test_pulse_survey_created(cls):
-        '''Test 3: Valid test case to see the contents and data attributes
+        '''Test 2: Valid test case to see the contents and data attributes
         of creating a pulse survey record of workrecords in remoodwork '''
         cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
         # Tests an existing activity name that has recently been created
@@ -80,7 +80,7 @@ class PulseSurveyTestCases(WorkRecordsTestCaseCounter):
         cls.assertEqual(cls.employee, cls.pulsesurvey.employee)
 
     def test_another_pulse_survey(cls):
-        ''' Test 4: Valid test case to see if another pulse survey
+        ''' Test 3: Valid test case to see if another pulse survey
         becomes created by the right employee '''
         cls.assertEqual(1, len(cls.employee.pulse_survey.all()))
         another_pulse_survey = cls._create_pulse_survey_2(cls.employee)
