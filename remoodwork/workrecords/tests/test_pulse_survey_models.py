@@ -4,13 +4,13 @@ from workrecords.tests.test_base import WorkRecordsTestCaseCounter
 import emoji
 from datetime import date
 
-class WorkRecordsTestCases(WorkRecordsTestCaseCounter):
+class PulseSurveyTestCases(WorkRecordsTestCaseCounter):
     @classmethod
     def setUpClass(cls):
         ''' Sets up test cases for creating a pulse survey record of an employee model,
         where an employee shall be allowed to create one or more pulse survey records
         on remoodwork website. '''
-        super(WorkRecordsTestCases, cls).setUpClass()
+        super(PulseSurveyTestCases, cls).setUpClass()
         cls.employee = cls._create_an_employee()
         cls.employee.save()
         cls.pulsesurvey = cls._create_pulse_survey_1(cls.employee)
