@@ -4,6 +4,7 @@ from users.models import User, Employee, Employer
 from workrecords.models import FoodItem, MealPlan, Order
 from django.core.files.uploadedfile import SimpleUploadedFile
 from remoodwork.settings import BASE_DIR
+from users.tests.test_base import UserTestCaseCounter
 import os
 
 class WorkRecordsTestCaseCounter(TestCase):
@@ -26,7 +27,9 @@ class WorkRecordsTestCaseCounter(TestCase):
         covered for each test suite of the workrecords app for remoodwork. '''
         call_command('flush', interactive=False)
         result = cls.getResults()
-        tot_test_cases = result.testsRun - WorkRecordsTestCaseCounter.countPreviousTestSuite
+        count_prev_tests = WorkRecordsTestCaseCounter.countPreviousTestSuite \
+            if WorkRecordsTestCaseCounter.countPreviousTestSuite > 0 else UserTestCaseCounter.countPreviousTestSuite
+        tot_test_cases = result.testsRun - count_prev_tests
         WorkRecordsTestCaseCounter.countPreviousTestSuite = result.testsRun
         any_failure_tests = dict(result.failures)
         get_curr_test_suites = {testSuite.__class__.__name__ for testSuite in any_failure_tests.keys()}
