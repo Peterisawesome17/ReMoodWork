@@ -80,6 +80,7 @@ def logout_view(request):
     return render(request=request, template_name='users/logout_page.html')
 
 def add_an_employee(request, pk, emp_pk):
+    ''' A view function for employers to add employess based on their current company '''
     employee = get_object_or_404(Employee, user=emp_pk)
     employer = get_object_or_404(Employer, user=pk)
     employer_exists = Employer.objects.filter(pk=employer.pk)

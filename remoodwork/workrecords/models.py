@@ -3,6 +3,8 @@ from users.models import Employee, Employer
 
 # Create your models here.
 class MealPlan(models.Model):
+    ''' A MealPlan model contains about 6 to 7 attribute fields needed to be created
+        in the database table of remoodwork '''
     calories = models.PositiveIntegerField()
     dietary_restrictions = models.CharField(max_length=100)
     goal = models.CharField(max_length=100, blank=True)
@@ -49,6 +51,8 @@ class PulseSurvey(models.Model):
         return f'Pulse Survey Record: {self.activity_name}'
 
 class FoodItem(models.Model):
+    ''' A FoodItem model contains about 11 to 12 attribute fields needed to be created
+        in the database table of remoodwork '''
     CUISINE_CHOICES = [
         ('italian', 'Italian'),
         ('american', 'American'),
@@ -91,6 +95,8 @@ class FoodItem(models.Model):
         return f'Food name: {self.food_name}, pk: {self.pk}'
 
 class Order(models.Model):
+    ''' Order model contains 3 attribute fields needed to be created
+        in the database table of remoodwork '''
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, null=True, blank=True)
     food_items = models.ManyToManyField(FoodItem, related_name='orders')

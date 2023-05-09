@@ -73,6 +73,8 @@ def pulse_survey_view(request, pk, emp_pk=None):
                   context=context)
 
 def filter_food_item(meal_plan, company_name):
+    ''' A helper function to filter food meal items based on employee's
+    health info based on their meal planning assessment '''
     food_item_filter = None
     if meal_plan:
         cuisine_text = meal_plan.cuisine
@@ -92,6 +94,7 @@ def filter_food_item(meal_plan, company_name):
     return food_item_filter
 
 def order_food_meal_item(request, pk, food_pk):
+    ''' A view for employees placing their food meal item '''
     employee = get_object_or_404(Employee, user=pk)
     food_item = get_object_or_404(FoodItem, pk=food_pk)
     meal_plan = MealPlan.objects.get(employee=employee)

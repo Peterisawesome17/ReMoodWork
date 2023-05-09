@@ -8,6 +8,8 @@ from django.test import Client
 class OrderFoodItemViewTestCase(WorkRecordsTestCaseCounter):
     @classmethod
     def setUpClass(cls):
+        ''' Sets up test cases on for ordering meal items through response
+        by an employee '''
         super(WorkRecordsTestCaseCounter, cls).setUpClass()
         cls.employer = cls._create_an_employer()
         cls.employer.save()

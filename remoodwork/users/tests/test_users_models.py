@@ -88,6 +88,7 @@ class UserModelTestCases(UserTestCaseCounter):
 
     @classmethod
     def _create_new_user(cls):
+        ''' Creates user for test setup '''
         username = 'edwardsilverman'
         password = 'testing123!'
         full_name = 'Edward Silverman'

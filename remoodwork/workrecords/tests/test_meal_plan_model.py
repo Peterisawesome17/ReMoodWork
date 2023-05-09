@@ -13,6 +13,7 @@ class MealPlanTestCase(WorkRecordsTestCaseCounter):
 
     @classmethod
     def _create_meal_plan(cls, employee=None):
+        ''' Create meal plan for test 2 '''
         meal_plan = None
         if employee:
             cls.calories = 190
@@ -33,6 +34,7 @@ class MealPlanTestCase(WorkRecordsTestCaseCounter):
             return meal_plan
 
     def _create_another_meal_plan(cls, employee=None):
+        ''' Create another meal plan for test 3 '''
         meal_plan = None
         if employee:
             cls.calories = 220

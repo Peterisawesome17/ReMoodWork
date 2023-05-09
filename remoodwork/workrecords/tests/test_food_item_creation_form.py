@@ -9,6 +9,8 @@ import os
 class FoodItemandOrderCreationFormTestCase(WorkRecordsTestCaseCounter):
     @classmethod
     def setUpClass(cls):
+        ''' Sets up test cases on testing creation form of food items created
+        by employers '''
         super(WorkRecordsTestCaseCounter, cls).setUpClass()
         cls.employer = cls._create_an_employer()
         cls.employer.save()
