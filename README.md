@@ -1,64 +1,44 @@
-# ReMoodWork by Peter Ossipov
-Project that I'm doing for CPSC 597
+# 6. Installation  Instructions
+This project provides steps to install other software applications and module libraries shown below: 
+1.	Download the project’s zip folder and extract all contents of the project folder to your local directory.
+2.	Install Python 3.10.6 or higher [Python download](https://www.python.org/downloads/)
+3.	After placing the project folder in your local directory, there are a couple of instructions to install modules or dependencies needed for running the project (Note that my-django-env is used an example to set up a virtual environment in Python).  
+a. After installing Python to your OS drive (Windows, Ubuntu, Mac, etc.), go to “ReMoodWork-master” folder using a terminal (highly recommend Ubuntu Linux) or an IDE environment (highly recommend PyCharm) and began creating a Python virtual environment name of your choice using this command in the terminal:  
+•	```python3 -m venv my-django-env```  
+b.	Once the virtual environment set up is finished, then activate its current environment of Python by using this command in the terminal:   
+•	```source my-django-env/bin/activate``` 
+c.	Check for a Python version in the terminal: ```python --version```  
+d.	Use the ```deactivate``` command if you want to shut off your current virtual environment of Python in the terminal.  
+e.	Install other modules/libraries (It includes Django and is required to run the ReMoodWork server) of a current Python virtual environment using requirements.txt found in this command in the terminal: ```pip install -r requirements.txt```  
+f.	Lists all of the modules/libraries and their versions used in the current virtual environment of Python in the terminal:  
+•	```pip freeze```  
+•	```pip freeze --local```  
+g.	After installing the necessary modules/libraries found from requirements.txt, reactivate your Python virtual environment: source my-django-env/bin/activate and check the current version of Django using this command in the terminal:  
+•	```python -m django --version```  
+h.	Once you have Django installed to the project, then follow the rest of the steps to complete installing parts and components of Django shown below:  
+I.	Execute this command that changes from “ReMoodWork-master” directory to “remoodwork” directory in the terminal: ```cd remoodwork/```  
+II.	Execute ```python manage.py makemigrations``` command to install db.sqlite3 (Note that SQLite is a required database needed in this project) in the terminal.   
+III.	Execute ```python manage.py migrate command``` to install and load database models of Django and ReMoodWork in the terminal.  
+IV.	Run the Django server of ReMoodWork (Project Name) project using this command: ```python manage.py runserver```  to launch the website in the terminal.  
+o	You can also run the server with PyCharm IDE through this link: [PyCharm configuration setup] https://www.youtube.com/watch?v=WluSpfSMj2Y 
 
-# Steps to install and run a server of my software application
-Dependency frameworks and tools to run this application: 
-* Python 3.10.6 (Might work with the early versions of Python such as 3.7 or higher)
-* Django 4.1.5 (Might work with the early versions of Django) 
-* SQLite (Database)
-* HTML and I think CSS
-# Instructions to set up and install Django on a virtual envrionment (Note that this done on an Ubuntu virtual machine environment)
-1. Create a Python virtual environment
-```python3 -m venv my-django-env```  
-Or whatever virtual environment you want to name as...  
-2. Once the virtual environment set up is finished, then activate its current environment of Python by using this command
-```source my-django-env/bin/activate```  
-3. Check for a Python version:
-```python --version```
-4. Check which Python the environment is using: 
-```which python```
-5. Deactivate virtual current environment of Python:
-```deactivate```
-6. Check which pip or pip3 the environment is using: 
-```which pip3```
-7. Installing other modules/libraries (such as Django) of a current Python virtual environment using requirements.txt found in this project repository (More will be added later this semester)  
-a. ```pip install -r requirements.txt```
-8. Lists all of the modules/libraries and their versions used in the current virtual environment of Python:  
-* ```pip freeze```
-* ```pip freeze --local```  
-9. Create requirements.txt as a redirect output source file (in case of a copy):
-```pip freeze --local > requirements.txt```
-
-# Instructions on executing Django commands
-1. Check the current version of Django: 
-```python -m django --version```
-2. List all of the commands of Django:
-```django-admin```
-3. Check for the content help based on the given command in Django: 
-```django-admin help <django command>``` (Like startproject)
-4. Run the Django server of remoodwork (Project Name) project:  
-* ```python3 manage.py runserver```
-* [Alternative to run a server on a PyCharm IDE](https://www.youtube.com/watch?v=WluSpfSMj2Y)
-
-# Migration commands in Django 
-First run command to add a new database table or to modify and update fields of an existing database table  
-```python manage.py makemigrations```  
-Second, write a command to apply or unapply migration changes happening in a database table  
-```python manage.py migrate```  
-Optionally display an SQL statement for a database migration in Django 
-```python manage.py sqlmigrate```  
-
-# Run a shell console of Django to do some operations and play around with other objects in the project
-```python manage.py shell```
-
-# Show a list of url routes of ReMoodWork
-```python manage.py show_urls | grep 'remoodwork'```
-
-# Create a superuser of ReMoodWork
-```python manage.py createsuperuser```
-
-# Run all test suites
-User test suites: ```python manage.py test users.tests```  
-Workrecords (where pulse survey is being tested): ```python manage.py test workrecords.tests```
-
-
+# 7. Operating  Instructions  
+This section provides Django commands that are helpful to use in this project, shown below:  
+A.	(Optional) Show a list of url routes of ReMoodWork using this command:  
+•	```python manage.py show_urls | grep 'remoodwork'```  
+B.	(Optional but highly recomended) Create an admin using this command:   
+•	```python manage.py createsuperuser```  
+•	Tutorial Reference: [Django tutorial](https://docs.djangoproject.com/en/1.8/intro/tutorial02/)  
+C.	Run test command to evaluate ReMoodWork used through Django (must perform in “remoodwork” directory):   
+•	Run all tests of ReMoodWork applications (users, workrecords, etc.):  
+	```python manage.py test .```  
+•	Run all tests of ReMoodWork’s users applications:  
+	```python manage.py test users```  
+•	Run all tests of ReMoodWork’s workrecords applications:  
+	```python manage.py test workrecords```  
+•	Run individual test script file of ReMoodWork’s workrecords applications:   
+	```python manage.py test workrecords.tests.<test_script>```  
+•	Run individual test script file of ReMoodWork’s users applications:   
+	```python manage.py test users.tests.<test_script>```  
+•	Run individual test script file of an application name in ReMoodWork:  
+	```python manage.py test <app_name>.tests.<test_script>```  
