@@ -40,16 +40,6 @@ a. ```pip install -r requirements.txt```
 * ```python3 manage.py runserver```
 * [Alternative to run a server on a PyCharm IDE](https://www.youtube.com/watch?v=WluSpfSMj2Y)
 
-# List of URL path names used in this project (URL route paths will be modified later this semester)
-Main Home page of the website: ```http://127.0.0.1:8000/```   
-Pulse Survey page of the website: ```http://127.0.0.1:8000/pulsesurvey/```  
-Django Admin Page: ```http://127.0.0.1:8000/admin``` (after a superuser has been created)  
-User registration page for users: ```http://127.0.0.1:8000/register/```  
-User login page for users: ```http://127.0.0.1:8000/login/```  
-User logout page for users: ```http://127.0.0.1:8000/logout/```  
-Create a pulse survey: ```http://127.0.0.1:8000/createpulsesurvey/```
-
-
 # Migration commands in Django 
 First run command to add a new database table or to modify and update fields of an existing database table  
 ```python manage.py makemigrations```  
