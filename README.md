@@ -1,5 +1,5 @@
 # ReMoodWork by Peter Ossipov
-# 6. Installation  Instructions
+# Installation  Instructions
 This project provides steps to install other software applications and module libraries shown below: 
 1.	Download the project’s zip folder and extract all contents of the project folder to your local directory.
 2.	Install Python 3.10.6 or higher [Python download](https://www.python.org/downloads/)
@@ -23,7 +23,7 @@ III.	Execute ```python manage.py migrate command``` to install and load database
 IV.	Run the Django server of ReMoodWork (Project Name) project using this command: ```python manage.py runserver```  to launch the website in the terminal.  
 o	You can also run the server with PyCharm IDE through this link: [PyCharm configuration setup] https://www.youtube.com/watch?v=WluSpfSMj2Y 
 
-# 7. Operating  Instructions  
+# Operating  Instructions  
 This section provides Django commands that are helpful to use in this project, shown below:  
 A.	(Optional) Show a list of url routes of ReMoodWork using this command:  
 •	```python manage.py show_urls | grep 'remoodwork'```  
