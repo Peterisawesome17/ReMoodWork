@@ -1,4 +1,4 @@
-# ReMoodWork by Peter Ossipov
+# ReMoodWork by Peter Ossipov&copy;
 # Installation  Instructions
 This project provides steps to install other software applications and module libraries shown below: 
 1.	Download the project’s zip folder and extract all contents of the project folder to your local directory.
